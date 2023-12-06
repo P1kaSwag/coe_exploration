@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+{% block content %}
+
+    <h1>Major Preference Questions</h1>
+    <form action="/" method="POST" id="quizForm">
+        <!-- Question 1 -->
+        <div class="question" id="question1">
+            <p>Question 1: What skills do you believe are crucial for success?</p>
+            <input type="radio" name="q1" value="Computer Science">A. Programming, Data Analysis<br>
+            <input type="radio" name="q1" value="Civil Engineering">B. Design, Project Management<br>
+            <input type="radio" name="q1" value="Chemistry">C. Lab Techniques, Analysis<br>
+            <br>
+            <button type="button" onclick="nextQuestion('question1', 'question2')">Next</button>
+        </div>
+
+        <!-- Question 2 -->
+        <div class="question" id="question2" style="display: none;">
+            <p>Question 2: What skills would you like to enhance as you explore potential majors?</p>
+            <input type="radio" name="q2" value="Computer Science">A. Critical Thinking, Programming<br>
+            <input type="radio" name="q2" value="Civil Engineering">B. Communication, Problem-solving<br>
+            <input type="radio" name="q2" value="Chemistry">C. Attention to Detail, Research Abilities<br>
+            <br>
+            <button type="button" onclick="nextQuestion('question2', 'question3')">Next</button>
+        </div>
+
+        <!-- Add more questions here -->
+
+        <!-- Question 3 -->
+        <div class="question" id="question3" style="display: none;">
+            <p>Question 3: Which industry interests you most?</p>
+            <input type="radio" name="q3" value="Computer Science">A. Tech and Software<br>
+            <input type="radio" name="q3" value="Civil Engineering">B. Infrastructure development<br>
+            <input type="radio" name="q3" value="Chemistry">C. Pharmaceutical science<br>
+            <br>
+            <button type="button" onclick="nextQuestion('question3', 'question4')">Next</button>
+        </div>
+
+        <!-- Question 4 -->
+        <div class="question" id="question4" style="display: none;">
+            <p>Question 4: What project would you enjoy the most?</p>
+            <input type="radio" name="q4" value="Computer Science">Software development<br>
+            <input type="radio" name="q4" value="Civil Engineering">Innovative structures/systems<br>
+            <input type="radio" name="q4" value="Chemistry">Chemical experiments<br>
+            <br>
+            <input type="submit" value="Submit">
+        </div>
+    </form>
+
+    <!-- JavaScript code -->
+    <script>
+        function nextQuestion(currentQuestion, nextQuestion) {
+            document.getElementById(currentQuestion).style.display = 'none';
+            document.getElementById(nextQuestion).style.display = 'block';
+        }
+    </script>
+{% endblock %}
+
+
