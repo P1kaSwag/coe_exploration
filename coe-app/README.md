@@ -68,3 +68,63 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/d
 ### `npm run build` fails to minify
 
 This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+
+### App information starts here ###
+
+App.js
+
+App Component
+Takes two state variables (currentPage, userAnswers) 
+currentPage represents current page either ‘question’ or ‘results’
+userAnswers stores the answer to each question
+
+handleNext function
+Moves to the next question and handles ‘userAnswers ‘ state
+Takes two parameters (selectedOption, isFinalQuestion) 
+If it is the final question the ‘currrentPage’ is set to ‘results’
+
+JSX rendering
+Renders different components based on the currentPage state
+
+----------------------------------------------------------------------------------------------
+
+QuestionComponent,jsx
+
+Each question (for now) is represented by its own component 
+3 props 
+‘selectedOption’ - value of each radio button is compared with the ‘selectedOption’ prop to see if it should be checked.
+QuestionComponent function
+Main function that manages state for currentQuestion and selectedOption
+Renders question based on ‘currentQuestion’ state
+handleOptionchange() function updates ‘selectedOption’ state when radio button is pressed.
+handleNext() function handles transition to the next question and displaying final results.
+ State management
+Two state variables (selectedOption and currentQuestion)
+selectedOption:
+This state variable is used to keep track of the user's selected answer for the current question.
+It is initialized using the useState hook with an empty string as the initial value.
+The value of selectedOption is updated whenever the user selects a radio button in the current question.
+currentQuestion
+This state variable is used to keep track of which question is currently being displayed to the user.
+It is also initialized using the useState hook with 1 as the initial value, indicating that the initial question is the first question.
+The value of currentQuestion is updated when the user clicks the "Next" button to transition to the next question.
+
+These state variables play a crucial role in managing the dynamic behavior of the QuestionComponent. The selectedOption allows the component to keep track of the user's input for the current question, and currentQuestion helps in determining which question to render and when to transition to the next question or display the results.
+In Summary
+selectedOption stores the user's selected answer for the current question.
+currentQuestion keeps track of which question is currently being displayed.
+JSX rendering
+Conditionally renders 
+----------------------------------------------------------------------------------------------
+
+RenderComponent.jsx
+
+Takes userAnswers as a prop, object containing users answers
+
+Questions:
+
+How are answers to each question stored and passed to the Results component?
+
+the selectedOption state in the QuestionComponent keeps track of the user's selected answer for the current question, and the handleNext function passes this selected answer to the parent component (App), where it is used to update the userAnswers state. The userAnswers state is then passed down to the ResultsComponent for displaying the results.
+
+

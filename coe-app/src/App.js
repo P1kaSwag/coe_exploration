@@ -8,7 +8,6 @@ const App = () => {
   const [userAnswers, setUserAnswers] = useState({});
 
   const handleNext = (selectedOption, isFinalQuestion) => {
-    // Add logic to handle moving to the next question and updating userAnswers state
     setUserAnswers(prevAnswers => ({ ...prevAnswers, [currentPage]: selectedOption }));
 
     // If it's the final question, display results
