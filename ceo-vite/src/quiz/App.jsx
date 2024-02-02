@@ -35,26 +35,32 @@
 // export default App
 
 import React, { useState } from 'react';
-import LoginComponent from './LoginComponent';
-import Quiz from './quiz/App'
-import './App.css';
-import {
-  BrowserRouter as Router,
-  Routes,
-  Route,
-} from "react-router-dom";
+import QuestionComponent from './QuestionComponent';
+import ResultsComponent from './ResultsComponent';
+//import './App.css';
 
 const App = () => {
-  const [currentPage, setCurrentPage] = useState('login');
+  const [currentPage, setCurrentPage] = useState('question');
+  const [userAnswers, setUserAnswers] = useState({});
+
+  const handleNext = (selectedOption, isFinalQuestion) => {
+    setUserAnswers(prevAnswers => ({ ...prevAnswers, [currentPage]: selectedOption }));
+
+    // If it's the final question, display results
+    if (isFinalQuestion) {
+      setCurrentPage('results');
+    }
+  };
 
   return (
-    <Router>
-      <Routes>
-        <Route exact path="/" element = {<LoginComponent/>}/>
-        <Route path ="/quiz" element = {<Quiz/>} />
-      </Routes>
-  
-    </Router>
+    <div>
+      {currentPage === 'question' && (
+        <QuestionComponent onNext={handleNext} />
+      )}
+      {currentPage === 'results' && (
+        <ResultsComponent userAnswers={userAnswers} />
+      )}
+    </div>
   );
 };
 
