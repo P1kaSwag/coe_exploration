@@ -45,8 +45,6 @@ import {
 } from "react-router-dom";
 
 const App = () => {
-  const [currentPage, setCurrentPage] = useState('login');
-
   return (
     <Router>
       <Routes>
