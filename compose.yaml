@@ -20,17 +20,18 @@ services:
     volumes:
       - ./server:/app
     depends_on:
-      - db
+      - database
 
-  db:
+  database:
     image: mysql:latest
     restart: always
     ports:
       - "32000:3306"
     environment:
       MYSQL_ROOT_PASSWORD: bowleg.historic.TORI
-      MYSQL_DATABASE: exploration-db
+      MYSQL_DATABASE: exploration
     volumes:
+      - ./db/init.sql:/docker-entrypoint-initdb.d/init.sql
       - mysql-data:/var/lib/mysql
 
   phpmyadmin:
