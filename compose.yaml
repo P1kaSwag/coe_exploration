@@ -10,7 +10,7 @@ services:
     volumes:
       - ./client:/app
     depends_on:
-      - server
+      - server  # this will make sure the server is up before the client starts
 
   server:
     build:
@@ -20,19 +20,19 @@ services:
     volumes:
       - ./server:/app
     depends_on:
-      - database
+      - database  # this will make sure the database is up before the server starts
 
   database:
     image: mysql:latest
-    restart: always
+    restart: always # this will make sure the container restarts if it crashes
     ports:
       - "32000:3306"
     environment:
-      MYSQL_ROOT_PASSWORD: bowleg.historic.TORI
-      MYSQL_DATABASE: exploration
+      MYSQL_ROOT_PASSWORD: bowleg.historic.TORI # we can change this to a secure, non plaintext password later
+      MYSQL_DATABASE: exploration # this will create a database called exploration
     volumes:
-      - ./db/init.sql:/docker-entrypoint-initdb.d/init.sql
-      - mysql-data:/var/lib/mysql
+      - ./db/init.sql:/docker-entrypoint-initdb.d/init.sql  # this will run the init.sql file but only on the first run, after that you need to remove the volume to run it again
+      - mysql-data:/var/lib/mysql # this will persist the data even if the container is removed
 
   phpmyadmin:
     image: phpmyadmin:latest
