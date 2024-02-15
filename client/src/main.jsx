@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import ReactDOM from 'react-dom/client';
 import { createBrowserRouter, RouterProvider} from 'react-router-dom';
 import { Root, ErrorPage } from './Root'; 
 import LoginComponent from './LoginComponent';
-import Quiz from './quiz/App'; 
+import Quiz from './quiz/App';
+import RegisterComponent from './RegisterComponent';
 
 import './index.css';
 
@@ -17,6 +18,9 @@ const router = createBrowserRouter([
       { 
         path: "quiz",
         element: <Quiz />,
+      },
+      { path: "register",
+        element: <RegisterComponent />,
         // Add children routes if needed
       },
     ]

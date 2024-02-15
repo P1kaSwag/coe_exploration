@@ -1,13 +1,12 @@
 import React, { useState } from 'react';
 
-const LoginComponent = () => {
-  const [username, setUsername] = useState('');
+const RegisterComponent = () => {
+    const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
 
-
-  const handleLogin = async () => {
-    const response = await fetch('http://localhost:8000/login', {
+  const handleRegister = async () => {
+    const response = await fetch('http://localhost:8000/register', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -19,20 +18,19 @@ const LoginComponent = () => {
     });
 
     const data = await response.json();
-    
-    if (data.message === 'Login successful') {
-      window.location.href = '/quiz';
-    } 
-    else {
-      setErrorMessage('Incorrect username or password');
-    }
 
+    if (data.message === 'User registered successfully') {
+      window.location.href = '/';
+    }
+    else {
+      setErrorMessage(data.message);
+    }
   };
 
   return (
-    <div className='login'>
-      <h1>Login Page</h1>
-      <div className="login_container">
+    <div className='register'>
+      <h1>Registration Page</h1>
+      <div className="register_container">
         <label id="userlabel"> Username </label>
         <input 
           type="text" 
@@ -52,16 +50,9 @@ const LoginComponent = () => {
         {errorMessage && <p className="error-message">{errorMessage}</p>}
         <button 
           type="submit" 
-          id="loginButton" 
-          onClick={handleLogin}
-        > 
-          Login 
-        </button>
-        <button 
-          type="submit" 
           id="registerButton" 
-          onClick={() => { window.location.href = '/register'; }}
-          > 
+          onClick={handleRegister}
+        > 
           Register 
         </button>
       </div>
@@ -69,4 +60,4 @@ const LoginComponent = () => {
   );
 };
 
-export default LoginComponent;
+export default RegisterComponent;
