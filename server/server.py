@@ -32,15 +32,20 @@ class Course(db.Model):
             'credits': self.credits
         }
     
-class Logins(db.Model):
-    __tablename__ = 'Logins'
-    username = db.Column(db.String(255), primary_key=True, unique=True, nullable=False)
+class Users(db.Model):
+    __tablename__ = 'Users'
+    userID = db.Column(db.Integer, primary_key=True, unique=True, autoincrement=True, nullable=False)
+    username = db.Column(db.String(255), unique=True, nullable=False)
+    email = db.Column(db.String(255), unique=True, nullable=False)
     password = db.Column(db.String(255), nullable=False)
     def to_dict(self):
         return {
+            'userID': self.userID,
             'username': self.username,
+            'email': self.email,
             'password': self.password
         }
+
 
 # Create a route to query Courses and return the data (navigate to localhost:8000/courses)
 @app.route('/courses', methods=['GET'])
@@ -59,26 +64,27 @@ def get_time():
         "Date":x, 
         }
 
-@app.route('/register', methods=['POST'])
+@app.route('/api/users/register', methods=['POST'])
 def register():
     data = request.json
     username = data.get('username')
+    email = data.get('email')
     password = data.get('password')
 
-    if not username or not password:
-        return jsonify({'message': 'Username and password are required'})
+    if not username or not email or not password:
+        return jsonify({'message': 'All fields are required'})
 
-    existing_user = Logins.query.filter_by(username=username).first()
+    existing_user = Users.query.filter_by(username=username).first()
     if existing_user:
         return jsonify({'message': 'Username already exists'})
 
-    new_user = Logins(username=username, password=password)
+    new_user = Users(username=username, email=email, password=password)
     db.session.add(new_user)
     db.session.commit()
 
     return jsonify({'message': 'User registered successfully'})
 
-@app.route('/login', methods=['POST'])
+@app.route('/api/users/login', methods=['POST'])
 def login():
     data = request.json
     username = data.get('username')
@@ -87,7 +93,7 @@ def login():
     if not username or not password:
         return jsonify({'message': 'Username and password are required'})
 
-    user = Logins.query.filter_by(username=username).first()
+    user = Users.query.filter_by(username=username).first()
     if user and user.password == password:
         return jsonify({'message': 'Login successful'})
 

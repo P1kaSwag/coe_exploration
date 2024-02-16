@@ -7,7 +7,8 @@ const LoginComponent = () => {
 
 
   const handleLogin = async () => {
-    const response = await fetch('http://localhost:8000/login', {
+    // TODO: Change localhost to something else
+    const response = await fetch('http://localhost:8000/api/users/login', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
