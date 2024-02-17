@@ -38,12 +38,27 @@ class Users(db.Model):
     username = db.Column(db.String(255), unique=True, nullable=False)
     email = db.Column(db.String(255), unique=True, nullable=False)
     password = db.Column(db.String(255), nullable=False)
+
     def to_dict(self):
         return {
             'userID': self.userID,
             'username': self.username,
             'email': self.email,
             'password': self.password
+        }
+    
+class Majors(db.Model):
+    __tablename__ = 'Majors'
+    majorID = db.Column(db.Integer, primary_key=True, unique=True, autoincrement=True, nullable=False)
+    majorName = db.Column(db.String(255), unique=True, nullable=False)
+    majorDescription = db.Column(db.Text, nullable=False)
+    careerProspects = db.Column(db.String(255), nullable=False)
+    def to_dict(self):
+        return {
+            'majorID': self.majorID,
+            'majorName': self.majorName,
+            'majorDescription': self.majorDescription,
+            'careerProspects': self.careerProspects
         }
 
 
@@ -98,6 +113,12 @@ def login():
         return jsonify({'message': 'Login successful'})
 
     return jsonify({'message': 'Invalid username or password'})
+
+@app.route('/api/majors', methods=['GET'])
+def get_majors():
+    majors = Majors.query.all()
+    return jsonify([major.to_dict() for major in majors])
+
 
 # Running app
 if __name__ == '__main__':

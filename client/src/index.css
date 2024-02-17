@@ -67,7 +67,8 @@ button:focus-visible {
   }
 }
 
-.login{
+.login,
+.register {
   border: 3px solid black
 }
 
@@ -90,4 +91,9 @@ button {
   border: none;
   cursor: pointer;
   width: 50%;
+}
+
+.major {
+  border: 3px solid black;
+  margin: 5px 0;
 }

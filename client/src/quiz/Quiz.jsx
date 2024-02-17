@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
 import QuestionComponent from './QuestionComponent';
 import ResultsComponent from './ResultsComponent';
-//import './App.css';
 
-const App = () => {
+const Quiz = () => {
   const [currentPage, setCurrentPage] = useState('question');
   const [userAnswers, setUserAnswers] = useState({});
 
@@ -28,4 +27,4 @@ const App = () => {
   );
 };
 
-export default App;
+export default Quiz;

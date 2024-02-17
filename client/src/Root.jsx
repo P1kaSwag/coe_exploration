@@ -23,7 +23,7 @@ export function Root(props) {
             <NavLink to="/quiz">Quiz</NavLink>
           </li>
           <li>
-            <NavLink to="/explore">Explore</NavLink> {/* Placeholder for Explore */}
+            <NavLink to="/explore">Explore</NavLink>
           </li>
         </ul>
       </nav>

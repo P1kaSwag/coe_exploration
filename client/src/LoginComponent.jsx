@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { NavLink } from "react-router-dom";
 
 const LoginComponent = () => {
   const [username, setUsername] = useState('');
@@ -58,13 +59,11 @@ const LoginComponent = () => {
         > 
           Login 
         </button>
-        <button 
-          type="submit" 
-          id="registerButton" 
-          onClick={() => { window.location.href = '/register'; }}
-          > 
-          Register 
-        </button>
+            <NavLink to="/register">
+          <button type="submit" id="registerButton" > 
+            Register 
+          </button>
+          </NavLink>
       </div>
     </div>
   );
