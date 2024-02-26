@@ -90,3 +90,14 @@ button {
   cursor: pointer;
   width: 50%;
 }
+
+.major {
+  border: 3px solid black;
+  margin: 5px 0;
+}
+
+.nav {
+  display: flex;
+  justify-content: space-between;
+  background-color: aquamarine;
+}
