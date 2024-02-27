@@ -6,6 +6,7 @@ import LoginComponent from './LoginComponent';
 import Quiz from './quiz/Quiz';
 import RegisterComponent from './RegisterComponent';
 import Explore from './explore/Explore';
+import Pet from './Pet'
 
 import './index.css';
 
@@ -26,6 +27,10 @@ const router = createBrowserRouter([
       {
         path: "explore",
         element: <Explore />,
+      },
+      {
+        path: "pet",
+        element: <Pet />,
       },
     ]
   }

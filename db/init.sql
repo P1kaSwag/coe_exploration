@@ -26,9 +26,9 @@ VALUES
     (23456, 'Database Management Systems', 'A course on managing relational databases', 4),
     (34567, 'Software Engineering', 'A course on software development methodologies', 3);
 
-INSERT INTO Users (username, email, password)
+INSERT INTO Users (userid, username, email, password)
 VALUES 
-    ('username', 'fake_email@gmail.com', 'password');
+    (1, 'username', 'fake_email@gmail.com', 'password');
 
 INSERT INTO Majors (majorName, majorDescription, careerProspects)
 VALUES
