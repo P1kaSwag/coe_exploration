@@ -7,9 +7,17 @@ import {
   useSearchParams,
   useRouteError,
 } from "react-router-dom";
+import { useAuth } from "./AuthComponent";
 
 export function Root(props) {
   const { children } = props;
+  const { user } = useAuth();
+
+
+  const handleLogin = async () => {
+    console.log('User: ', user);
+  }
+
   return (
     <>
       <nav className="nav">
@@ -25,6 +33,12 @@ export function Root(props) {
           <li>
             <NavLink to="/explore">Explore</NavLink>
           </li>
+          {user && ( // Conditionally render the button if user is logged in
+            <li>
+              <NavLink to="/profile">Profile</NavLink>
+            </li>
+          )}
+
         </ul>
       </nav>
       <main>{children || <Outlet />}</main>
