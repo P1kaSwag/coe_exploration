@@ -6,13 +6,20 @@ import {
   useParams,
   useSearchParams,
   useRouteError,
+  useLocation,
 } from "react-router-dom";
 
 export function Root(props) {
+  const location = useLocation(); // Get the current page location
   const { children } = props;
+
+  // Determine if the navigation should have the specific style
+  const isPetPage = location.pathname === "/pet"; 
+
+
   return (
     <>
-      <nav className="nav">
+      <nav className={`nav ${isPetPage ? 'nav-pet' : ''}`}>
         <ul>
           <li>
             <NavLink to="/" className="home">
