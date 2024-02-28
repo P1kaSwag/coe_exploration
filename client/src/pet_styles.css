@@ -3,9 +3,10 @@ body {
     overflow: hidden;
 }
 
-.nav-pet {
+nav.nav-pet {
   display: flex;
   position: fixed;
+  background: none;
   width: 100%;
   z-index: 10000;
 }  
