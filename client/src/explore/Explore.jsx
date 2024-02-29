@@ -16,7 +16,7 @@ const Explore = () => {
     <div className="majors">
       {majors.map(major => (
         <div key={major.majorID} className="major">
-          <NavLink to={`/${major.majorName}`}><h2>{major.majorName}</h2></NavLink>
+          <NavLink to={`/explore/${major.majorName}`}><h2>{major.majorName}</h2></NavLink>
           <p>{major.majorDescription}</p>
           <p>Career Prospects: {major.careerProspects}</p>
         </div>

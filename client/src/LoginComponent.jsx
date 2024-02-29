@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import { NavLink } from "react-router-dom";
+import { useAuth } from './AuthComponent';
 
 const LoginComponent = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
-
+  const { user, login } = useAuth();
 
   const handleLogin = async () => {
     // TODO: Change localhost to something else
@@ -23,6 +24,7 @@ const LoginComponent = () => {
     const data = await response.json();
     
     if (data.message === 'Login successful') {
+      login({ username });
       window.location.href = '/quiz';
     } 
     else {

@@ -8,10 +8,18 @@ import {
   useRouteError,
   useLocation,
 } from "react-router-dom";
+import { useAuth } from "./AuthComponent";
 
 export function Root(props) {
   const location = useLocation(); // Get the current page location
   const { children } = props;
+  const { user } = useAuth();
+
+
+  const handleLogin = async () => {
+    console.log('User: ', user);
+  }
+
 
   // Determine if the navigation should have the specific style
   const isPetPage = location.pathname === "/pet"; 
@@ -35,6 +43,12 @@ export function Root(props) {
           <li>
             <NavLink to="/pet">Pet</NavLink>
           </li>
+          
+          {user && ( // Conditionally render the button if user is logged in
+            <li>
+              <NavLink to="/profile">Profile</NavLink>
+            </li>
+          )}
         </ul>
       </nav>
       <main>{children || <Outlet />}</main>
