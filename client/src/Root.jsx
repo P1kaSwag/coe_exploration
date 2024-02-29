@@ -35,6 +35,7 @@ export function Root(props) {
           </li>
           {user && ( // Conditionally render the button if user is logged in
             <li>
+              <img src="poggers.png" alt="Profile Image" class="profile-img"></img>
               <NavLink to="/profile">Profile</NavLink>
             </li>
           )}
