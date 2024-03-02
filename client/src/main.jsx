@@ -6,6 +6,8 @@ import LoginComponent from './LoginComponent';
 import Quiz from './quiz/Quiz';
 import RegisterComponent from './RegisterComponent';
 import Explore from './explore/Explore';
+import { AuthProvider } from './AuthComponent';
+import Profile from './ProfileComponent';
 import Pet from './Pet'
 
 import './index.css';
@@ -29,6 +31,10 @@ const router = createBrowserRouter([
         element: <Explore />,
       },
       {
+        path: "profile",
+        element: <Profile />,
+      },
+      {
         path: "pet",
         element: <Pet />,
       },
@@ -38,6 +44,8 @@ const router = createBrowserRouter([
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-    <RouterProvider router={router} /> {/* Using RouterProvider */}
+    <AuthProvider>
+      <RouterProvider router={router} /> {/* Using RouterProvider */}
+    </AuthProvider>
   </React.StrictMode>
 );

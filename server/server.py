@@ -43,12 +43,17 @@ class Users(db.Model):
     email = db.Column(db.String(255), unique=True, nullable=False)
     password = db.Column(db.String(255), nullable=False)
 
-    def to_dict(self):  # FIXME: Don't need this function, just for testing
+    def set_password(self, password):
+        self.password = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt())
+
+    def check_password(self, password):
+        return bcrypt.checkpw(password.encode('utf-8'), self.password.encode('utf-8'))
+
+    def to_dict(self):
         return {
             'userID': self.userID,
             'username': self.username,
             'email': self.email,
-            'password': self.password
         }
 
 
@@ -116,7 +121,8 @@ def register():
     if existing_user:
         return jsonify({'message': 'Username already exists'})
 
-    new_user = Users(username=username, email=email, password=password)
+    new_user = Users(username=username, email=email)
+    new_user.set_password(password)
     db.session.add(new_user)
     db.session.commit()
 
@@ -132,7 +138,7 @@ def login():
         return jsonify({'message': 'Username and password are required'})
 
     user = Users.query.filter_by(username=username).first()
-    if user and user.password == password:
+    if user and user.check_password(password):
         return jsonify({'message': 'Login successful'})
 
     return jsonify({'message': 'Invalid username or password'})

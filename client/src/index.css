@@ -72,7 +72,8 @@ button:focus-visible {
 }
 
 .login,
-.register {
+.register,
+.user_profile {
   border: 3px solid black
 }
 
