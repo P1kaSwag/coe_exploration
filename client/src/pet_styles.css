@@ -9,6 +9,10 @@ nav.nav-pet {
   background: none;
   width: 100%;
   z-index: 10000;
+}
+
+nav.nav-pet:hover {
+  background: black;
 }  
   
 .backyard {

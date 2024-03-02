@@ -11,10 +11,13 @@ app = Flask(__name__)
 CORS(app)
 
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:bowleg.historic.TORI@database:3306/exploration'
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False # silence the deprecation warning and to save resources
  
  # Create the SQLAlchemy db instance
 db = SQLAlchemy(app)
 
+
+#TODO: Remove/Change the course stuff later
 # All this course stuff was just to test out the database connection to the server
 # so anybody can change/repurpose it if they want
 class Course(db.Model):
@@ -31,7 +34,8 @@ class Course(db.Model):
             'course_description': self.course_description,
             'credits': self.credits
         }
-    
+
+
 class Users(db.Model):
     __tablename__ = 'Users'
     userID = db.Column(db.Integer, primary_key=True, unique=True, autoincrement=True, nullable=False)
@@ -39,14 +43,15 @@ class Users(db.Model):
     email = db.Column(db.String(255), unique=True, nullable=False)
     password = db.Column(db.String(255), nullable=False)
 
-    def to_dict(self):
+    def to_dict(self):  # FIXME: Don't need this function, just for testing
         return {
             'userID': self.userID,
             'username': self.username,
             'email': self.email,
             'password': self.password
         }
-    
+
+
 class Majors(db.Model):
     __tablename__ = 'Majors'
     majorID = db.Column(db.Integer, primary_key=True, unique=True, autoincrement=True, nullable=False)
@@ -60,6 +65,24 @@ class Majors(db.Model):
             'majorDescription': self.majorDescription,
             'careerProspects': self.careerProspects
         }
+
+
+class Pets(db.Model):
+    __tablename__ = 'Pets'
+    PetID = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    userID = db.Column(db.Integer, db.ForeignKey('Users.userID'), nullable=False)
+    pet_name = db.Column(db.String(255), nullable=False)
+    love = db.Column(db.Integer, default=0)
+    recreation = db.Column(db.Integer, default=0)
+
+
+class PetInteractions(db.Model):
+    __tablename__ = 'PetInteractions'
+    PetInteractionsID = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    PetID = db.Column(db.Integer, db.ForeignKey('Pets.PetID'), nullable=False)
+    userID = db.Column(db.Integer, db.ForeignKey('Users.userID'), nullable=False)
+    interactionType = db.Column(db.Enum('pet', 'play'), nullable=False)
+    interactionTime = db.Column(db.TIMESTAMP, server_default=db.func.current_timestamp())
 
 
 # Create a route to query Courses and return the data (navigate to localhost:8000/courses)
@@ -84,7 +107,7 @@ def register():
     data = request.json
     username = data.get('username')
     email = data.get('email')
-    password = data.get('password')
+    password = data.get('password') #FIXME: Hash the password then use that hash to compare to the hash in the database
 
     if not username or not email or not password:
         return jsonify({'message': 'All fields are required'})

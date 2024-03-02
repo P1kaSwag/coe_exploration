@@ -12,6 +12,27 @@ CREATE TABLE Users (
     password VARCHAR(255)
 );
 
+-- TODO: still need outfitID FK to a rewards table
+CREATE TABLE Pets (
+    PetID INT PRIMARY KEY AUTO_INCREMENT,
+    userid INT NOT NULL,
+    pet_name VARCHAR(255) NOT NULL,
+    love INT DEFAULT 0,
+    recreation INT DEFAULT 0,
+    FOREIGN KEY (userid) REFERENCES Users(userid)
+);
+
+CREATE TABLE PetInteractions (
+    PetInteractionsID INT AUTO_INCREMENT PRIMARY KEY,
+    PetID INT NOT NULL,
+    userid INT NOT NULL,
+    InteractionType ENUM('pet', 'play') NOT NULL,
+    InteractionTime TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (PetID) REFERENCES Pets(PetID),
+    FOREIGN KEY (userid) REFERENCES Users(userid)
+);
+
+
 CREATE TABLE Majors (
     majorid INT PRIMARY KEY AUTO_INCREMENT,
     majorName VARCHAR(255),
@@ -28,7 +49,15 @@ VALUES
 
 INSERT INTO Users (userid, username, email, password)
 VALUES 
-    (1, 'username', 'fake_email@gmail.com', 'password');
+    (1, 'username', 'fake_email@gmail.com', 'password'),
+    (2, 'john', 'john@gmail.com', 'password'),
+    (3, 'jane', 'jane@yahoo.com', 'password');
+
+INSERT INTO Pets (PetID, userid, pet_name, love, recreation)
+VALUES
+    (1, 3, 'O''malley', 50, 0),
+    (2, 1, 'Charlie', 0, 0),
+    (3, 2, 'Zoe', 100, 0);
 
 INSERT INTO Majors (majorName, majorDescription, careerProspects)
 VALUES
