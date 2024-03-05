@@ -15,7 +15,7 @@ jwt = JWTManager(app)
 
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:bowleg.historic.TORI@database:3306/exploration'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False # silence the deprecation warning and to save resources
-app.config['SECRET_KEY'] = 'super_secret_key'  # Just for testing purposes, should be changed to a more secure key in production
+app.config['SECRET_KEY'] = 'super_secret_key'  # TODO: Shouldn't be hardcoded in the final version so move to an environment variable
  
  # Create the SQLAlchemy db instance
 db = SQLAlchemy(app)

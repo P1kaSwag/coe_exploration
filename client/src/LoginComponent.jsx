@@ -6,7 +6,7 @@ const LoginComponent = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
-  const { user, login } = useAuth();
+  const { user, login } = useAuth();  // FIXME: user is not used so we can probably remove it
 
   const handleLogin = async () => {
     // TODO: Change localhost to something else
@@ -24,7 +24,7 @@ const LoginComponent = () => {
     const data = await response.json();
     
     if (data.message === 'Login successful') {
-      login({ username });
+      login({ username }, data.access_token);
       window.location.href = '/quiz';
     } 
     else {
