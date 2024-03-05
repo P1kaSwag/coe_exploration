@@ -1,8 +1,7 @@
 from flask import Flask, jsonify, request
 from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
-from flask_jwt_extended import JWTManager
-from flask_jwt_extended import create_access_token
+from flask_jwt_extended import JWTManager, create_access_token, jwt_required, get_jwt_identity
 import bcrypt
 import datetime
  
@@ -86,6 +85,15 @@ class Pets(db.Model):
     love = db.Column(db.Integer, default=0)
     recreation = db.Column(db.Integer, default=0)
 
+    def to_dict(self):
+        return {
+            'PetID': self.PetID,
+            'userID': self.userID,
+            'pet_name': self.pet_name,
+            'love': self.love,
+            'recreation': self.recreation
+        }
+
 
 class PetInteractions(db.Model):
     __tablename__ = 'PetInteractions'
@@ -102,16 +110,38 @@ def get_courses():
     courses = Course.query.all()
     return jsonify([course.to_dict() for course in courses])
  
-# Route for seeing a data
-@app.route('/api/data')
-def get_time():
  
-    # Returning an api for showing in  reactjs
-    return {
-        'Name':"Gizmo", 
-        "Age":"1 minute",
-        "Date":x, 
-        }
+@app.route('/api/pet/interact', methods=['POST'])
+@jwt_required() # This will require a valid access token to be present in the request to access this route
+def interact_with_pet():
+    current_user_id = get_jwt_identity()
+    data = request.json
+    interaction_type = data.get('interactionType')
+    
+    # Get the pet of the current user
+    pet = Pets.query.filter_by(userID=current_user_id).first()
+    if not pet:
+        return jsonify({'message': 'Pet not found'}), 404
+    
+    # Execute the interaction
+    # TODO: Add some logic to limit the interactions per day
+    match interaction_type:
+        case 'pet':
+            pet.love += 1
+        case 'play':
+            pet.recreation += 1
+        case _: # Check if the interaction type is valid
+            return jsonify({'message': 'Invalid interaction type'}), 404
+    
+    # Save updated pet stats to the database
+    db.session.add(pet)
+    db.session.commit()
+
+    # TODO: Record the interaction in the database
+
+    return jsonify({'message': f'Successfully recorded {interaction_type} interaction with pet', 'pet': pet.to_dict()}), 200
+
+
 
 @app.route('/api/users/register', methods=['POST'])
 def register():
@@ -147,6 +177,14 @@ def login():
     if user and user.check_password(password):
         # Create a new access token for the user
         access_token = create_access_token(identity=user.userID)
+
+        # Check if the user has a pet, if not, create one
+        pet = Pets.query.filter_by(userID=user.userID).first()
+        if not pet:
+            new_pet = Pets(userID=user.userID, pet_name='O\'Malley')    # Default pet name, can be changed later
+            db.session.add(new_pet)
+            db.session.commit()
+
         return jsonify({'message': 'Login successful', 'access_token': access_token, 'user': user.to_dict()})   # TODO: Change this to or add a 200 status code
 
     return jsonify({'message': 'Invalid username or password'}) # TODO: Change this to or add a 401 status code
