@@ -1,3 +1,7 @@
+Computer Science", "Construction Engineering Management", Civil Engineering", "Architectural Engineering, 
+Electrical and Computer Engineering", "Bioengineering", "Environmental Engineering", "Chemical Engineering", "Ecological Engineering",
+"Mechanical Engineering", "Industrial Engineering", "Manufacturing Engineering
+
 1. "Which area of technology fascinates you the most?"
    - A. Infrastructure and urban development
    - B. Software engineering and digital solutions
