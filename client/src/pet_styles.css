@@ -1,0 +1,122 @@
+body {
+    margin: 0%;
+    overflow: hidden;
+}
+
+nav.nav-pet {
+  display: flex;
+  position: fixed;
+  background: none;
+  width: 100%;
+  z-index: 10000;
+}
+
+nav.nav-pet:hover {
+  background: black;
+}  
+  
+.backyard {
+  background-image: url('./assets/Backyard.png');
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  background-size: cover;
+  background-position: center;
+  min-width: 300px;
+  min-height: 300px; /* Could also do this for max width/height along with the media thing below */
+  margin: auto;
+}
+
+@media (max-width: 300px) {
+  /* Small window sizes will show this version, could add support for phones */
+  .backyard {
+    min-width: 100%; /* Adjust size for extra small screens */
+    background-image: url('./assets/Backyard.png'); /*If we have a limit on minimum size we could add a "please resize" warning image here instead*/
+    background-size: contain; /* Change to contain to ensure the entire image is visible */
+    background-repeat: no-repeat;
+  }
+}
+
+.pet {
+  width: 512px;
+  height: 512px;
+  cursor: grab;
+  background-image: url('./assets/pet_walking.png');
+  /*background-color: rgba(255, 0, 0, 0.5); 
+  border: 2px solid red;*/
+  background-repeat: no-repeat;
+}
+
+.walk {
+  animation: walk_cycle 1s steps(14) infinite;
+}
+
+@keyframes walk_cycle {
+  from {
+    background-position: 0px;
+  }
+  to {
+    background-position: -7168px;
+  } /* 14 frames * 512px per frame */
+}
+
+.flip-horizontal {
+  transform: scaleX(-1); /* Flip horizontally */
+}
+
+
+/* Pet menu */
+.pet-menu {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.menu-option {
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  border: none;
+  background: transparent;
+  background-size: cover;
+  background-position: center;
+  transition: filter 0.3s ease;
+}
+
+.menu-option:hover {
+  filter: brightness(75%);
+}
+
+.top {
+  width: 60px;
+  height: 80px;
+  transform: translateY(-60px);
+  background-image: url('./assets/Top_menu_option.png');
+}
+
+.right {
+  width: 80px;
+  height: 60px;
+  transform: translateX(60px);
+  background-image: url('./assets/Right_menu_option.png');
+
+}
+
+.bottom {
+  width: 60px;
+  height: 80px;
+  transform: translateY(60px);
+  background-image: url('./assets/Bottom_menu_option.png');
+}
+
+.left {
+  width: 80px;
+  height: 60px;
+  transform: translateX(-60px);
+  background-image: url('./assets/Left_menu_option.png');
+
+}

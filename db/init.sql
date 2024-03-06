@@ -12,6 +12,27 @@ CREATE TABLE Users (
     password VARCHAR(255)
 );
 
+-- TODO: still need outfitID FK to a rewards table
+CREATE TABLE Pets (
+    PetID INT PRIMARY KEY AUTO_INCREMENT,
+    userid INT NOT NULL,
+    pet_name VARCHAR(255) NOT NULL,
+    love INT DEFAULT 0,
+    recreation INT DEFAULT 0,
+    FOREIGN KEY (userid) REFERENCES Users(userid)
+);
+
+CREATE TABLE PetInteractions (
+    PetInteractionsID INT AUTO_INCREMENT PRIMARY KEY,
+    PetID INT NOT NULL,
+    userid INT NOT NULL,
+    InteractionType ENUM('pet', 'play') NOT NULL,
+    InteractionTime TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (PetID) REFERENCES Pets(PetID),
+    FOREIGN KEY (userid) REFERENCES Users(userid)
+);
+
+
 CREATE TABLE Majors (
     majorid INT PRIMARY KEY AUTO_INCREMENT,
     majorName VARCHAR(255),
@@ -36,9 +57,17 @@ VALUES
     (23456, 'Database Management Systems', 'A course on managing relational databases', 4),
     (34567, 'Software Engineering', 'A course on software development methodologies', 3);
 
-INSERT INTO Users (username, email, password)
+INSERT INTO Users (userid, username, email, password)
 VALUES 
-    ('username', 'fake_email@gmail.com', 'password');
+    (1, 'username', 'fake_email@gmail.com', 'password'),
+    (2, 'john', 'john@gmail.com', 'password'),
+    (3, 'jane', 'jane@yahoo.com', 'password');
+
+INSERT INTO Pets (PetID, userid, pet_name, love, recreation)
+VALUES
+    (1, 3, 'O''malley', 50, 0),
+    (2, 1, 'Charlie', 0, 0),
+    (3, 2, 'Zoe', 100, 0);
 
 INSERT INTO Majors (majorName, majorDescription, careerProspects)
 VALUES
@@ -59,23 +88,3 @@ VALUES
     ('Nuclear Engineering', 'As a nuclear engineering student at Oregon State, you will learn to design and operate nuclear systems that are safe, efficient, and sustainable.', 'Nuclear Engineer, Radiation Protection Engineer, Nuclear Safety Engineer'),
     ('Outdoor Products', 'As an outdoor products student at Oregon State, you will learn to design and manufacture outdoor products that are innovative, sustainable, and functional.', 'Product Designer, Product Developer, Product Manager'),
     ('Radiation Health Physics', 'As a radiation health physics student at Oregon State, you will learn to...', 'career 1, career 2, career 3');
-
-INSERT INTO MajorInformation (majorid, majorName, topProfessors, studentQuotes, careers, minors)
-VALUES
-    (1, 'Architectual Engineering', 'Professor 1, Professor 2, Professor 3', 'Quote 1, Quote 2', 'Career 1, Career 2, Career 3', 'Minor 1, Minor 2'),
-    (2, 'Bioengineering', 'Professor 1, Professor 2, Professor 3', 'Quote 1, Quote 2', 'Career 1, Career 2, Career 3', 'Minor 1, Minor 2'),
-    (3, 'Chemical Engineering', 'Professor 1, Professor 2, Professor 3', 'Quote 1, Quote 2', 'Career 1, Career 2, Career 3', 'Minor 1, Minor 2'),
-    (4, 'Civil Engineering', 'Professor 1, Professor 2, Professor 3', 'Quote 1, Quote 2', 'Career 1, Career 2, Career 3', 'Minor 1, Minor 2'),
-    (5, 'Computer Science', 'Professor 1, Professor 2, Professor 3', 'Quote 1, Quote 2', 'Career 1, Career 2, Career 3', 'Minor 1, Minor 2'),
-    (6, 'Construction Engineering Management', 'Professor 1, Professor 2, Professor 3', 'Quote 1, Quote 2', 'Career 1, Career 2, Career 3', 'Minor 1, Minor 2'),
-    (7, 'Ecological Engineering', 'Professor 1, Professor 2, Professor 3', 'Quote 1, Quote 2', 'Career 1, Career 2, Career 3', 'Minor 1, Minor 2'),
-    (8, 'Electrical and Computer Engineering', 'Professor 1, Professor 2, Professor 3', 'Quote 1, Quote 2', 'Career 1, Career 2, Career 3', 'Minor 1, Minor 2'),
-    (9, 'Energy Systems Engineering', 'Professor 1, Professor 2, Professor 3', 'Quote 1, Quote 2', 'Career 1, Career 2, Career 3', 'Minor 1, Minor 2'),
-    (10, 'Engineering Science', 'Professor 1, Professor 2, Professor 3', 'Quote 1, Quote 2', 'Career 1, Career 2, Career 3', 'Minor 1, Minor 2'),
-    (11, 'Environmental Engineering', 'Professor 1, Professor 2, Professor 3', 'Quote 1, Quote 2', 'Career 1, Career 2, Career 3', 'Minor 1, Minor 2'),
-    (12, 'Industrial Engineering', 'Professor 1, Professor 2, Professor 3', 'Quote 1, Quote 2', 'Career 1, Career 2, Career 3', 'Minor 1, Minor 2'),
-    (13, 'Manufacturing Engineering', 'Professor 1, Professor 2, Professor 3', 'Quote 1, Quote 2', 'Career 1, Career 2, Career 3', 'Minor 1, Minor 2'),
-    (14, 'Mechanical Engineering', 'Professor 1, Professor 2, Professor 3', 'Quote 1, Quote 2', 'Career 1, Career 2, Career 3', 'Minor 1, Minor 2'),
-    (15, 'Nuclear Engineering', 'Professor 1, Professor 2, Professor 3', 'Quote 1, Quote 2', 'Career 1, Career 2, Career 3', 'Minor 1, Minor 2'),
-    (16, 'Outdoor Products', 'Professor 1, Professor 2, Professor 3', 'Quote 1, Quote 2', 'Career 1, Career 2, Career 3', 'Minor 1, Minor 2'),
-    (17, 'Radiation Health Physics', 'Professor 1, Professor 2, Professor 3', 'Quote 1, Quote 2', 'Career 1, Career 2, Career 3', 'Minor 1, Minor 2');

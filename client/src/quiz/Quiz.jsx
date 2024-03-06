@@ -4,10 +4,10 @@ import ResultsComponent from './ResultsComponent';
 
 const Quiz = () => {
   const [currentPage, setCurrentPage] = useState('question');
-  const [userAnswers, setUserAnswers] = useState({});
+  const [userAnswers, setUserAnswers] = useState([]);
 
   const handleNext = (selectedOption, isFinalQuestion) => {
-    setUserAnswers(prevAnswers => ({ ...prevAnswers, [currentPage]: selectedOption }));
+    setUserAnswers(prevAnswers => [...prevAnswers, ...selectedOption]);
 
     // If it's the final question, display results
     if (isFinalQuestion) {
@@ -28,3 +28,4 @@ const Quiz = () => {
 };
 
 export default Quiz;
+

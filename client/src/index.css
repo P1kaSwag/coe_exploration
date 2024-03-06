@@ -13,6 +13,10 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+.nav {
+  background: #f9f9f9;  /* temporary code just used as an example for how nav-pet in pet_styles.css adopts styling from nav unless otherwise specified*/
+}
+
 a {
   font-weight: 500;
   color: #646cff;
@@ -68,7 +72,8 @@ button:focus-visible {
 }
 
 .login,
-.register {
+.register,
+.user_profile {
   border: 3px solid black
 }
 
