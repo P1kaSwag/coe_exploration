@@ -63,4 +63,60 @@ nav.nav-pet:hover {
 .flip-horizontal {
   transform: scaleX(-1); /* Flip horizontally */
 }
-  
+
+
+/* Pet menu */
+.pet-menu {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.menu-option {
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  border: none;
+  background: transparent;
+  background-size: cover;
+  background-position: center;
+  transition: filter 0.3s ease;
+}
+
+.menu-option:hover {
+  filter: brightness(75%);
+}
+
+.top {
+  width: 60px;
+  height: 80px;
+  transform: translateY(-60px);
+  background-image: url('./assets/Top_menu_option.png');
+}
+
+.right {
+  width: 80px;
+  height: 60px;
+  transform: translateX(60px);
+  background-image: url('./assets/Right_menu_option.png');
+
+}
+
+.bottom {
+  width: 60px;
+  height: 80px;
+  transform: translateY(60px);
+  background-image: url('./assets/Bottom_menu_option.png');
+}
+
+.left {
+  width: 80px;
+  height: 60px;
+  transform: translateX(-60px);
+  background-image: url('./assets/Left_menu_option.png');
+
+}
