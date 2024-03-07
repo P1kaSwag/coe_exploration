@@ -70,7 +70,6 @@ nav.nav-pet:hover {
   position: absolute;
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
 }
 
@@ -92,31 +91,31 @@ nav.nav-pet:hover {
 }
 
 .top {
-  width: 60px;
-  height: 80px;
-  transform: translateY(-60px);
+  width: 40px;
+  height: 60px;
+  transform: translateY(-50px);
   background-image: url('./assets/Top_menu_option.png');
 }
 
 .right {
-  width: 80px;
-  height: 60px;
-  transform: translateX(60px);
+  width: 60px;
+  height: 40px;
+  transform: translateX(50px);
   background-image: url('./assets/Right_menu_option.png');
 
 }
 
 .bottom {
-  width: 60px;
-  height: 80px;
-  transform: translateY(60px);
+  width: 40px;
+  height: 60px;
+  transform: translateY(50px);
   background-image: url('./assets/Bottom_menu_option.png');
 }
 
 .left {
-  width: 80px;
-  height: 60px;
-  transform: translateX(-60px);
+  width: 60px;
+  height: 40px;
+  transform: translateX(-50px);
   background-image: url('./assets/Left_menu_option.png');
 
 }

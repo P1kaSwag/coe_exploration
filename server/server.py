@@ -125,6 +125,7 @@ def interact_with_pet():
     
     # Execute the interaction
     # TODO: Add some logic to limit the interactions per day
+    # TODO: Include interactions for feeding and cleaning
     match interaction_type:
         case 'pet':
             pet.love += 1
@@ -133,11 +134,12 @@ def interact_with_pet():
         case _: # Check if the interaction type is valid
             return jsonify({'message': 'Invalid interaction type'}), 404
     
-    # Save updated pet stats to the database
-    db.session.add(pet)
+    # Create a new interaction record
+    new_interaction = PetInteractions(PetID=pet.PetID, userID=current_user_id, interactionType=interaction_type)
+    
+    # Save the changes to the database (don't need to add the pet to the session since it's already there)
+    db.session.add(new_interaction)
     db.session.commit()
-
-    # TODO: Record the interaction in the database
 
     return jsonify({'message': f'Successfully recorded {interaction_type} interaction with pet', 'pet': pet.to_dict()}), 200
 

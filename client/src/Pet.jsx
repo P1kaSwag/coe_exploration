@@ -35,6 +35,8 @@ const Pet = () => {
 
     useEffect(() => {
         const movePet = () => {
+            if (showMenu) setIsWalking(false); // If the menu is open, don't move the pet (wait for the menu to close)
+
             if (!isWalking) return; // If not walking, don't do anything
 
             // Step sizes for pet movements (higher is faster)
@@ -58,11 +60,13 @@ const Pet = () => {
                 if (reachedTarget) {
                     setIsWalking(false); // Stop the pet
                     setTimeout(() => {
+                        //if (showMenu) return; // If the menu is open, don't move the pet (wait for the menu to close
                         // Wait before moving again
                         const newTarget = pickRandomPoint();
                         setTargetPosition(newTarget); // Set a new destination
                         setIsWalking(true); // Resume walking
                     }, 3000); // Wait time in milliseconds
+
                     return prevPosition; // Return current position to prevent state update
                 }
 
@@ -129,40 +133,12 @@ const Pet = () => {
                 clearInterval(intervalId);
             }
         };
-    }, [targetPosition, isWalking]);
-
-    const handlePetOption = async () => {
-        if (!accessToken) {
-            console.error('User token not found');
-            return;
-        }
-
-        const interactionType = 'pet';
-
-        // Send a request to the server to interact with the pet
-        const response = await fetch('http://localhost:8000/api/pet/interact', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                Authorization: `Bearer ${accessToken}`, // Send the access token in the header
-            },
-            body: JSON.stringify({ interactionType }),
-        });
-
-        // Check if the request was successful (response code 200-299)
-        if (response.ok) {
-            const data = await response.json();
-            console.log(data.message, data.pet);
-        } else {
-            console.error('Error status: ${response.status}');
-        }
-
-    };
+    }, [targetPosition, isWalking, showMenu]);
 
     const handlePetClick = (event) => {
         setShowMenu(true); // Show the menu
         setMenuPosition({ x: event.pageX, y: event.pageY }); // Position the menu at the click location
-        setIsWalking(false);    // Stop the pet from walking
+        //setIsWalking(false);    // Stop the pet from walking
     };
 
     const handleOptionSelected = async (interactionType) => {
