@@ -156,7 +156,7 @@ const Pet = () => {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                Authorization: `Bearer ${accessToken}`, // Send the access token in the header
+                'Authorization': `Bearer ${accessToken}`, // Send the access token in the header
             },
             body: JSON.stringify({ interactionType }),
         });
