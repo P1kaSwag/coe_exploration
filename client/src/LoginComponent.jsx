@@ -24,9 +24,8 @@ const LoginComponent = () => {
     const data = await response.json();
     
     if (data.message === 'Login successful') {
-      await login({ username }, data.access_token); // Since the login function is async, we need to await it
+      login({ username }, data.access_token);
       window.location.href = '/quiz';
-
     } 
     else {
       setErrorMessage('Incorrect username or password');
