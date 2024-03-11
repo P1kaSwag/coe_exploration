@@ -34,6 +34,17 @@ const Pet = () => {
 
     const [targetPosition, setTargetPosition] = useState(pickRandomPoint());
 
+    // Set the style for the body page of the pet component then reset it when the component unmounts
+    useEffect(() => {
+        document.body.style.backgroundColor = 'rgb(0, 0, 0)' // Code for grass color: 'rgb(83, 172, 15)' 
+        document.body.style.overflow = 'hidden'
+
+        return () => {
+            document.body.style.backgroundColor = ''
+            document.body.style.overflow = ''
+        }
+    }, []);
+
     // Fetch the pet's stats from the server
     useEffect(() => {
         const fetchPetStats = async () => {
@@ -211,8 +222,8 @@ const Pet = () => {
                 onClick={handlePetClick}
                 style={{
                     position: 'absolute',
-                    left: `${position.left}vw`,
-                    top: `${position.top}vh`,
+                    left: `${position.left}%`,
+                    top: `${position.top}%`,
                     transform: `scale(${position.scale}) scaleX(${position.flip})`,
                 }}
             ></div>

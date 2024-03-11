@@ -1,8 +1,3 @@
-body {
-    margin: 0%;
-    overflow: hidden;
-}
-
 nav.nav-pet {
   display: flex;
   position: fixed;
@@ -16,48 +11,39 @@ nav.nav-pet:hover {
 }  
   
 .backyard {
+  aspect-ratio: 16 / 9;
   background-image: url('./assets/Backyard.png');
   position: relative;
   width: 100vw;
-  height: 100vh;
-  background-size: cover;
+  height: auto;
+  background-size: contain;
   background-position: center;
-  min-width: 300px;
-  min-height: 300px; /* Could also do this for max width/height along with the media thing below */
+  background-repeat: no-repeat;
   margin: auto;
 }
 
-@media (max-width: 300px) {
-  /* Small window sizes will show this version, could add support for phones */
-  .backyard {
-    min-width: 100%; /* Adjust size for extra small screens */
-    background-image: url('./assets/Backyard.png'); /*If we have a limit on minimum size we could add a "please resize" warning image here instead*/
-    background-size: contain; /* Change to contain to ensure the entire image is visible */
-    background-repeat: no-repeat;
-  }
-}
-
 .pet {
-  width: 512px;
-  height: 512px;
+  width: 30vw;
+  height: 30vw;
   cursor: grab;
   background-image: url('./assets/pet_walking.png');
   /*background-color: rgba(255, 0, 0, 0.5); 
   border: 2px solid red;*/
   background-repeat: no-repeat;
+  background-size: cover;
 }
 
 .walk {
-  animation: walk_cycle 1s steps(14) infinite;
+  animation: walk_cycle 1s steps(13) infinite;
 }
 
 @keyframes walk_cycle {
   from {
-    background-position: 0px;
+    background-position: 0;
   }
   to {
-    background-position: -7168px;
-  } /* 14 frames * 512px per frame */
+    background-position: 100%;
+  }
 }
 
 .flip-horizontal {
