@@ -18,7 +18,7 @@ export const AuthProvider = ({ children }) => {
     }
   }, []);
 
-  const login = (userData, token) => {
+  const login = async (userData, token) => {
     // Set user data and access token in state and local storage
     setUser(userData);
     setAccessToken(token);
