@@ -5,7 +5,7 @@ import { Root, ErrorPage } from './Root';
 import LoginComponent from './LoginComponent';
 import Quiz from './quiz/Quiz';
 import RegisterComponent from './RegisterComponent';
-import Explore from './explore/Explore';
+import Explore, { MajorInfo } from './explore/Explore';
 import { AuthProvider } from './AuthComponent';
 import Profile from './ProfileComponent';
 import Pet from './Pet'
@@ -29,6 +29,16 @@ const router = createBrowserRouter([
       {
         path: "explore",
         element: <Explore />,
+        // children: [
+        //  { 
+        //    path: ":majorName", 
+        //    element: <MajorInfo /> 
+        //  },
+        //]
+      },
+      {
+        path: "explore/:majorName",
+        element: <MajorInfo />,
       },
       {
         path: "profile",

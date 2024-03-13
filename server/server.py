@@ -61,7 +61,6 @@ class Users(db.Model):
             'email': self.email,
         }
 
-
 class Majors(db.Model):
     __tablename__ = 'Majors'
     majorID = db.Column(db.Integer, primary_key=True, unique=True, autoincrement=True, nullable=False)
@@ -77,6 +76,28 @@ class Majors(db.Model):
         }
 
 
+#class MajorInformation(db.Model):
+    #__tablename__ = 'MajorInformation'
+    #majorID = db.Column(db.Integer, db.ForeignKey('Majors.majorID'), nullable=False)
+    #majorName = db.Column(db.String(255), nullable=False)
+    #topProfessors = db.Column(db.String(255), nullable=False)
+    #studentQuotes = db.Column(db.Text, nullable=False)
+    #careers = db.Column(db.String(255), nullable=False)
+    #minors = db.Column(db.String(255), nullable=False)
+    #skills = db.Column(db.String(255), nullable=False)
+    #interests = db.Column(db.String(255), nullable=False)
+    #def to_dict(self):
+         #return {
+            #'majorID': self.majorID,
+            #'majorName': self.majorName,
+            #'topProfessors': self.topProfessors,
+            #'studentQuotes': self.studentQuotes,
+            #'careers': self.careers,
+            #'minors': self.minors,
+            #'skills': self.skills,
+            #'interests': self.interests
+       #}
+    
 class Pets(db.Model):
     __tablename__ = 'Pets'
     PetID = db.Column(db.Integer, primary_key=True, autoincrement=True)
@@ -194,6 +215,10 @@ def get_majors():
     majors = Majors.query.all()
     return jsonify([major.to_dict() for major in majors])
 
+#@app.route('/api/majors/majorinformation', methods=['POST'])
+#def get_majorInfo():
+    #majorInfo = MajorInformation.query.all()
+    #return jsonify([info.to_dict() for info in majorInfo])
 
 # Running app
 if __name__ == '__main__':

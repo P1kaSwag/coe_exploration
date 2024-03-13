@@ -26,3 +26,10 @@ const Explore = () => {
 };
 
 export default Explore;
+
+export function MajorInfo() {
+
+  return (
+      <h1>Major Info</h1>
+  );
+}

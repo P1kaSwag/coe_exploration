@@ -32,7 +32,6 @@ CREATE TABLE PetInteractions (
     FOREIGN KEY (userid) REFERENCES Users(userid)
 );
 
-
 CREATE TABLE Majors (
     majorid INT PRIMARY KEY AUTO_INCREMENT,
     majorName VARCHAR(255),
