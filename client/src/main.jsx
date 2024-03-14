@@ -8,17 +8,10 @@ import RegisterComponent from './authentication/RegisterComponent';
 import Explore from './explore/Explore';
 import { AuthProvider } from './authentication/AuthComponent';
 import Profile from './ProfileComponent';
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-
-=======
 import Pet from './pet/Pet'
 import ComputerScienceGame from './explore/minigames/ComputerScienceGame';
->>>>>>> Stashed changes
-=======
 import Pet from './pet/Pet'
 import ComputerScienceGame from './explore/minigames/ComputerScienceGame';
->>>>>>> Stashed changes
 
 import './index.css';
 
