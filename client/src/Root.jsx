@@ -33,17 +33,12 @@ export function Root(props) {
           <li>
             <NavLink to="/explore">Explore</NavLink>
           </li>
-<<<<<<< Updated upstream
-=======
           <li>
             <NavLink to="/pet">Pet</NavLink>
           </li>
-          <li>
-            <NavLink to="/minigame">Minigame</NavLink>
-          </li>
+
           
->>>>>>> Stashed changes
-          {user && ( // Conditionally render the button if user is logged in
+                    {user && ( // Conditionally render the button if user is logged in
             <li>
               <NavLink to="/profile">Profile</NavLink>
             </li>
