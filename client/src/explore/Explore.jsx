@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { NavLink } from "react-router-dom";
 
+import '../assets/explore.css'
+
 const Explore = () => {
   const [majors, setMajors] = useState([]);
 

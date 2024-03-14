@@ -7,7 +7,7 @@ import Quiz from './quiz/Quiz';
 import RegisterComponent from './RegisterComponent';
 import Explore from './explore/Explore';
 
-import './index.css';
+//import './index.css';
 
 const router = createBrowserRouter([
   {
