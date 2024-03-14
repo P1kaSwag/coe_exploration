@@ -1,13 +1,40 @@
 import React from "react";
 import { NavLink, Outlet } from "react-router-dom";
-
+import { useAuth } from "./AuthComponent";
 import './assets/root.css'
 
+// Add imports from Mo's branch
+import {
+  Link,
+  useParams,
+  useSearchParams,
+  useRouteError,
+  useLocation,
+} from "react-router-dom";
+
 export function Root(props) {
+  // Your component code here
+}
+
+
+export function Root(props) {
+  const location = useLocation(); // Get the current page location
   const { children } = props;
+  const { user } = useAuth();
+
+
+  const handleLogin = async () => {
+    console.log('User: ', user);
+  }
+
+
+  // Determine if the navigation should have the specific style
+  const isPetPage = location.pathname === "/pet"; 
+
+
   return (
     <>
-      <nav className="nav">
+      <nav className={`nav ${isPetPage ? 'nav-pet' : ''}`}>
         <ul>
           <li>
             <NavLink to="/" className="nav-link">
@@ -24,6 +51,15 @@ export function Root(props) {
               Explore
             </NavLink>
           </li>
+          <li>
+            <NavLink to="/pet">Pet</NavLink>
+          </li>
+          
+          {user && ( // Conditionally render the button if user is logged in
+            <li>
+              <NavLink to="/profile">Profile</NavLink>
+            </li>
+          )}
         </ul>
         <div className="logout-container">
           <button className="logout-btn" onClick={handleLogout}>
