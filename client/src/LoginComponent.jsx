@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { NavLink } from "react-router-dom";
 import { useAuth } from './AuthComponent';
 
+import './assets/login.css';
+
 const LoginComponent = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -58,11 +60,12 @@ const LoginComponent = () => {
           type="submit" 
           id="loginButton" 
           onClick={handleLogin}
+          className='login-button'
         > 
           Login 
         </button>
             <NavLink to="/register">
-          <button type="submit" id="registerButton" > 
+          <button type="submit" id="registerButton" className='login-button' > 
             Register 
           </button>
           </NavLink>

@@ -10,7 +10,7 @@ import { AuthProvider } from './AuthComponent';
 import Profile from './ProfileComponent';
 import Pet from './Pet'
 
-import './index.css';
+//import './index.css';
 
 const router = createBrowserRouter([
   {
