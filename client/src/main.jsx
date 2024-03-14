@@ -9,7 +9,12 @@ import Explore from './explore/Explore';
 import { AuthProvider } from './authentication/AuthComponent';
 import Profile from './ProfileComponent';
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 
+=======
+import Pet from './pet/Pet'
+import ComputerScienceGame from './explore/minigames/ComputerScienceGame';
+>>>>>>> Stashed changes
 =======
 import Pet from './pet/Pet'
 import ComputerScienceGame from './explore/minigames/ComputerScienceGame';
@@ -39,8 +44,6 @@ const router = createBrowserRouter([
         path: "profile",
         element: <Profile />,
       },
-<<<<<<< Updated upstream
-=======
       {
         path: "pet",
         element: <Pet />,
@@ -49,7 +52,7 @@ const router = createBrowserRouter([
         path: "minigame",
         element: <ComputerScienceGame />,
       },
->>>>>>> Stashed changes
+
     ]
   }
 ]);
