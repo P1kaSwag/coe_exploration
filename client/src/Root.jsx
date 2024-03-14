@@ -11,11 +11,7 @@ import {
   useRouteError,
   useLocation,
 } from "react-router-dom";
-
-export function Root(props) {
-  // Your component code here
-}
-
+import { useAuth } from "./authentication/AuthComponent";
 
 export function Root(props) {
   const location = useLocation(); // Get the current page location
@@ -54,7 +50,6 @@ export function Root(props) {
           <li>
             <NavLink to="/pet">Pet</NavLink>
           </li>
-          
           {user && ( // Conditionally render the button if user is logged in
             <li>
               <NavLink to="/profile">Profile</NavLink>
