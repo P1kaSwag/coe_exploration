@@ -15,17 +15,15 @@ import {
 export function Root(props) {
   const location = useLocation(); // Get the current page location
   const { children } = props;
-  const { user } = useAuth();
+  const { user, logout } = useAuth();
 
-
-  const handleLogin = async () => {
-    console.log('User: ', user);
+  function handleLogout() {
+    logout();
+    window.location.href = '/ ';
   }
-
 
   // Determine if the navigation should have the specific style
   const isPetPage = location.pathname === "/pet"; 
-
 
   return (
     <>
@@ -65,11 +63,6 @@ export function Root(props) {
       {!isPetPage && <Footer/>} {/*The pet page has no visable overflow so this would never be shown on screen there anyway*/}
     </>
   );
-}
-
-function handleLogout() {
-  // Add logout functionality here
-  // Use the useAuth hook to logout the user
 }
 
 function Footer() {
