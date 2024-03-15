@@ -1,5 +1,7 @@
 .start-screen {
-  display: grid;
+  display: flex;
+  flex: 1;
+  flex-direction: column;
   place-items: center;
   width: 100vw;
   height: 100vh;
@@ -8,6 +10,10 @@
   text-align: center;
   font-size: calc(1vw + 1vh);
   color:black;
+}
+
+button:hover {
+  border-color: #646cff;
 }
 
 .start-screen h2,
@@ -70,6 +76,7 @@
 .biogame-container .nucleotide {
   width: 2vw;
   height: 5vh;
+  border-radius: 20%;
   display: flex;
   justify-content: center;
   align-items: center;
