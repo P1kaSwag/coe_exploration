@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import ReactDOM from 'react-dom/client';
-import { createBrowserRouter, RouterProvider } from 'react-router-dom';
-import { Root, ErrorPage } from './Root';
-import LoginComponent from './LoginComponent';
+import { createBrowserRouter, RouterProvider} from 'react-router-dom';
+import { Root, ErrorPage } from './Root'; 
+import LoginComponent from './authentication/LoginComponent';
 import Quiz from './quiz/Quiz';
-import RegisterComponent from './RegisterComponent';
-import Explore from './explore/Explore';
-import { AuthProvider } from './AuthComponent';
+import RegisterComponent from './authentication/RegisterComponent';
+import Explore, { Majorinfo } from './explore/Explore';
+import { AuthProvider } from './authentication/AuthComponent';
 import Profile from './ProfileComponent';
 import Pet from './Pet'
 import MajorDetails from './explore/MajorDetails';  // Just for testing minigame loading, change to actual major details component later

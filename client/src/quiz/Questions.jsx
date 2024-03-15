@@ -16,8 +16,8 @@ const Question1 = ({ selectedOption, onOptionChange, onNext }) => (
     <input
       type="radio"
       name="q1"
-      value="Civil Engineering,Architectural Engineering"
-      checked={selectedOption === "Civil Engineering,Architectural Engineering"}
+      value="Civil Engineering,Architectural Engineering,"
+      checked={selectedOption === "Civil Engineering,Architectural Engineering,"}
       onChange={onOptionChange}
     />
     B. Software engineering and digital solutions
@@ -41,7 +41,7 @@ const Question1 = ({ selectedOption, onOptionChange, onNext }) => (
     D. Machinery and industrial automation
     <br />
     <br />
-    <button onClick={() => onNext(selectedOption)}>Next</button>
+    {/* <button onClick={() => onNext(selectedOption)}>Next</button> */}
   </div>
 );
 
@@ -85,7 +85,7 @@ const Question2 = ({ selectedOption, onOptionChange, onNext }) => (
     D. Manufacturing processes and supply chain management
     <br />
     <br />
-    <button onClick={() => onNext(selectedOption)}>Next</button>
+    {/* <button onClick={() => onNext(selectedOption)}>Next</button> */}
   </div>
 );
 
@@ -129,7 +129,7 @@ const Question3 = ({ selectedOption, onOptionChange, onNext }) => (
     D. Industrial optimization and process engineering
     <br />
     <br />
-    <button onClick={() => onNext(selectedOption)}>Next</button>
+    {/* <button onClick={() => onNext(selectedOption)}>Next</button> */}
   </div>
 );
 
@@ -173,7 +173,7 @@ const Question4 = ({ selectedOption, onOptionChange, onNext }) => (
     D. Industrial engineering and manufacturing systems
     <br />
     <br />
-    <button onClick={() => onNext(selectedOption)}>Next</button>
+    {/* <button onClick={() => onNext(selectedOption)}>Next</button> */}
   </div>
 );
 
@@ -217,7 +217,7 @@ const Question5 = ({ selectedOption, onOptionChange, onNext }) => (
     D. Optimizing production processes and industrial systems
     <br />
     <br />
-    <button onClick={() => onNext(selectedOption)}>Next</button>
+    {/* <button onClick={() => onNext(selectedOption)}>Next</button> */}
   </div>
 );
 
@@ -236,8 +236,8 @@ const Question6 = ({ selectedOption, onOptionChange, onNext }) => (
     <input
       type="radio"
       name="q6"
-      value="Civil Engineering,Architectural Engineering"
-      checked={selectedOption === "Civil Engineering,Architectural Engineering"}
+      value="Civil Engineering,Architectural Engineering,"
+      checked={selectedOption === "Civil Engineering,Architectural Engineering,"}
       onChange={onOptionChange}
     />
     B. Engineering and Design
@@ -261,7 +261,7 @@ const Question6 = ({ selectedOption, onOptionChange, onNext }) => (
     D. Project Management and Leadership
     <br />
     <br />
-    <button onClick={() => onNext(selectedOption)}>Submit</button>
+    {/* <button onClick={() => onNext(selectedOption)}>Submit</button> */}
   </div>
 );
 
