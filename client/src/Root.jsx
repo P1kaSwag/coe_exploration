@@ -15,17 +15,15 @@ import {
 export function Root(props) {
   const location = useLocation(); // Get the current page location
   const { children } = props;
-  const { user } = useAuth();
+  const { user, logout } = useAuth();
 
-
-  const handleLogin = async () => {
-    console.log('User: ', user);
+  function handleLogout() {
+    logout();
+    window.location.href = '/ ';
   }
-
 
   // Determine if the navigation should have the specific style
   const isPetPage = location.pathname === "/pet"; 
-
 
   return (
     <>
@@ -62,13 +60,9 @@ export function Root(props) {
         </div>
       </nav>
       <main>{children || <Outlet />}</main>
-      <Footer/>
+      {!isPetPage && <Footer/>} {/*The pet page has no visable overflow so this would never be shown on screen there anyway*/}
     </>
   );
-}
-
-function handleLogout() {
-  // Add logout functionality here
 }
 
 function Footer() {
@@ -79,9 +73,9 @@ function Footer() {
       <div>Phone: 123-456-7890</div>
       <div>
         Follow Us:
-        <a href="https://www.facebook.com/example" target="_blank" rel="noopener noreferrer">Facebook</a>
-        <a href="https://www.twitter.com/example" target="_blank" rel="noopener noreferrer">Twitter</a>
-        <a href="https://www.instagram.com/example" target="_blank" rel="noopener noreferrer">Instagram</a>
+        <a href="https://www.facebook.com/example" target="_blank" rel="noopener noreferrer">Facebook </a>
+        <a href="https://www.twitter.com/example" target="_blank" rel="noopener noreferrer">Twitter </a>
+        <a href="https://www.instagram.com/example" target="_blank" rel="noopener noreferrer">Instagram </a>
       </div>
       <div>&copy; 2024 CoE Exploration app. All rights reserved.</div>
     </footer>

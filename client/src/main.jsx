@@ -5,11 +5,11 @@ import { Root, ErrorPage } from './Root';
 import LoginComponent from './authentication/LoginComponent';
 import Quiz from './quiz/Quiz';
 import RegisterComponent from './authentication/RegisterComponent';
-import Explore, { Majorinfo } from './explore/Explore';
+import Explore, { MajorInfo } from './explore/Explore';
 import { AuthProvider } from './authentication/AuthComponent';
 import Profile from './ProfileComponent';
-import Pet from './pet/Pet'
-import ComputerScienceGame from './explore/minigames/ComputerScienceGame';
+import Pet from './pet/Pet';
+import MinigameLoader from './explore/minigames/MinigameLoader';
 
 import './index.css';
 
@@ -31,16 +31,14 @@ const router = createBrowserRouter([
       {
         path: "explore",
         element: <Explore />,
-        // children: [
-        //  { 
-        //    path: ":majorName", 
-        //    element: <MajorInfo /> 
-        //  },
-        //]
       },
       {
         path: "explore/:majorName",
         element: <MajorInfo />,
+      },
+      {
+        path: "explore/:majorName/minigame",
+        element: <MinigameLoader />,
       },
       {
         path: "profile",
