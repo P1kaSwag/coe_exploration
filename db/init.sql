@@ -35,12 +35,24 @@ CREATE TABLE PetInteractions (
     FOREIGN KEY (userid) REFERENCES Users(userid)
 );
 
-
 CREATE TABLE Majors (
     majorid INT PRIMARY KEY AUTO_INCREMENT,
     majorName VARCHAR(255),
     majorDescription TEXT,
-    careerProspects VARCHAR(255)
+    careerProspects VARCHAR(255),
+);
+
+CREATE TABLE MajorInformation (
+    majorInfo INT PRIMARY KEY AUTO_INCREMENT,
+    majorid INT,
+    majorName VARCHAR(255),
+    topProfessors VARCHAR(255),
+    studentQuotes TEXT,
+    careers VARCHAR(255),
+    minors VARCHAR(255),
+    skills VARCHAR(255),
+    interests VARCHAR(255),
+    FOREIGN KEY (majorid) REFERENCES Majors(majorid)
 );
 
 -- Insert test data
@@ -69,3 +81,23 @@ VALUES
     ('Nuclear Engineering', 'As a nuclear engineering student at Oregon State, you will learn to design and operate nuclear systems that are safe, efficient, and sustainable.', 'Nuclear Engineer, Radiation Protection Engineer, Nuclear Safety Engineer'),
     ('Outdoor Products', 'As an outdoor products student at Oregon State, you will learn to design and manufacture outdoor products that are innovative, sustainable, and functional.', 'Product Designer, Product Developer, Product Manager'),
     ('Radiation Health Physics', 'As a radiation health physics student at Oregon State, you will learn to...', 'career 1, career 2, career 3');
+
+INSERT INTO MajorInformation (majorid, majorName, topProfessors, studentQuotes, careers, minors, skills, interests) 
+VALUES 
+    (1, 1, 'Architectual Engineering', 'Professor 1, Professor 2', 'Quote 1, Quote 2, Quote 3', 'Career 1, Career 2', 'Minor 1, Minor 2', 'Skill 1, Skill 2', 'Interest 1, Interest 2'),
+    (2, 2, 'Bioengineering', 'Professor 1, Professor 2', 'Quote 1, Quote 2, Quote 3', 'Career 1, Career 2', 'Minor 1, Minor 2', 'Skill 1, Skill 2', 'Interest 1, Interest 2'),
+    (3, 3, 'Chemical Engineering', 'Professor 1, Professor 2', 'Quote 1, Quote 2, Quote 3', 'Career 1, Career 2', 'Minor 1, Minor 2', 'Skill 1, Skill 2', 'Interest 1, Interest 2'),
+    (4, 4, 'Civil Engineering', 'Professor 1, Professor 2', 'Quote 1, Quote 2, Quote 3', 'Career 1, Career 2', 'Minor 1, Minor 2', 'Skill 1, Skill 2', 'Interest 1, Interest 2'),
+    (5, 5, 'Computer Science', 'Professor 1, Professor 2', 'Quote 1, Quote 2, Quote 3', 'Career 1, Career 2', 'Minor 1, Minor 2', 'Skill 1, Skill 2', 'Interest 1, Interest 2'),
+    (6, 6, 'Construction Engineering Management', 'Professor 1, Professor 2', 'Quote 1, Quote 2, Quote 3', 'Career 1, Career 2', 'Minor 1, Minor 2', 'Skill 1, Skill 2', 'Interest 1, Interest 2'),
+    (7, 7, 'Ecological Engineering', 'Professor 1, Professor 2', 'Quote 1, Quote 2, Quote 3', 'Career 1, Career 2', 'Minor 1, Minor 2', 'Skill 1, Skill 2', 'Interest 1, Interest 2'),
+    (8, 8, 'Electrical and Computer Engineering', 'Professor 1, Professor 2', 'Quote 1, Quote 2, Quote 3', 'Career 1, Career 2', 'Minor 1, Minor 2', 'Skill 1, Skill 2', 'Interest 1, Interest 2'),
+    (9, 9, 'Energy Systems Engineering', 'Professor 1, Professor 2', 'Quote 1, Quote 2, Quote 3', 'Career 1, Career 2', 'Minor 1, Minor 2', 'Skill 1, Skill 2', 'Interest 1, Interest 2'),
+    (10, 10, 'Engineering Science', 'Professor 1, Professor 2', 'Quote 1, Quote 2, Quote 3', 'Career 1, Career 2', 'Minor 1, Minor 2', 'Skill 1, Skill 2', 'Interest 1, Interest 2'),
+    (11, 11, 'Environmental Engineering', 'Professor 1, Professor 2', 'Quote 1, Quote 2, Quote 3', 'Career 1, Career 2', 'Minor 1, Minor 2', 'Skill 1, Skill 2', 'Interest 1, Interest 2'),
+    (12, 12, 'Industrial Engineering', 'Professor 1, Professor 2', 'Quote 1, Quote 2, Quote 3', 'Career 1, Career 2', 'Minor 1, Minor 2', 'Skill 1, Skill 2', 'Interest 1, Interest 2'),
+    (13, 13, 'Manufacturing Engineering', 'Professor 1, Professor 2', 'Quote 1, Quote 2, Quote 3', 'Career 1, Career 2', 'Minor 1, Minor 2', 'Skill 1, Skill 2', 'Interest 1, Interest 2'),
+    (14, 14, 'Mechanical Engineering', 'Professor 1, Professor 2', 'Quote 1, Quote 2, Quote 3', 'Career 1, Career 2', 'Minor 1, Minor 2', 'Skill 1, Skill 2', 'Interest 1, Interest 2'),
+    (15, 15, 'Nuclear Engineering', 'Professor 1, Professor 2', 'Quote 1, Quote 2, Quote 3', 'Career 1, Career 2', 'Minor 1, Minor 2', 'Skill 1, Skill 2', 'Interest 1, Interest 2'),
+    (16, 16, 'Outdoor Products', 'Professor 1, Professor 2', 'Quote 1, Quote 2, Quote 3', 'Career 1, Career 2', 'Minor 1, Minor 2', 'Skill 1, Skill 2', 'Interest 1, Interest 2'),
+    (17, 17, 'Radiation Health Physics', 'Professor 1, Professor 2', 'Quote 1, Quote 2, Quote 3', 'Career 1, Career 2', 'Minor 1, Minor 2', 'Skill 1, Skill 2', 'Interest 1, Interest 2');

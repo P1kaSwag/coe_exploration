@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { NavLink } from "react-router-dom";
+import { NavLink, useParams } from "react-router-dom";
 
 import '../assets/explore.css'
 
@@ -28,3 +28,25 @@ const Explore = () => {
 };
 
 export default Explore;
+
+export function MajorInfo() {
+  const [majorInfo, setMajorInfo] = useState([]);
+  const params = useParams();
+  const majorItem = majorInfo[params.majorItem]
+
+  useEffect(() => {
+    fetch('http://localhost:8000//api/majors/majorinformation')
+      .then(response => response.json())
+      .then(data => setMajorInfo(data))
+      .catch(error => console.error('Error fetching majors:', error));
+  }, []);
+  
+  return (
+    <>
+      <h1>{majorItem.majorName} Info</h1>
+
+      {/* Make this into a navlink for the game? */}
+      <button type="button">Play the Game</button>
+    </>
+  );
+}
