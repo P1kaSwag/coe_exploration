@@ -93,11 +93,13 @@ input[type=email] {
 button {
   background-color: #535bf2;
   color:white;
+  /*
   padding: 14px 20px;
   margin: 8px 0;
+  width: 50%;
+  */
   border: none;
   cursor: pointer;
-  width: 50%;
 }
 
 .major {

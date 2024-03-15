@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { NavLink } from "react-router-dom";
+import { NavLink} from "react-router-dom";
 
 const Explore = () => {
   const [majors, setMajors] = useState([]);
@@ -16,7 +16,7 @@ const Explore = () => {
     <div className="majors">
       {majors.map(major => (
         <div key={major.majorID} className="major">
-          <NavLink to={`/explore/${major.majorName}`}><h2>{major.majorName}</h2></NavLink>
+          <NavLink to={`/explore/${encodeURIComponent(major.majorName)}`}><h2>{major.majorName}</h2></NavLink>
           <p>{major.majorDescription}</p>
           <p>Career Prospects: {major.careerProspects}</p>
         </div>

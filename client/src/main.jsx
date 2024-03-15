@@ -9,6 +9,8 @@ import Explore from './explore/Explore';
 import { AuthProvider } from './AuthComponent';
 import Profile from './ProfileComponent';
 import Pet from './Pet'
+import MajorDetails from './explore/MajorDetails';  // Just for testing minigame loading, change to actual major details component later
+import MinigameLoader from './explore/minigames/MinigameLoader';
 
 import './index.css';
 
@@ -30,6 +32,14 @@ const router = createBrowserRouter([
       {
         path: "explore",
         element: <Explore />,
+      },
+      {
+        path: "explore/:majorName",
+        element: <MajorDetails />,
+      },
+      {
+        path: "explore/:majorName/minigame",
+        element: <MinigameLoader />,
       },
       {
         path: "profile",
