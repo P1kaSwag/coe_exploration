@@ -1,6 +1,6 @@
 import React from "react";
 import { NavLink, Outlet } from "react-router-dom";
-import { useAuth } from "./AuthComponent";
+import { useAuth } from "./authentication/AuthComponent";
 import './assets/root.css'
 
 // Add imports from Mo's branch
@@ -11,7 +11,6 @@ import {
   useRouteError,
   useLocation,
 } from "react-router-dom";
-import { useAuth } from "./authentication/AuthComponent";
 
 export function Root(props) {
   const location = useLocation(); // Get the current page location

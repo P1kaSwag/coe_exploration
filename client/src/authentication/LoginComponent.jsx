@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { NavLink } from "react-router-dom";
 import { useAuth } from './AuthComponent';
 
-import './assets/login.css';
+import '../assets/login.css';
 
 const LoginComponent = () => {
   const [username, setUsername] = useState('');
