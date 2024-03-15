@@ -62,13 +62,14 @@ export function Root(props) {
         </div>
       </nav>
       <main>{children || <Outlet />}</main>
-      <Footer/>
+      {!isPetPage && <Footer/>} {/*The pet page has no visable overflow so this would never be shown on screen there anyway*/}
     </>
   );
 }
 
 function handleLogout() {
   // Add logout functionality here
+  // Use the useAuth hook to logout the user
 }
 
 function Footer() {
@@ -79,9 +80,9 @@ function Footer() {
       <div>Phone: 123-456-7890</div>
       <div>
         Follow Us:
-        <a href="https://www.facebook.com/example" target="_blank" rel="noopener noreferrer">Facebook</a>
-        <a href="https://www.twitter.com/example" target="_blank" rel="noopener noreferrer">Twitter</a>
-        <a href="https://www.instagram.com/example" target="_blank" rel="noopener noreferrer">Instagram</a>
+        <a href="https://www.facebook.com/example" target="_blank" rel="noopener noreferrer">Facebook </a>
+        <a href="https://www.twitter.com/example" target="_blank" rel="noopener noreferrer">Twitter </a>
+        <a href="https://www.instagram.com/example" target="_blank" rel="noopener noreferrer">Instagram </a>
       </div>
       <div>&copy; 2024 CoE Exploration app. All rights reserved.</div>
     </footer>

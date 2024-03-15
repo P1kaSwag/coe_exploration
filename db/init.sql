@@ -39,11 +39,11 @@ CREATE TABLE Majors (
     majorid INT PRIMARY KEY AUTO_INCREMENT,
     majorName VARCHAR(255),
     majorDescription TEXT,
-    careerProspects VARCHAR(255),
+    careerProspects VARCHAR(255)
 );
 
 CREATE TABLE MajorInformation (
-    majorInfo INT PRIMARY KEY AUTO_INCREMENT,
+    majorInfoID INT PRIMARY KEY AUTO_INCREMENT,
     majorid INT,
     majorName VARCHAR(255),
     topProfessors VARCHAR(255),
@@ -82,7 +82,7 @@ VALUES
     ('Outdoor Products', 'As an outdoor products student at Oregon State, you will learn to design and manufacture outdoor products that are innovative, sustainable, and functional.', 'Product Designer, Product Developer, Product Manager'),
     ('Radiation Health Physics', 'As a radiation health physics student at Oregon State, you will learn to...', 'career 1, career 2, career 3');
 
-INSERT INTO MajorInformation (majorid, majorName, topProfessors, studentQuotes, careers, minors, skills, interests) 
+INSERT INTO MajorInformation (majorInfoID, majorid, majorName, topProfessors, studentQuotes, careers, minors, skills, interests) 
 VALUES 
     (1, 1, 'Architectual Engineering', 'Professor 1, Professor 2', 'Quote 1, Quote 2, Quote 3', 'Career 1, Career 2', 'Minor 1, Minor 2', 'Skill 1, Skill 2', 'Interest 1, Interest 2'),
     (2, 2, 'Bioengineering', 'Professor 1, Professor 2', 'Quote 1, Quote 2, Quote 3', 'Career 1, Career 2', 'Minor 1, Minor 2', 'Skill 1, Skill 2', 'Interest 1, Interest 2'),

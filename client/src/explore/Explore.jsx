@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { NavLink, useParams } from "react-router-dom";
+import { NavLink, useSearchParams, useParams } from "react-router-dom";
 
 import '../assets/explore.css'
 
@@ -18,7 +18,10 @@ const Explore = () => {
     <div className="majors">
       {majors.map(major => (
         <div key={major.majorID} className="major">
-          <NavLink to={`/explore/${encodeURIComponent(major.majorName)}`}><h2>{major.majorName}</h2></NavLink>
+          {console.log(major.majorName)}
+          {console.log(major.majorID)}
+          <NavLink to={`/explore/${encodeURIComponent(major.majorName)}?majorID=${major.majorID}`}>
+              <h2>{major.majorName}</h2></NavLink>
           <p>{major.majorDescription}</p>
           <p>Career Prospects: {major.careerProspects}</p>
         </div>
@@ -31,22 +34,33 @@ export default Explore;
 
 export function MajorInfo() {
   const [majorInfo, setMajorInfo] = useState([]);
-  const params = useParams();
-  const majorItem = majorInfo[params.majorItem]
+  const [serachParams] = useSearchParams();
+  const { majorName } = useParams();
+  const majorID = serachParams.get('majorID');
 
   useEffect(() => {
-    fetch('http://localhost:8000//api/majors/majorinformation')
-      .then(response => response.json())
-      .then(data => setMajorInfo(data))
-      .catch(error => console.error('Error fetching majors:', error));
-  }, []);
+    const fetchMajorInfo = async () => {
+    // Send a request to the server to get the major information
+    const response = await fetch(`http://localhost:8000/api/majors/majorinformation/${majorID}`);
+
+    // Check if the request was successful (response code 200-299)
+    if (response.ok) {
+        const data = await response.json();
+        console.log(data);
+        setMajorInfo(data.majorInfo);
+    } else {
+        console.error('Error status: ${response.status}');
+    }
+    };
+    fetchMajorInfo();
+  }, [majorID]);
   
   return (
     <>
-      <h1>{majorItem.majorName} Info</h1>
+      <h1>{majorInfo.majorName} Info</h1>
 
       {/* Make this into a navlink for the game? */}
-      <button type="button">Play the Game</button>
+      <NavLink to={`/explore/${majorName}/minigame`}>Play {majorName} Game</NavLink>
     </>
   );
 }

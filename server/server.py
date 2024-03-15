@@ -83,7 +83,7 @@ class Majors(db.Model):
 
 class MajorInformation(db.Model):
     __tablename__ = 'MajorInformation'
-    majorInfo = db.Column(db.Integer, primary_key=True, unique=True, autoincrement=True, nullable=False)
+    majorInfoID = db.Column(db.Integer, primary_key=True, unique=True, autoincrement=True, nullable=False)
     majorID = db.Column(db.Integer, db.ForeignKey('Majors.majorID'), nullable=False)
     majorName = db.Column(db.String(255), nullable=False)
     topProfessors = db.Column(db.String(255), nullable=False)
@@ -295,10 +295,18 @@ def get_majors():
     majors = Majors.query.all()
     return jsonify([major.to_dict() for major in majors])
 
-@app.route('/api/majors/majorinformation', methods=['GET'])
-def get_majorInfo():
-    majorInfo = MajorInformation.query.all()
-    return jsonify([info.to_dict() for info in majorInfo])
+
+@app.route('/api/majors/majorinformation/<int:majorID>', methods=['GET'])
+def get_majorInfo(majorID):
+    majorInfo = MajorInformation.query.filter_by(majorID=majorID).first()
+
+    if not majorInfo:
+        return jsonify({'message': 'Major not found'}), 404
+    
+    majorInfo = majorInfo.to_dict()
+
+    return jsonify({'message': 'Major information received successfully', 'majorInfo': majorInfo}), 200
+
 
 # Degrade the pet's stats every hour
 scheduler.add_job(id='degrade_pet_stats', func=degrade_pet_stats, trigger='interval', hours=1)
