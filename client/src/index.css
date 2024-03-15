@@ -1,4 +1,4 @@
-:root {
+/* :root {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
@@ -32,7 +32,8 @@ body {
   place-items: center;
   min-width: 320px;
   min-height: 100vh;
-  overflow-y: scroll;
+  background-color: #1a1a1a;
+  overflow: visible;
 }
 
 h1 {
@@ -70,36 +71,4 @@ button:focus-visible {
   button {
     background-color: #f9f9f9;
   }
-}
 
-.login,
-.register,
-.user_profile {
-  border: 3px solid black
-}
-
-input[type=text],
-input[type=password],
-input[type=email] {
-  width: 100%;
-  padding: 12px 20px;
-  margin: 8px 0;
-  display: inline-block;
-  border: 1px solid white;
-  box-sizing: border-box;
-}
-
-button {
-  background-color: #535bf2;
-  color:white;
-  padding: 14px 20px;
-  margin: 8px 0;
-  border: none;
-  cursor: pointer;
-  width: 50%;
-}
-
-.major {
-  border: 3px solid black;
-  margin: 5px 0;
-}

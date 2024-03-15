@@ -1,15 +1,14 @@
 import React, { useEffect, useState } from 'react';
-import { useAuth } from './AuthComponent';
+import { useAuth } from '../authentication/AuthComponent';
 import PetMenu from './PetMenu';
 import './pet_styles.css';
 
 const Pet = () => {
     const { accessToken } = useAuth();  // Get the access token from the AuthProvider to make authenticated requests
 
-    // State to manage the pet's menu and skills
+    // State to manage the pet's menu
     const [showMenu, setShowMenu] = useState(false);
     const [menuPosition, setMenuPosition] = useState({ x: 0, y: 0 });
-    const [petStats, setPetStats] = useState({ pet_name: "O'malley", mood: "neutral", love: 0, recreation: 0, hunger: 0, cleanliness: 0 })
 
     const [position, setPosition] = useState({
         left: 80,
@@ -34,48 +33,6 @@ const Pet = () => {
 
     const [targetPosition, setTargetPosition] = useState(pickRandomPoint());
 
-    // Set the style for the body page of the pet component then reset it when the component unmounts
-    useEffect(() => {
-        document.body.style.backgroundColor = 'rgb(0, 0, 0)' // Code for grass color: 'rgb(83, 172, 15)' 
-        document.body.style.overflow = 'hidden'
-
-        return () => {
-            document.body.style.backgroundColor = ''
-            document.body.style.overflow = ''
-        }
-    }, []);
-
-    // Fetch the pet's stats from the server
-    useEffect(() => {
-        const fetchPetStats = async () => {
-            if (!accessToken) {
-                console.error('User token not found');
-                return;
-            }
-
-        // Send a request to the server to get the pet's stats
-        const response = await fetch('http://localhost:8000/api/pet/stats', {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${accessToken}`, // Send the access token in the header
-            },
-        });
-
-        // Check if the request was successful (response code 200-299), then get the pet's stats
-        if (response.ok) {
-            const data = await response.json();
-            console.log(data.petStats);
-            setPetStats(data.petStats);
-        } else {
-            console.error('Error status: ${response.status}');
-        }
-        };
-        fetchPetStats();
-    }, [accessToken]);
-            
-    
-    // Move the pet to the target position
     useEffect(() => {
         const movePet = () => {
             if (showMenu) setIsWalking(false); // If the menu is open, don't move the pet (wait for the menu to close)
@@ -204,11 +161,10 @@ const Pet = () => {
             body: JSON.stringify({ interactionType }),
         });
 
-        // Check if the request was successful (response code 200-299), then update the pet's stats
+        // Check if the request was successful (response code 200-299)
         if (response.ok) {
             const data = await response.json();
             console.log(data.message, data.pet);
-            setPetStats(data.pet);
         } else {
             console.error('Error status: ${response.status}');
         }
@@ -222,19 +178,11 @@ const Pet = () => {
                 onClick={handlePetClick}
                 style={{
                     position: 'absolute',
-                    left: `${position.left}%`,
-                    top: `${position.top}%`,
+                    left: `${position.left}vw`,
+                    top: `${position.top}vh`,
                     transform: `scale(${position.scale}) scaleX(${position.flip})`,
                 }}
             ></div>
-            <div className="statBoard">
-                <h3>Pet Stats</h3>
-                <p>Mood: {petStats.mood}</p>
-                <p>Love: {petStats.love}</p>
-                <p>Recreation: {petStats.recreation}</p>
-                <p>Hunger: {petStats.hunger}</p>
-                <p>Cleanliness: {petStats.cleanliness}</p>
-            </div>
             {showMenu && <PetMenu x={menuPosition.x} y={menuPosition.y} onOptionSelected={handleOptionSelected} />}
         </div>
     );

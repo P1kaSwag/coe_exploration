@@ -25,7 +25,7 @@ app.config['SECRET_KEY'] = 'super_secret_key'  # TODO: Shouldn't be hardcoded in
 db = SQLAlchemy(app)
 
 # Define the maximum number of interactions per day for each type
-MAX_INTERACTIONS_PER_DAY = {'pet': 10, 'play': 5, 'feed': 3, 'wash': 1}
+MAX_INTERACTIONS_PER_DAY = {'pet': 100, 'play': 50, 'feed': 30, 'wash': 10} # TODO: Change these values to lower numbers later
 
 # TODO: Remove/Change the course stuff later
 # All this course stuff was just to test out the database connection to the server
@@ -169,7 +169,7 @@ def interact_with_pet():
             pet.love = min(pet.love + 1, 100)   # Clamp the values between 0 and 100
         case 'play':
             pet.recreation = min(pet.recreation + 10, 100)
-            pet.love = min(pet.love + 1, 100)
+            pet.love = min(pet.love + 15, 100)
             pet.cleanliness = max(pet.cleanliness - 10, 100)
         case 'feed':
             pet.hunger = max(pet.hunger - 1, 0)
@@ -179,6 +179,9 @@ def interact_with_pet():
         case _: # Check if the interaction type is valid
             return jsonify({'message': 'Invalid interaction type'}), 404
     
+    # Update the pet's mood based on the new stats
+    pet.mood = update_pet_mood(pet)
+    
     # Create a new interaction record
     new_interaction = PetInteractions(PetID=pet.PetID, userID=current_user_id, interactionType=interaction_type)
     
@@ -187,6 +190,25 @@ def interact_with_pet():
     db.session.commit()
 
     return jsonify({'message': f'Successfully recorded {interaction_type} interaction with pet', 'pet': pet.to_dict()}), 200
+
+
+def update_pet_mood(pet: Pets):
+    """Updates the mood of the pet based on its stats and events (last exploration time, etc.)."""
+    if pet.love > 80 and pet.recreation > 80 and pet.hunger < 20 and pet.cleanliness > 80:
+        return 'happy'
+    if pet.love < 20 and pet.recreation < 20 and pet.hunger > 80 and pet.cleanliness < 20: # TODO: Could also add a condition for if the pet hasn't been interacted with in a while
+        return 'sad'
+    # TODO: Need conditions for angry, excited, tired, and curious moods
+
+    # Some ideas:
+    # Angry mood is triggered when a user hasn't interacted with their pet in a while and their pet's stats are low
+    # Excited is triggered when a user unlocks a reward from a major
+    # Tired mood is triggered when a user has explored a major a lot in a short period of time and their pet's stats are low
+    # Curious mood is triggered when a user hasn't explored a major in a while and they haven't already explored all the majors
+    # Frustated mood is triggered when a user has tried to interact with their pet too many times in a day or they fail to complete a minigame
+
+    # If none of the above conditions are met, return neutral mood
+    return 'neutral'
 
 
 @app.route('/api/pet/stats', methods=['GET'])
