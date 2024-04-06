@@ -5,7 +5,7 @@ import { Question1, Question2, Question3, Reward} from "./CodeBlocks";
 
 const ComputerScienceGame = () => {
   const [popupVisible, setPopupVisible] = useState(false);
-  const [clickedWord, setClickedWord] = useState('');
+  const [code, setClickedWord] = useState('');
   const [currentQuestion, setCurrentQuestion] = useState(1);
 
   const handleWordClick = (word) => {
@@ -50,7 +50,7 @@ const ComputerScienceGame = () => {
         <div>
           <div className="popup-background"></div>
           <div className="popup">
-            <p>You clicked on: {clickedWord}</p>
+            <p>Correct! The correct code is: {code}</p>
             <button onClick={() => closePopup()}>Close</button>
           </div>
         </div>
