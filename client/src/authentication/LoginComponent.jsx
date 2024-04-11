@@ -11,8 +11,7 @@ const LoginComponent = () => {
   const { user, login } = useAuth();  // FIXME: user is not used so we can probably remove it
 
   const handleLogin = async () => {
-    // TODO: Change localhost to something else
-    const response = await fetch('http://localhost:8000/api/users/login', {
+    const response = await fetch('api/users/login', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

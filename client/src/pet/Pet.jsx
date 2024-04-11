@@ -11,26 +11,24 @@ const Pet = () => {
     const [menuPosition, setMenuPosition] = useState({ x: 0, y: 0 });
     const [petStats, setPetStats] = useState({ pet_name: "O'malley", mood: "neutral", love: 0, recreation: 0, hunger: 0, cleanliness: 0 })
 
-    const [position, setPosition] = useState({
-        left: 80,
-        top: 50,
-        scale: 0.75,
-        flip: 1,
-    }); // Start position of the pet
-
     // Used to turn on and off walking animation
     const [isWalking, setIsWalking] = useState(true);
 
     const points = [
-        { left: 40, top: 0, scale: 0.4 },
-        { left: 80, top: 40, scale: 0.6 },
-        { left: 0, top: 30, scale: 0.5 },
+        { left: 40, top: 5, scale: 0.3 },
+        { left: 70, top: 50, scale: 0.75 },
+        { left: 70, top: 40, scale: 0.65 },
+        { left: 76, top: 10, scale: 0.33 },
+        { left: 0, top: 30, scale: 0.55 },
+        { left: 30, top: 40, scale: 0.65 },
     ];
 
     const pickRandomPoint = () => {
         const randomIndex = Math.floor(Math.random() * points.length);
         return points[randomIndex];
     };
+
+    const [position, setPosition] = useState({...pickRandomPoint(), flip: 1});
 
     const [targetPosition, setTargetPosition] = useState(pickRandomPoint());
 
@@ -54,7 +52,7 @@ const Pet = () => {
             }
 
         // Send a request to the server to get the pet's stats
-        const response = await fetch('http://localhost:8000/api/pet/stats', {
+        const response = await fetch('api/pet/stats', {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -195,7 +193,7 @@ const Pet = () => {
         }
 
         // Send a request to the server to interact with the pet
-        const response = await fetch('http://localhost:8000/api/pet/interact', {
+        const response = await fetch('api/pet/interact', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -218,7 +216,7 @@ const Pet = () => {
     return (
         <div className="backyard">
             <div
-                className={`pet ${isWalking ? 'walk' : ''}`} // TODO: make idle animation for when its not walking
+                className={`pet ${isWalking ? 'walk' : ''}`}
                 onClick={handlePetClick}
                 style={{
                     position: 'absolute',

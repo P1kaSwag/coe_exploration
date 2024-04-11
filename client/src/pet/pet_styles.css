@@ -1,5 +1,4 @@
 /* Note: Even though the page resizes, we'll likely still need to add media queries to make sure the pet is always visible and the menu is always in the same place. */
-
 nav.nav-pet {
   display: flex;
   position: fixed;
@@ -22,13 +21,14 @@ nav.nav-pet:hover {
   background-position: center;
   background-repeat: no-repeat;
   margin: auto;
+  overflow: hidden;
 }
 
 .pet {
   width: 30vw;
   height: 30vw;
   cursor: grab;
-  background-image: url('../assets/pet_walking.png');
+  background-image: url('../assets/pet_walking_75percent.png');
   /*background-color: rgba(255, 0, 0, 0.5); 
   border: 2px solid red;*/
   background-repeat: no-repeat;
@@ -47,12 +47,6 @@ nav.nav-pet:hover {
     background-position: 100%;
   }
 }
-
-/*
-.flip-horizontal {
-  transform: scaleX(-1); 
-}
-*/
 
 /* Pet Stat Board */
 .statBoard {

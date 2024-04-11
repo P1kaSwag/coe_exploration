@@ -8,7 +8,7 @@ const Explore = () => {
 
   useEffect(() => {
     // Fetch data from the Flask server
-    fetch('http://localhost:8000/api/majors')
+    fetch('api/majors')
       .then(response => response.json())
       .then(data => setMajors(data))
       .catch(error => console.error('Error fetching majors:', error));
@@ -41,7 +41,7 @@ export function MajorInfo() {
   useEffect(() => {
     const fetchMajorInfo = async () => {
     // Send a request to the server to get the major information
-    const response = await fetch(`http://localhost:8000/api/majors/majorinformation/${majorID}`);
+    const response = await fetch(`api/majors/majorinformation/${majorID}`);
 
     // Check if the request was successful (response code 200-299)
     if (response.ok) {
