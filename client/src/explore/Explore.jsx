@@ -61,6 +61,9 @@ export function MajorInfo() {
       <p>Top Professors: {majorInfo.topProfessors}</p>
       <p>Student Quotes: {majorInfo.studentQuotes}</p>
       <p>Careers: {majorInfo.careers}</p>
+      <p>Minors: {majorInfo.minors}</p>
+      <p>Skills: {majorInfo.skills}</p>
+      <p>Interests: {majorInfo.interests}</p>
       <NavLink to={`/explore/${majorName}/minigame`}>Play {majorName} Game</NavLink>
     </>
   );
