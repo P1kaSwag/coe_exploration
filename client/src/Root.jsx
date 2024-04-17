@@ -67,18 +67,12 @@ export function Root(props) {
 
 function Footer() {
   return (
-    <footer style={{ backgroundColor: 'lightgray', padding: '20px', textAlign: 'center' }}>
-      <div>Contact Us:</div>
-      <div>Email: contact@example.com</div>
-      <div>Phone: 123-456-7890</div>
-      <div>
-        Follow Us:
-        <a href="https://www.facebook.com/example" target="_blank" rel="noopener noreferrer">Facebook </a>
-        <a href="https://www.twitter.com/example" target="_blank" rel="noopener noreferrer">Twitter </a>
-        <a href="https://www.instagram.com/example" target="_blank" rel="noopener noreferrer">Instagram </a>
-      </div>
-      <div>&copy; 2024 CoE Exploration app. All rights reserved.</div>
+    <>
+    <hr></hr>
+    <footer style={{ backgroundColor: 'white', padding: '20px', textAlign: 'center' }}>
+      <div> A simple web application made for a senior capstone class.</div>
     </footer>
+    </>
   );
 }
 
