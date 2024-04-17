@@ -17,7 +17,7 @@ const Explore = () => {
   return (
     <div className="majors">
       {majors.map(major => (
-        <div key={major.majorID} className="major">
+        <div key={major.majorID} class="major">
           {console.log(major.majorName)}
           {console.log(major.majorID)}
           <NavLink to={`/explore/${encodeURIComponent(major.majorName)}?majorID=${major.majorID}`}>
@@ -57,11 +57,38 @@ export function MajorInfo() {
   
   return (
     <>
-      <h1>{majorInfo.majorName} Info</h1>
-      <p>Top Professors: {majorInfo.topProfessors}</p>
-      <p>Student Quotes: {majorInfo.studentQuotes}</p>
-      <p>Careers: {majorInfo.careers}</p>
-      <NavLink to={`/explore/${majorName}/minigame`}>Play {majorName} Game</NavLink>
+      <h1>{majorName} Information</h1>
+      <div class="majorInfo">
+        <h3>Top Professors</h3> 
+        <p>{majorInfo.topProfessors}</p>
+      </div>
+
+      <div class="majorInfo"> 
+        <h3>Student Quotes</h3> 
+        <p>{majorInfo.studentQuotes}</p>
+      </div>
+
+      <div class="majorInfo">
+        <h3>Careers </h3>
+        <p>{majorInfo.careers}</p>
+      </div>
+
+      <div class="majorInfo">
+        <h3>Minors</h3>
+        <p>{majorInfo.minors}</p>
+      </div>
+
+      <div class="majorInfo">
+        <h3>Skills</h3>
+        <p>{majorInfo.skills}</p>
+      </div>
+
+      <div class="majorInfo">
+        <h3>Interests</h3> 
+        <p>{majorInfo.interests}</p>
+      </div>
+
+      <div><NavLink to={`/explore/${majorName}/minigame`}>Play {majorName} Game</NavLink></div>
     </>
   );
 }
