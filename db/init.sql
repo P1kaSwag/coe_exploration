@@ -55,6 +55,24 @@ CREATE TABLE MajorInformation (
     FOREIGN KEY (majorid) REFERENCES Majors(majorid)
 );
 
+CREATE TABLE Rewards (
+    rewardID INT PRIMARY KEY AUTO_INCREMENT,
+    majorID INT,
+    rewardName VARCHAR(255),
+    rewardDescription TEXT,
+    rewardType ENUM('outfit', 'cosmetic', 'mechanic'),
+    FOREIGN KEY (majorID) REFERENCES Majors(majorid)
+);
+
+CREATE TABLE PetRewards (
+    PetRewardID INT PRIMARY KEY AUTO_INCREMENT,
+    petID INT,
+    rewardID INT,
+    isActive BOOLEAN DEFAULT FALSE,
+    FOREIGN KEY (petID) REFERENCES Pets(PetID),
+    FOREIGN KEY (rewardID) REFERENCES Rewards(rewardID)
+);
+
 -- Insert test data
 INSERT INTO Courses (CRN, course_name, course_description, credits)
 VALUES
