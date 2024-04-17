@@ -85,7 +85,7 @@ class MajorInformation(db.Model):
     __tablename__ = 'MajorInformation'
     majorInfoID = db.Column(db.Integer, primary_key=True, unique=True, autoincrement=True, nullable=False)
     majorID = db.Column(db.Integer, db.ForeignKey('Majors.majorID'), nullable=False)
-    majorName = db.Column(db.String(255), nullable=False)
+    #majorName = db.Column(db.String(255), nullable=False)
     topProfessors = db.Column(db.String(255), nullable=False)
     studentQuotes = db.Column(db.Text, nullable=False)
     careers = db.Column(db.String(255), nullable=False)
@@ -95,7 +95,7 @@ class MajorInformation(db.Model):
     def to_dict(self):
          return {
             'majorID': self.majorID,
-            'majorName': self.majorName,
+            #'majorName': self.majorName,
             'topProfessors': self.topProfessors,
             'studentQuotes': self.studentQuotes,
             'careers': self.careers,
