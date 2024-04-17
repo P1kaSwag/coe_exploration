@@ -1,8 +1,10 @@
 .login,
 .register {
-  border: 3px solid black;
+  border: 2px solid #ccc;
   padding: 5rem;
-  margin-top: 1rem;
+  margin: 20px;
+  border-radius: 10px;  
+  box-shadow: 3px 3px 10px grey;
 }
 
 input[type=text],
@@ -17,7 +19,7 @@ input[type=email] {
 }
 
 .login-button {
-  background-color: #535bf2;
+  background-color: #ff5733;
   color: white;
   padding: 10px 16px;
   border: none;
