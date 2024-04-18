@@ -210,4 +210,12 @@ const empty = [
   { atomicNumber: 0, symbol: '', name: '', atomicMass: '' },
 ];
 
-export { row1, row2, row3, row4, row5, row6, row7, row8, row9, empty}
+const Reward = () => (
+  <div>
+      You win!
+      <button onClick={() => window.location.reload()}>Play again?</button>
+
+  </div>
+);
+
+export { row1, row2, row3, row4, row5, row6, row7, row8, row9, empty, Reward}
