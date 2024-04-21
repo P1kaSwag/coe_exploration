@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { useAuth } from '../authentication/AuthComponent';
 import PetMenu from './PetMenu';
 import './pet_styles.css';
+//import walkingAnimation from '../assets/default/walking.png';
+//import idleAnimation from '../assets/default/idle.png';
 
 const Pet = () => {
     const { accessToken } = useAuth();  // Get the access token from the AuthProvider to make authenticated requests
@@ -10,17 +12,17 @@ const Pet = () => {
     const [showMenu, setShowMenu] = useState(false);
     const [menuPosition, setMenuPosition] = useState({ x: 0, y: 0 });
     const [petStats, setPetStats] = useState({ pet_name: "O'malley", mood: "neutral", love: 0, recreation: 0, hunger: 0, cleanliness: 0 })
-
-    // Used to turn on and off walking animation
-    const [isWalking, setIsWalking] = useState(true);
+    const [animationState, setAnimationState] = useState('walking'); // ['walking', 'eating', 'idle']
+    const [outfit, setOutfit] = useState('default');
+    const [loadedImages, setLoadedImages] = useState([]);
 
     const points = [
-        { left: 40, top: 5, scale: 0.3 },
-        { left: 70, top: 50, scale: 0.75 },
-        { left: 70, top: 40, scale: 0.65 },
-        { left: 76, top: 10, scale: 0.33 },
-        { left: 0, top: 30, scale: 0.55 },
-        { left: 30, top: 40, scale: 0.65 },
+        { left: 40, top: 20, scale: 1 },
+        { left: 70, top: 50, scale: 1 },
+        { left: 70, top: 40, scale: 1 },
+        { left: 76, top: 30, scale: 1 },
+        { left: 0, top: 30, scale: 1 },
+        { left: 30, top: 40, scale: 1 },
     ];
 
     const pickRandomPoint = () => {
@@ -35,8 +37,8 @@ const Pet = () => {
     // Set the style for the body page of the pet component then reset it when the component unmounts
     useEffect(() => {
         document.body.style.backgroundColor = 'rgb(0, 0, 0)' // Code for grass color: 'rgb(83, 172, 15)' 
-        document.body.style.overflow = 'hidden'
-
+        document.body.style.overflow = 'hidden' // Prevent scrolling on the page
+        
         return () => {
             document.body.style.backgroundColor = ''
             document.body.style.overflow = ''
@@ -50,9 +52,8 @@ const Pet = () => {
                 console.error('User token not found');
                 return;
             }
-
         // Send a request to the server to get the pet's stats
-        const response = await fetch('api/pet/stats', {
+        const response = await fetch('/api/pet/stats', {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -66,19 +67,32 @@ const Pet = () => {
             console.log(data.petStats);
             setPetStats(data.petStats);
         } else {
-            console.error('Error status: ${response.status}');
+            console.error(`Error status: ${response.status}`);
         }
         };
         fetchPetStats();
     }, [accessToken]);
-            
+
+    // Preload the pet's images to prevent flickering when transitioning between animations
+    const preloadImages = () => {
+        const images = [];
+        const states = ['walking', 'eating', 'idle'];
+        states.forEach(state => {
+            const img = new Image();
+            img.src = `src/assets/${outfit}/${state}.png`;
+            images.push(img);
+        });
+        setLoadedImages(images); // This stores the loaded images in state to ensure they are not garbage-collected
+    };
+
+    useEffect(() => {
+        preloadImages();
+    }, [outfit]); // Only need to run this when outfit changes
     
     // Move the pet to the target position
     useEffect(() => {
         const movePet = () => {
-            if (showMenu) setIsWalking(false); // If the menu is open, don't move the pet (wait for the menu to close)
-
-            if (!isWalking) return; // If not walking, don't do anything
+            if (showMenu || animationState !== 'walking') return; // If the menu is open or the pet is not walking, don't do anything
 
             // Step sizes for pet movements (higher is faster)
             const leftStepSize = 0.075;
@@ -99,13 +113,11 @@ const Pet = () => {
 
                 // Stop walking animation when at target destination
                 if (reachedTarget) {
-                    setIsWalking(false); // Stop the pet
+                    setAnimationState('idle'); // Set the pet to idle
                     setTimeout(() => {
-                        //if (showMenu) return; // If the menu is open, don't move the pet (wait for the menu to close
-                        // Wait before moving again
                         const newTarget = pickRandomPoint();
                         setTargetPosition(newTarget); // Set a new destination
-                        setIsWalking(true); // Resume walking
+                        setAnimationState('walking'); // Set the pet to walking
                     }, 3000); // Wait time in milliseconds
 
                     return prevPosition; // Return current position to prevent state update
@@ -164,7 +176,7 @@ const Pet = () => {
         };
 
         let intervalId;
-        if (isWalking) {
+        if (animationState === 'walking') {
             intervalId = setInterval(movePet, 10); // Move the pet every 10ms
         }
 
@@ -174,18 +186,18 @@ const Pet = () => {
                 clearInterval(intervalId);
             }
         };
-    }, [targetPosition, isWalking, showMenu]);
+    }, [targetPosition, animationState, showMenu]);
 
     const handlePetClick = (event) => {
+        setAnimationState('idle'); // Stop the pet from walking
         setShowMenu(true); // Show the menu
         setMenuPosition({ x: event.pageX, y: event.pageY }); // Position the menu at the click location
-        //setIsWalking(false);    // Stop the pet from walking
     };
 
     const handleOptionSelected = async (interactionType) => {
         console.log(`Selected option: ${interactionType}`);
         setShowMenu(false);
-        setIsWalking(true);
+        setAnimationState('walking');
 
         if (!accessToken) {
             console.error('User token not found');
@@ -193,7 +205,7 @@ const Pet = () => {
         }
 
         // Send a request to the server to interact with the pet
-        const response = await fetch('api/pet/interact', {
+        const response = await fetch('/api/pet/interact', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -208,17 +220,41 @@ const Pet = () => {
             console.log(data.message, data.pet);
             setPetStats(data.pet);
         } else {
-            console.error('Error status: ${response.status}');
+            console.error(`Error status: ${response.status}`);
         }
 
     };
 
+    const debugAnimation = () => {
+        if (animationState === 'walking') {
+            setAnimationState('idle');
+        } else if (animationState === 'idle') {
+            setAnimationState('eating');
+        } else {
+            setAnimationState('walking');
+        }
+    }
+
     return (
         <div className="backyard">
+            <img src="src/assets/doghouse.png" alt="Doghouse" className="overlay" />
+            <img src="src/assets/flowerbush.png" alt="Flowers" className="overlay" />
+
+            {/* DEBUG */}
+            <button className="backyardButton" onClick={debugAnimation} style={{
+                position: 'absolute',
+                left: '11.1%',
+                top: '30%',
+                }}>Walk</button>
+            {/* DEBUG */}
+
             <div
-                className={`pet ${isWalking ? 'walk' : ''}`}
+                key={`${outfit}-${animationState}`}
+                className={`pet ${animationState}`}
                 onClick={handlePetClick}
                 style={{
+                    backgroundImage: `url('src/assets/${outfit}/${animationState}.png')`,
+                    //backgroundImage: `url(${animationState === 'walking' ? walkingAnimation : idleAnimation})`,
                     position: 'absolute',
                     left: `${position.left}%`,
                     top: `${position.top}%`,
@@ -226,7 +262,7 @@ const Pet = () => {
                 }}
             ></div>
             <div className="statBoard">
-                <h3>Pet Stats</h3>
+                <h3>{petStats.pet_name} is feeling...</h3>
                 <p>Mood: {petStats.mood}</p>
                 <p>Love: {petStats.love}</p>
                 <p>Recreation: {petStats.recreation}</p>

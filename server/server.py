@@ -85,17 +85,16 @@ class MajorInformation(db.Model):
     __tablename__ = 'MajorInformation'
     majorInfoID = db.Column(db.Integer, primary_key=True, unique=True, autoincrement=True, nullable=False)
     majorID = db.Column(db.Integer, db.ForeignKey('Majors.majorID'), nullable=False)
-    #majorName = db.Column(db.String(255), nullable=False)
     topProfessors = db.Column(db.String(255), nullable=False)
     studentQuotes = db.Column(db.Text, nullable=False)
     careers = db.Column(db.String(255), nullable=False)
     minors = db.Column(db.String(255), nullable=False)
     skills = db.Column(db.String(255), nullable=False)
     interests = db.Column(db.String(255), nullable=False)
+
     def to_dict(self):
          return {
             'majorID': self.majorID,
-            #'majorName': self.majorName,
             'topProfessors': self.topProfessors,
             'studentQuotes': self.studentQuotes,
             'careers': self.careers,
@@ -306,6 +305,7 @@ def get_majorInfo(majorID):
     majorInfo = majorInfo.to_dict()
 
     return jsonify({'message': 'Major information received successfully', 'majorInfo': majorInfo}), 200
+
 
 
 # Degrade the pet's stats every hour

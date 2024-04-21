@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { NavLink } from "react-router-dom";
 import { useAuth } from './AuthComponent';
 
-import '../assets/login.css';
+import './login.css';
 
 const LoginComponent = () => {
   const [username, setUsername] = useState('');
@@ -11,7 +11,7 @@ const LoginComponent = () => {
   const { user, login } = useAuth();  // FIXME: user is not used so we can probably remove it
 
   const handleLogin = async () => {
-    const response = await fetch('api/users/login', {
+    const response = await fetch('/api/users/login', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

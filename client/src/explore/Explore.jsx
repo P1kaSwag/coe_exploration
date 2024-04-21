@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { NavLink, useSearchParams, useParams } from "react-router-dom";
 
-import '../assets/explore.css'
+import './explore.css'
 
 const Explore = () => {
   const [majors, setMajors] = useState([]);
 
   useEffect(() => {
     // Fetch data from the Flask server
-    fetch('api/majors')
+    fetch('/api/majors')
       .then(response => response.json())
       .then(data => setMajors(data))
       .catch(error => console.error('Error fetching majors:', error));
@@ -17,7 +17,7 @@ const Explore = () => {
   return (
     <div className="majors">
       {majors.map(major => (
-        <div key={major.majorID} class="major">
+        <div key={major.majorID} className="major">
           {console.log(major.majorName)}
           {console.log(major.majorID)}
           <NavLink to={`/explore/${encodeURIComponent(major.majorName)}?majorID=${major.majorID}`}>
@@ -41,7 +41,7 @@ export function MajorInfo() {
   useEffect(() => {
     const fetchMajorInfo = async () => {
     // Send a request to the server to get the major information
-    const response = await fetch(`api/majors/majorinformation/${majorID}`);
+    const response = await fetch(`/api/majors/majorinformation/${majorID}`);
 
     // Check if the request was successful (response code 200-299)
     if (response.ok) {
@@ -49,7 +49,7 @@ export function MajorInfo() {
         console.log(data);
         setMajorInfo(data.majorInfo);
     } else {
-        console.error('Error status: ${response.status}');
+      console.error(`Error status: ${response.status}`);
     }
     };
     fetchMajorInfo();

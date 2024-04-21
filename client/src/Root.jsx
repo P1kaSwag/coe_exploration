@@ -1,7 +1,7 @@
 import React from "react";
 import { NavLink, Outlet } from "react-router-dom";
 import { useAuth } from "./authentication/AuthComponent";
-import './assets/root.css'
+import './root.css'
 
 // Add imports from Mo's branch
 import {
