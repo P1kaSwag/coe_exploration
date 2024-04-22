@@ -19,7 +19,7 @@ const ComputerScienceGame = () => {
   };
 
   return (
-    <div>
+    <div class="box">
       <h1>Find the error in the code.</h1>
       <p> Click on the error in the code.</p>
 

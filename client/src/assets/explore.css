@@ -20,3 +20,32 @@ h2 {
   margin: 10px;
   padding: 20px;
 }
+
+.professorCard {
+  padding: 10px;
+  margin: 20px;
+  float: center;
+  height: 200px;
+  width: 150px;
+  border-radius: 10px;
+  border: 2px solid #ccc;
+  box-shadow: 3px 3px 10px grey;
+}
+
+.playButton {
+  background-color: #ff5733;
+  color: white;
+  border: 1px solid black;
+  padding: 10px 16px;
+  border-radius: 5px;
+  cursor: pointer;
+  width: calc(25% - 4px); 
+  text-decoration: none;
+  text-align: center;
+  margin: auto;
+  margin-top: 40px;
+}
+
+.leftText {
+  text-align: left;
+}

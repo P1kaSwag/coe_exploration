@@ -60,12 +60,15 @@ export function MajorInfo() {
       <h1>{majorName} Information</h1>
       <div class="majorInfo">
         <h3>Top Professors</h3> 
+        {/* Figure out a way to put professor images here? */}
         <p>{majorInfo.topProfessors}</p>
       </div>
 
       <div class="majorInfo"> 
         <h3>Student Quotes</h3> 
-        <p>{majorInfo.studentQuotes}</p>
+        <ul class="leftText">
+          <li>{majorInfo.studentQuotes}</li>
+        </ul>
       </div>
 
       <div class="majorInfo">
@@ -79,16 +82,16 @@ export function MajorInfo() {
       </div>
 
       <div class="majorInfo">
-        <h3>Skills</h3>
+        <h3>Skills Current Students Recommend to be Successfull in {majorName} </h3>
         <p>{majorInfo.skills}</p>
       </div>
 
       <div class="majorInfo">
-        <h3>Interests</h3> 
+        <h3>Interests that led Current Students to {majorName}</h3> 
         <p>{majorInfo.interests}</p>
       </div>
 
-      <div><NavLink to={`/explore/${majorName}/minigame`}>Play {majorName} Game</NavLink></div>
+      <div class="playButton"><NavLink to={`/explore/${majorName}/minigame`}>Play the {majorName} Game</NavLink></div>
     </>
   );
 }
