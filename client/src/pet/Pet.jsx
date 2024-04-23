@@ -12,7 +12,7 @@ const Pet = () => {
     const [showMenu, setShowMenu] = useState(false);
     const [menuPosition, setMenuPosition] = useState({ x: 0, y: 0 });
     const [petStats, setPetStats] = useState({ pet_name: "O'malley", mood: "neutral", love: 0, recreation: 0, hunger: 0, cleanliness: 0 })
-    const [animationState, setAnimationState] = useState('walking'); // ['walking', 'eating', 'idle']
+    const [animationState, setAnimationState] = useState('walking'); // ['walking', 'eating', 'idle', 'washing', 'petting']
     const [outfit, setOutfit] = useState('default');
     const [loadedImages, setLoadedImages] = useState([]);
 
@@ -190,7 +190,7 @@ const Pet = () => {
 
     // TESTING INTERACTIONS 1 ############################################################################################
     useEffect(() => {
-        if (animationState === 'eating') {
+        if (animationState === 'eating' || animationState === 'washing' || animationState === 'petting') {
             setTimeout(() => {
                 setAnimationState('walking');
             }, 3000);
@@ -215,6 +215,10 @@ const Pet = () => {
         // TESTING INTERACTIONS 2 ########################################################################################
         if (interactionType === 'feed') {
             setAnimationState('eating');
+        } else if (interactionType === 'wash') {
+            setAnimationState('washing');
+        } else if (interactionType === 'pet') {
+            setAnimationState('petting');
         }
 
 
@@ -250,7 +254,12 @@ const Pet = () => {
             setAnimationState('idle');
         } else if (animationState === 'idle') {
             setAnimationState('eating');
-        } else {
+        } else if (animationState === 'eating') {
+            setAnimationState('washing');
+        } else if (animationState === 'washing') {
+            setAnimationState('petting');
+        }
+        else {
             setAnimationState('walking');
         }
     }
