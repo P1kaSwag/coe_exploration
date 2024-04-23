@@ -70,7 +70,7 @@ nav.nav-pet:hover {
 }
 
 .eating {
-  animation: eat_cycle 0.5s steps(3) infinite;
+  animation: eat_cycle 1s steps(3) 1;
 }
 
 @keyframes eat_cycle {

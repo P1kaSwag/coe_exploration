@@ -188,6 +188,18 @@ const Pet = () => {
         };
     }, [targetPosition, animationState, showMenu]);
 
+    // TESTING INTERACTIONS 1 ############################################################################################
+    useEffect(() => {
+        if (animationState === 'eating') {
+            setTimeout(() => {
+                setAnimationState('walking');
+            }, 3000);
+            return () => clearTimeout();
+        }
+    }, [animationState]);
+
+
+
     const handlePetClick = (event) => {
         setAnimationState('idle'); // Stop the pet from walking
         setShowMenu(true); // Show the menu
@@ -198,6 +210,14 @@ const Pet = () => {
         console.log(`Selected option: ${interactionType}`);
         setShowMenu(false);
         setAnimationState('walking');
+
+
+        // TESTING INTERACTIONS 2 ########################################################################################
+        if (interactionType === 'feed') {
+            setAnimationState('eating');
+        }
+
+
 
         if (!accessToken) {
             console.error('User token not found');
