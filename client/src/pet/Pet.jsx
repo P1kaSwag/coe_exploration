@@ -14,6 +14,7 @@ const Pet = () => {
     const [petStats, setPetStats] = useState({ pet_name: "O'malley", mood: "neutral", love: 0, recreation: 0, hunger: 0, cleanliness: 0 })
     const [animationState, setAnimationState] = useState('walking'); // ['walking', 'eating', 'idle', 'washing', 'petting']
     const [outfit, setOutfit] = useState('default');
+    const [dirtOverlay, setDirtOverlay] = useState('heavy'); // ['none', 'light', 'heavy']
     const [loadedImages, setLoadedImages] = useState([]);
 
     const points = [
@@ -76,18 +77,28 @@ const Pet = () => {
     // Preload the pet's images to prevent flickering when transitioning between animations
     const preloadImages = () => {
         const images = [];
-        const states = ['walking', 'eating', 'idle'];
+        const states = ['walking', 'eating', 'idle', 'washing', 'petting'];
         states.forEach(state => {
             const img = new Image();
             img.src = `src/assets/${outfit}/${state}.png`;
             images.push(img);
         });
+
+        // Preload the dirt overlay images if applicable
+        if (dirtOverlay !== 'none') {
+            const dirtStates = ['walking', 'eating', 'idle'];
+            dirtStates.forEach(state => {
+                const img = new Image();
+                img.src = `src/assets/dirt/${dirtOverlay}_${state}.png`;
+                images.push(img);
+            });
+        }
         setLoadedImages(images); // This stores the loaded images in state to ensure they are not garbage-collected
     };
 
     useEffect(() => {
         preloadImages();
-    }, [outfit]); // Only need to run this when outfit changes
+    }, [outfit, dirtOverlay]); // Only need to run this when outfit changes
     
     // Move the pet to the target position
     useEffect(() => {
@@ -276,20 +287,34 @@ const Pet = () => {
                 top: '30%',
                 }}>Walk</button>
             {/* DEBUG */}
-
-            <div
-                key={`${outfit}-${animationState}`}
-                className={`pet ${animationState}`}
-                onClick={handlePetClick}
-                style={{
-                    backgroundImage: `url('src/assets/${outfit}/${animationState}.png')`,
-                    //backgroundImage: `url(${animationState === 'walking' ? walkingAnimation : idleAnimation})`,
-                    position: 'absolute',
-                    left: `${position.left}%`,
-                    top: `${position.top}%`,
-                    transform: `scale(${position.scale}) scaleX(${position.flip})`,
-                }}
-            ></div>
+            
+                <div
+                    key={`${outfit}-${animationState}`}
+                    className={`pet ${animationState}`}
+                    onClick={handlePetClick}
+                    style={{
+                        backgroundImage: `url('src/assets/${outfit}/${animationState}.png')`,
+                        //backgroundImage: `url(${animationState === 'walking' ? walkingAnimation : idleAnimation})`,
+                        position: 'absolute',
+                        left: `${position.left}%`,
+                        top: `${position.top}%`,
+                        transform: `scale(${position.scale}) scaleX(${position.flip})`,
+                    }}
+                >
+                    <div className={`dirty ${animationState}`} style={{
+                        backgroundImage: `url('src/assets/dirt/${dirtOverlay}_${animationState}.png')`,
+                        position: 'absolute',
+                        left: '0%',
+                        top: '0%',
+                        width: '100%',
+                        height: '100%',
+                        backgroundSize: 'cover',
+                        backgroundPosition: 'center',
+                        backgroundRepeat: 'no-repeat',
+                    }}>
+                        
+                    </div>
+                </div>
             <div className="statBoard">
                 <h3>{petStats.pet_name} is feeling...</h3>
                 <p>Mood: {petStats.mood}</p>
