@@ -58,40 +58,39 @@ export function MajorInfo() {
   return (
     <>
       <h1>{majorName} Information</h1>
-      <div class="majorInfo">
+      <div className="majorInfo">
         <h3>Top Professors</h3> 
-        {/* Figure out a way to put professor images here? */}
         <p>{majorInfo.topProfessors}</p>
       </div>
 
-      <div class="majorInfo"> 
+      <div className="majorInfo"> 
         <h3>Student Quotes</h3> 
         <ul class="leftText">
           <li>{majorInfo.studentQuotes}</li>
         </ul>
       </div>
 
-      <div class="majorInfo">
+      <div className="majorInfo">
         <h3>Careers </h3>
         <p>{majorInfo.careers}</p>
       </div>
 
-      <div class="majorInfo">
+      <div className="majorInfo">
         <h3>Minors</h3>
         <p>{majorInfo.minors}</p>
       </div>
 
-      <div class="majorInfo">
+      <div className="majorInfo">
         <h3>Skills Current Students Recommend to be Successfull in {majorName} </h3>
         <p>{majorInfo.skills}</p>
       </div>
 
-      <div class="majorInfo">
+      <div className="majorInfo">
         <h3>Interests that led Current Students to {majorName}</h3> 
         <p>{majorInfo.interests}</p>
       </div>
 
-      <div class="playButton"><NavLink to={`/explore/${majorName}/minigame`}>Play the {majorName} Game</NavLink></div>
+      <div className="playButton"><NavLink to={`/explore/${majorName}/minigame`}>Play the {majorName} Game</NavLink></div>
     </>
   );
 }
