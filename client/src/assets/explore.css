@@ -1,17 +1,25 @@
 
 .major {
     border: 2px solid #ccc;
-    margin: 15px;
+    margin: 10px 30px 10px 30px;
     border-radius: 10px;  
     box-shadow: 3px 3px 10px grey;
     padding: 10px;
     text-decoration: none;
   }
 
+.major:hover {
+  transform: scale(1.005);
+}
+
 /* How to get rid of the text decoration for the h2 tag in the major class? */
 h2 {
   text-decoration: none;
 }
+
+NavLink {
+  text-decoration: none;
+} 
 
 /* Remove border later - using for visualization */
 .majorInfo {
