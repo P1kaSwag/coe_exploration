@@ -8,9 +8,13 @@ import RegisterComponent from './authentication/RegisterComponent';
 import Explore, { MajorInfo } from './explore/Explore';
 import { AuthProvider } from './authentication/AuthComponent';
 import Profile from './ProfileComponent';
-import Pet from './pet/Pet'; // Choose one import statement for Pet
-import MinigameLoader from './explore/minigames/MinigameLoader'; // Choose one import statement for MinigameLoader
+import Pet from './Pet'
+import Pet from './pet/Pet';
+import MinigameLoader from './explore/minigames/MinigameLoader';
 import WordSearchGame from './explore/minigames/RadiationHealthPhysicsGame';
+import Pet from './pet/Pet';
+import MinigameLoader from './explore/minigames/MinigameLoader';
+
 
 import './index.css';
 

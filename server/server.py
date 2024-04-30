@@ -72,7 +72,7 @@ class Majors(db.Model):
     majorName = db.Column(db.String(255), unique=True, nullable=False)
     majorDescription = db.Column(db.Text, nullable=False)
     careerProspects = db.Column(db.String(255), nullable=False)
-
+=======
 class Words(db.Model):
     __tablename__ = 'Words'
     id = db.Column(db.Integer, primary_key=True)
