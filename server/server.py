@@ -72,21 +72,12 @@ class Majors(db.Model):
     majorName = db.Column(db.String(255), unique=True, nullable=False)
     majorDescription = db.Column(db.Text, nullable=False)
     careerProspects = db.Column(db.String(255), nullable=False)
-=======
-class Words(db.Model):
-    __tablename__ = 'Words'
-    id = db.Column(db.Integer, primary_key=True)
-    major_id = db.Column(db.Integer, db.ForeignKey('Majors.majorid'), nullable=False)  # Update this line
-    word = db.Column(db.String(255), nullable=False)
-
-    def __repr__(self):
-        return f"<Words(id={self.id}, major_id={self.major_id}, word='{self.word}')>"
-
     def to_dict(self):
         return {
-            'id': self.id,
-            'major_id': self.major_id,
-            'word': self.word
+            'majorID': self.majorID,
+            'majorName': self.majorName,
+            'majorDescription': self.majorDescription,
+            'careerProspects': self.careerProspects
         }
 
 
@@ -143,20 +134,13 @@ class PetInteractions(db.Model):
     interactionType = db.Column(db.Enum('pet', 'play', 'feed', 'wash'), nullable=False)
     interactionTime = db.Column(db.TIMESTAMP, server_default=db.func.current_timestamp())
 
+
 # Create a route to query Courses and return the data (navigate to localhost:8000/courses)
 @app.route('/courses', methods=['GET'])
 def get_courses():
     courses = Course.query.all()
     return jsonify([course.to_dict() for course in courses])
  
- 
-@app.route('/api/majors/<int:major_id>/words', methods=['GET'])
-def get_major_words(major_id):
-    # Query the words associated with the specified major_id
-    words = Words.query.filter_by(major_id=major_id).all()
-    word_dicts = [word.to_dict() for word in words]
-    return jsonify(word_dicts)
-
  
 @app.route('/api/pet/interact', methods=['POST'])
 @jwt_required() # This will require a valid access token to be present in the request to access this route
