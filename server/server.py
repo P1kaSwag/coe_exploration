@@ -72,6 +72,16 @@ class Majors(db.Model):
     majorName = db.Column(db.String(255), unique=True, nullable=False)
     majorDescription = db.Column(db.Text, nullable=False)
     careerProspects = db.Column(db.String(255), nullable=False)
+
+class Words(db.Model):
+    __tablename__ = 'Words'
+    id = db.Column(db.Integer, primary_key=True)
+    major_id = db.Column(db.Integer, db.ForeignKey('Majors.majorid'), nullable=False)  # Update this line
+    word = db.Column(db.String(255), nullable=False)
+
+    def __repr__(self):
+        return f"<Words(id={self.id}, major_id={self.major_id}, word='{self.word}')>"
+
     def to_dict(self):
         return {
             'majorID': self.majorID,
