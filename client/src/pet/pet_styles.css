@@ -1,0 +1,142 @@
+/* Note: Even though the page resizes, we'll likely still need to add media queries to make sure the pet is always visible and the menu is always in the same place. */
+
+nav.nav-pet {
+  display: flex;
+  position: fixed;
+  background: none;
+  width: 100%;
+  z-index: 10000;
+}
+
+nav.nav-pet:hover {
+  background: #242424;
+}  
+  
+.backyard {
+  aspect-ratio: 16 / 9;
+  background-image: url('../assets/Backyard.png');
+  position: relative;
+  width: 100vw;
+  height: auto;
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+  margin: auto;
+}
+
+.pet {
+  width: 30vw;
+  height: 30vw;
+  cursor: grab;
+  background-image: url('../assets/pet_walking.png');
+  /*background-color: rgba(255, 0, 0, 0.5); 
+  border: 2px solid red;*/
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.walk {
+  animation: walk_cycle 1s steps(13) infinite;
+}
+
+@keyframes walk_cycle {
+  from {
+    background-position: 0;
+  }
+  to {
+    background-position: 100%;
+  }
+}
+
+/*
+.flip-horizontal {
+  transform: scaleX(-1); 
+}
+*/
+
+/* Pet Stat Board */
+.statBoard {
+  position: absolute;
+  padding: 10px;
+  background-color: white;
+  border: 2px solid #333;
+  color: black;
+  border-radius: 8px;
+  top: 10%; 
+  right: 10%; 
+  width: 200px; 
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  z-index: 20; 
+}
+
+.statBoard h3 {
+  margin-top: 0;
+  text-align: center;
+}
+
+.statBoard ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.statBoard li {
+  margin: 5px 0;
+  text-align: center;
+}
+
+
+/* Pet menu */
+.pet-menu {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  z-index: 10;
+}
+
+.menu-option {
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  border: none;
+  background: transparent;
+  background-size: cover;
+  background-position: center;
+  transition: filter 0.3s ease;
+}
+
+.menu-option:hover {
+  filter: brightness(75%);
+}
+
+.top {
+  width: 40px;
+  height: 60px;
+  transform: translateY(-50px);
+  background-image: url('../assets/Top_menu_option.png'); /* These are all the same image just rotated but I'll add custom symbols later*/
+}
+
+.right {
+  width: 60px;
+  height: 40px;
+  transform: translateX(50px);
+  background-image: url('../assets/Right_menu_option.png');
+
+}
+
+.bottom {
+  width: 40px;
+  height: 60px;
+  transform: translateY(50px);
+  background-image: url('../assets/Bottom_menu_option.png');
+}
+
+.left {
+  width: 60px;
+  height: 40px;
+  transform: translateX(-50px);
+  background-image: url('../assets/Left_menu_option.png');
+
+}
