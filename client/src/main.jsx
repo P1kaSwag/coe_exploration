@@ -8,7 +8,13 @@ import RegisterComponent from './RegisterComponent';
 import Explore from './explore/Explore';
 import { AuthProvider } from './AuthComponent';
 import Profile from './ProfileComponent';
+<<<<<<< Updated upstream
 import Pet from './Pet'
+=======
+import Pet from './pet/Pet';
+import MinigameLoader from './explore/minigames/MinigameLoader';
+import WordSearchGame from './explore/minigames/RadiationHealthPhysicsGame';
+>>>>>>> Stashed changes
 
 //import './index.css';
 
@@ -40,7 +46,13 @@ const router = createBrowserRouter([
         element: <Pet />,
       },
     ]
+  },
+  
+  {
+    path: "test-wordsearch/:majorId",
+    element: <WordSearchGame />,
   }
+  
 ]);
 
 ReactDOM.createRoot(document.getElementById('root')).render(
