@@ -66,6 +66,8 @@ class Users(db.Model):
             'email': self.email,
         }
 
+<<<<<<< Updated upstream
+
 class Majors(db.Model):
     __tablename__ = 'Majors'
     majorID = db.Column(db.Integer, primary_key=True, unique=True, autoincrement=True, nullable=False)
@@ -82,6 +84,7 @@ class Words(db.Model):
     def __repr__(self):
         return f"<Words(id={self.id}, major_id={self.major_id}, word='{self.word}')>"
 
+>>>>>>> Stashed changes
     def to_dict(self):
         return {
             'id': self.id,
@@ -90,29 +93,6 @@ class Words(db.Model):
         }
 
 
-class MajorInformation(db.Model):
-    __tablename__ = 'MajorInformation'
-    majorInfoID = db.Column(db.Integer, primary_key=True, unique=True, autoincrement=True, nullable=False)
-    majorID = db.Column(db.Integer, db.ForeignKey('Majors.majorID'), nullable=False)
-    #majorName = db.Column(db.String(255), nullable=False)
-    topProfessors = db.Column(db.String(255), nullable=False)
-    studentQuotes = db.Column(db.Text, nullable=False)
-    careers = db.Column(db.String(255), nullable=False)
-    minors = db.Column(db.String(255), nullable=False)
-    skills = db.Column(db.String(255), nullable=False)
-    interests = db.Column(db.String(255), nullable=False)
-    def to_dict(self):
-         return {
-            'majorID': self.majorID,
-            #'majorName': self.majorName,
-            'topProfessors': self.topProfessors,
-            'studentQuotes': self.studentQuotes,
-            'careers': self.careers,
-            'minors': self.minors,
-            'skills': self.skills,
-            'interests': self.interests
-       }
-    
 class Pets(db.Model):
     __tablename__ = 'Pets'
     PetID = db.Column(db.Integer, primary_key=True, autoincrement=True)
@@ -310,18 +290,6 @@ def login():
 def get_majors():
     majors = Majors.query.all()
     return jsonify([major.to_dict() for major in majors])
-
-
-@app.route('/api/majors/majorinformation/<int:majorID>', methods=['GET'])
-def get_majorInfo(majorID):
-    majorInfo = MajorInformation.query.filter_by(majorID=majorID).first()
-
-    if not majorInfo:
-        return jsonify({'message': 'Major not found'}), 404
-    
-    majorInfo = majorInfo.to_dict()
-
-    return jsonify({'message': 'Major information received successfully', 'majorInfo': majorInfo}), 200
 
 
 # Degrade the pet's stats every hour

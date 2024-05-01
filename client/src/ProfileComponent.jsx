@@ -1,5 +1,5 @@
 import React from 'react';
-import { useAuth } from './authentication/AuthComponent';
+import { useAuth } from './AuthComponent';
 
 const UserProfile = () => {
   const { user, logout } = useAuth();

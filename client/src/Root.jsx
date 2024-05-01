@@ -1,6 +1,6 @@
 import React from "react";
 import { NavLink, Outlet } from "react-router-dom";
-import { useAuth } from "./authentication/AuthComponent";
+import { useAuth } from "./AuthComponent";
 import './assets/root.css'
 
 // Add imports from Mo's branch
@@ -13,17 +13,24 @@ import {
 } from "react-router-dom";
 
 export function Root(props) {
+  // Your component code here
+}
+
+
+export function Root(props) {
   const location = useLocation(); // Get the current page location
   const { children } = props;
-  const { user, logout } = useAuth();
+  const { user } = useAuth();
 
-  function handleLogout() {
-    logout();
-    window.location.href = '/ ';
+
+  const handleLogin = async () => {
+    console.log('User: ', user);
   }
+
 
   // Determine if the navigation should have the specific style
   const isPetPage = location.pathname === "/pet"; 
+
 
   return (
     <>
@@ -47,6 +54,7 @@ export function Root(props) {
           <li>
             <NavLink to="/pet">Pet</NavLink>
           </li>
+          
           {user && ( // Conditionally render the button if user is logged in
             <li>
               <NavLink to="/profile">Profile</NavLink>
@@ -60,19 +68,29 @@ export function Root(props) {
         </div>
       </nav>
       <main>{children || <Outlet />}</main>
-      {!isPetPage && <Footer/>} {/*The pet page has no visable overflow so this would never be shown on screen there anyway*/}
+      <Footer/>
     </>
   );
 }
 
+function handleLogout() {
+  // Add logout functionality here
+}
+
 function Footer() {
   return (
-    <>
-    <hr></hr>
-    <footer style={{ backgroundColor: 'white', padding: '20px', textAlign: 'center' }}>
-      <div> A simple web application made for a senior capstone class.</div>
+    <footer style={{ backgroundColor: 'lightgray', padding: '20px', textAlign: 'center' }}>
+      <div>Contact Us:</div>
+      <div>Email: contact@example.com</div>
+      <div>Phone: 123-456-7890</div>
+      <div>
+        Follow Us:
+        <a href="https://www.facebook.com/example" target="_blank" rel="noopener noreferrer">Facebook</a>
+        <a href="https://www.twitter.com/example" target="_blank" rel="noopener noreferrer">Twitter</a>
+        <a href="https://www.instagram.com/example" target="_blank" rel="noopener noreferrer">Instagram</a>
+      </div>
+      <div>&copy; 2024 CoE Exploration app. All rights reserved.</div>
     </footer>
-    </>
   );
 }
 
