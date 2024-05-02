@@ -37,8 +37,9 @@ nav.nav-pet:hover {
   width: 22vw;
   height: 22vw;
   cursor: grab;
+  /*
   background-color: rgba(255, 0, 0, 0.5); 
-  border: 2px solid red;
+  border: 2px solid red;*/
   background-repeat: no-repeat;
   background-size: cover;
 }

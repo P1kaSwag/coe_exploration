@@ -14,7 +14,7 @@ const Pet = () => {
     const [petStats, setPetStats] = useState({ pet_name: "O'malley", mood: "neutral", love: 0, recreation: 0, hunger: 0, cleanliness: 0 })
     const [animationState, setAnimationState] = useState('walking'); // ['walking', 'eating', 'idle', 'washing', 'petting']
     const [outfit, setOutfit] = useState('default');
-    const [dirtOverlay, setDirtOverlay] = useState('heavy'); // ['none', 'light', 'heavy']
+    const [dirtOverlay, setDirtOverlay] = useState('none'); // ['none', 'light', 'heavy']
     const [loadedImages, setLoadedImages] = useState([]);
 
     const points = [
@@ -77,10 +77,10 @@ const Pet = () => {
     // Preload the pet's images to prevent flickering when transitioning between animations
     const preloadImages = () => {
         const images = [];
-        const states = ['walking', 'eating', 'idle', 'washing', 'petting'];
+        const states = ['walking', 'eating', 'idle', 'washing', 'petting'];             // Default states for the pet, need to add states for outfits
         states.forEach(state => {
             const img = new Image();
-            img.src = `src/assets/${outfit}/${state}.png`;
+            img.src = `src/assets/${outfit}/${state}.png`;                              // Change path to just default then load outfits as overlays
             images.push(img);
         });
 
@@ -287,6 +287,8 @@ const Pet = () => {
                 top: '30%',
                 }}>Walk</button>
             {/* DEBUG */}
+
+            <div className='petContainer'> </div>
             
                 <div
                     key={`${outfit}-${animationState}`}
@@ -294,7 +296,6 @@ const Pet = () => {
                     onClick={handlePetClick}
                     style={{
                         backgroundImage: `url('src/assets/${outfit}/${animationState}.png')`,
-                        //backgroundImage: `url(${animationState === 'walking' ? walkingAnimation : idleAnimation})`,
                         position: 'absolute',
                         left: `${position.left}%`,
                         top: `${position.top}%`,
