@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { NavLink, useSearchParams, useParams } from "react-router-dom";
 
 import '../assets/explore.css'
+import Background from '../assets/majorsbg.jpg'
 
 const Explore = () => {
   const [majors, setMajors] = useState([]);
@@ -15,12 +16,12 @@ const Explore = () => {
   }, []);
 
   return (
-    <div className="majors">
+    <div className="majors" style={{backgroundImage: `url(${Background})`, backgroundSize: 'cover', backgroundRepeat: 'no-repeat', backgroundAttachment: 'scroll'}}>
       {majors.map(major => (
         <div key={major.majorID} class="major">
           {console.log(major.majorName)}
           {console.log(major.majorID)}
-          <NavLink to={`/explore/${encodeURIComponent(major.majorName)}?majorID=${major.majorID}`}>
+          <NavLink to={`/explore/${encodeURIComponent(major.majorName)}?majorID=${major.majorID}`} style={{ textDecoration: 'none', color: 'black' }}>
               <h2>{major.majorName}</h2></NavLink>
           <p>{major.majorDescription}</p>
           <p>Career Prospects: {major.careerProspects}</p>
@@ -60,13 +61,19 @@ export function MajorInfo() {
       <h1>{majorName} Information</h1>
       <div className="majorInfo">
         <h3>Top Professors</h3> 
-        <p>{majorInfo.topProfessors}</p>
+          <div className="center">
+            <div className="professorCard"> {majorInfo.topProfessor1} </div>
+            <div className="professorCard"> {majorInfo.topProfessor2} </div>
+            <div className="professorCard"> {majorInfo.topProfessor3} </div>
+          </div>
+        {/*<p>{majorInfo.topProfessors}</p>*/}
       </div>
 
       <div className="majorInfo"> 
         <h3>Student Quotes</h3> 
         <ul class="leftText">
-          <li>{majorInfo.studentQuotes}</li>
+          <li>{majorInfo.studentQuote1}</li>
+          <li>{majorInfo.studentQuote2}</li>
         </ul>
       </div>
 
@@ -76,7 +83,7 @@ export function MajorInfo() {
       </div>
 
       <div className="majorInfo">
-        <h3>Minors</h3>
+        <h3>Potential Minors</h3>
         <p>{majorInfo.minors}</p>
       </div>
 
@@ -90,7 +97,7 @@ export function MajorInfo() {
         <p>{majorInfo.interests}</p>
       </div>
 
-      <div className="playButton"><NavLink to={`/explore/${majorName}/minigame`}>Play the {majorName} Game</NavLink></div>
+      <div className="playButton"><NavLink to={`/explore/${majorName}/minigame`} style={{ textDecoration: 'none', color: 'black' }}>Play the {majorName} Game</NavLink></div>
     </>
   );
 }

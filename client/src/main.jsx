@@ -10,6 +10,7 @@ import { AuthProvider } from './authentication/AuthComponent';
 import Profile from './ProfileComponent';
 import Pet from './pet/Pet';
 import MinigameLoader from './explore/minigames/MinigameLoader';
+//import Home from './home/Home';
 
 import './index.css';
 
@@ -19,7 +20,8 @@ const router = createBrowserRouter([
     element: <Root />,
     errorElement: <Root><ErrorPage /></Root>,
     children: [
-      { index: true, element: <LoginComponent /> }, // HomeComponent
+      { index: true,
+       element: <LoginComponent /> }, // HomeComponent
       {
         path: "quiz",
         element: <Quiz />,
