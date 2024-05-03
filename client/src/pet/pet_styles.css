@@ -36,10 +36,11 @@ nav.nav-pet:hover {
 .pet {
   width: 22vw;
   height: 22vw;
+/*
   cursor: grab;
-  /*
+  */
   background-color: rgba(255, 0, 0, 0.5); 
-  border: 2px solid red;*/
+  border: 2px solid red;
   background-repeat: no-repeat;
   background-size: cover;
 }
@@ -47,6 +48,21 @@ nav.nav-pet:hover {
 .walking {
   animation: walk_cycle 1s steps(13) infinite;
 }
+
+/* Chemical Engineering outfit uses second half of idle animation */
+.ChemicalEngineering-walking {
+  animation: chem_eng_walk_cycle 1s steps(13) infinite;
+}
+
+@keyframes chem_eng_walk_cycle {
+  from { 
+    background-position: 51.85%; /* 14 frames * (100 / 27 frames) */
+  }
+  to { 
+    background-position: 100%; 
+  }
+}
+
 
 @keyframes walk_cycle {
   from {
@@ -61,6 +77,10 @@ nav.nav-pet:hover {
   animation: idle_cycle 2s steps(27) infinite;
 }
 
+.ChemicalEngineering-idle {
+  animation: idle_cycle 2s steps(27) infinite;
+}
+
 @keyframes idle_cycle {
   from {
     background-position: 0;
@@ -71,10 +91,31 @@ nav.nav-pet:hover {
 }
 
 .eating {
-  animation: eat_cycle 1s steps(3) 1;
+  animation: eat_cycle 2s steps(34) 1;
+}
+
+.ChemicalEngineering-eating {
+  animation: eat_cycle 2s steps(34) 1;
 }
 
 @keyframes eat_cycle {
+  from {
+    background-position: 0;
+  }
+  to {
+    background-position: 100%;
+  }
+}
+
+.petting {
+  animation: pet_cycle 1s steps(13) 2;
+}
+
+.ChemicalEngineering-petting {
+  animation: pet_cycle 1s steps(13) 2;
+}
+
+@keyframes pet_cycle {
   from {
     background-position: 0;
   }
@@ -95,20 +136,6 @@ nav.nav-pet:hover {
     background-position: 100%;
   }
 }
-
-.petting {
-  animation: pet_cycle 1s steps(13) 2;
-}
-
-@keyframes pet_cycle {
-  from {
-    background-position: 0;
-  }
-  to {
-    background-position: 100%;
-  }
-}
-
 
 /* Pet Stat Board */
 .statBoard {
