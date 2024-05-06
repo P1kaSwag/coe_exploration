@@ -11,7 +11,7 @@ const Question1 = ({ selectedOption, onOptionChange, onNext }) => (
       checked={selectedOption === "Computer Science,Construction Engineering Management,"}
       onChange={onOptionChange}
     />
-    A. Infrastructure and urban development
+    A. Software engineering and digital solutions
     <br />
     <input
       type="radio"
@@ -20,13 +20,13 @@ const Question1 = ({ selectedOption, onOptionChange, onNext }) => (
       checked={selectedOption === "Civil Engineering,Architectural Engineering,"}
       onChange={onOptionChange}
     />
-    B. Software engineering and digital solutions
+    B. Infrastructure and urban development
     <br />
     <input
       type="radio"
       name="q1"
-      value="Electrical and Computer Engineering,Bioengineering,Environmental Engineering,Chemical Engineering,Ecological Engineering"
-      checked={selectedOption === "Electrical and Computer Engineering,Bioengineering,Environmental Engineering,Chemical Engineering,Ecological Engineering"}
+      value="Electrical and Computer Engineering,Bioengineering,Environmental Engineering,Chemical Engineering,Ecological Engineering,"
+      checked={selectedOption === "Electrical and Computer Engineering,Bioengineering,Environmental Engineering,Chemical Engineering,Ecological Engineering,"}
       onChange={onOptionChange}
     />
     C. Energy production and environmental sustainability
@@ -34,11 +34,11 @@ const Question1 = ({ selectedOption, onOptionChange, onNext }) => (
     <input
       type="radio"
       name="q1"
-      value="Mechanical Engineering,Industrial Engineering,Manufacturing Engineering"
-      checked={selectedOption === "Mechanical Engineering,Industrial Engineering,Manufacturing Engineering"}
+      value="Mechanical Engineering,Industrial Engineering,Manufacturing Engineering,Aerospace Engineering,Energy Systems Engineering (Cascades),Engineering Science (Cascades),Radiation Health Physics,Outdoor Products (Cascades),Nuclear Engineering,"
+      checked={selectedOption === "Mechanical Engineering,Industrial Engineering,Manufacturing Engineering,Aerospace Engineering,Energy Systems Engineering (Cascades),Engineering Science (Cascades),Radiation Health Physics,Outdoor Products (Cascades),Nuclear Engineering,"}
       onChange={onOptionChange}
     />
-    D. Machinery and industrial automation
+    D. Machinery, industrial automation, and advanced technologies
     <br />
     <br />
     {/* <button onClick={() => onNext(selectedOption)}>Next</button> */}
@@ -47,30 +47,30 @@ const Question1 = ({ selectedOption, onOptionChange, onNext }) => (
 
 const Question2 = ({ selectedOption, onOptionChange, onNext }) => (
   <div>
-    <p>Question 2:What kind of projects would you enjoy working on?</p>
+    <p>Question 2: What kind of projects would you enjoy working on?</p>
     <input
       type="radio"
       name="q2"
-      value="Computer Science,Energy Systems Engineering (Cascades),"
-      checked={selectedOption === "Computer Science,Energy Systems Engineering (Cascades),"}
+      value="Computer Science,Energy Systems Engineering (Cascades),Electrical and Computer Engineering,"
+      checked={selectedOption === "Computer Science,Energy Systems Engineering (Cascades),Electrical and Computer Engineering,"}
       onChange={onOptionChange}
     />
-    A. Architectural design and construction management
+    A. Software development, energy systems, and electrical engineering
     <br />
     <input
       type="radio"
       name="q2"
-      value="Civil Engineering,Environmental Engineering,Energy Systems Engineering (Cascades),Ecological Engineering"
-      checked={selectedOption === "Civil Engineering,Environmental Engineering,Energy Systems Engineering (Cascades),Ecological Engineering"}
+      value="Civil Engineering,Environmental Engineering,Ecological Engineering,Outdoor Products (Cascades),"
+      checked={selectedOption === "Civil Engineering,Environmental Engineering,Ecological Engineering,Outdoor Products (Cascades),"}
       onChange={onOptionChange}
     />
-    B. Software development and data analytics
+    B. Architectural design, environmental sustainability, and outdoor products
     <br />
     <input
       type="radio"
       name="q2"
-      value="Aerospace Engineering,Chemical Engineering,Bioengineering,Radiation Health Physics,Engineering Science (Cascades)"
-      checked={selectedOption === "Aerospace Engineering,Chemical Engineering,Bioengineering,Radiation Health Physics,Engineering Science (Cascades)"}
+      value="Aerospace Engineering,Chemical Engineering,Bioengineering,Radiation Health Physics,Engineering Science (Cascades),"
+      checked={selectedOption === "Aerospace Engineering,Chemical Engineering,Bioengineering,Radiation Health Physics,Engineering Science (Cascades),"}
       onChange={onOptionChange}
     />
     C. Renewable energy and ecological engineering
@@ -78,16 +78,17 @@ const Question2 = ({ selectedOption, onOptionChange, onNext }) => (
     <input
       type="radio"
       name="q2"
-      value="Mechanical Engineering,Manufacturing Engineering,Industrial Engineering"
-      checked={selectedOption === "Mechanical Engineering,Manufacturing Engineering,Industrial Engineering"}
+      value="Mechanical Engineering,Manufacturing Engineering,Industrial Engineering,Nuclear Engineering,"
+      checked={selectedOption === "Mechanical Engineering,Manufacturing Engineering,Industrial Engineering,Nuclear Engineering,"}
       onChange={onOptionChange}
     />
-    D. Manufacturing processes and supply chain management
+    D. Manufacturing processes, industrial engineering, and nuclear technology
     <br />
     <br />
     {/* <button onClick={() => onNext(selectedOption)}>Next</button> */}
   </div>
 );
+
 
 const Question3 = ({ selectedOption, onOptionChange, onNext }) => (
   <div>
@@ -95,8 +96,8 @@ const Question3 = ({ selectedOption, onOptionChange, onNext }) => (
     <input
       type="radio"
       name="q3"
-      value="Computer Science,Engineering Science (Cascades),Bioengineering"
-      checked={selectedOption === "Computer Science,Engineering Science (Cascades),Bioengineering"}
+      value="Computer Science,Engineering Science (Cascades),Bioengineering,"
+      checked={selectedOption === "Computer Science,Engineering Science (Cascades),Bioengineering,"}
       onChange={onOptionChange}
     />
     A. Structural design and urban planning
@@ -104,8 +105,8 @@ const Question3 = ({ selectedOption, onOptionChange, onNext }) => (
     <input
       type="radio"
       name="q3"
-      value="Civil Engineering,Nuclear Engineering,Architectural Engineering,Energy Systems Engineering (Cascades)"
-      checked={selectedOption === "Civil Engineering,Nuclear Engineering,Architectural Engineering,Energy Systems Engineering (Cascades)"}
+      value="Civil Engineering,Nuclear Engineering,Architectural Engineering,Energy Systems Engineering (Cascades),"
+      checked={selectedOption === "Civil Engineering,Nuclear Engineering,Architectural Engineering,Energy Systems Engineering (Cascades),"}
       onChange={onOptionChange}
     />
     B. Programming and software architecture
@@ -113,8 +114,8 @@ const Question3 = ({ selectedOption, onOptionChange, onNext }) => (
     <input
       type="radio"
       name="q3"
-      value="Aerospace Engineering,Radiation Health Physics,Electrical and Computer Engineering,Mechanical Engineering"
-      checked={selectedOption === "Aerospace Engineering,Radiation Health Physics,Electrical and Computer Engineering,Mechanical Engineering"}
+      value="Aerospace Engineering,Radiation Health Physics,Electrical and Computer Engineering,Mechanical Engineering,"
+      checked={selectedOption === "Aerospace Engineering,Radiation Health Physics,Electrical and Computer Engineering,Mechanical Engineering,"}
       onChange={onOptionChange}
     />
     C. Environmental conservation and resource management
@@ -122,8 +123,8 @@ const Question3 = ({ selectedOption, onOptionChange, onNext }) => (
     <input
       type="radio"
       name="q3"
-      value="Mechanical Engineering,Outdoor Products (Cascades),Industrial Engineering,Environmental Engineering"
-      checked={selectedOption === "Mechanical Engineering,Outdoor Products (Cascades),Industrial Engineering,Environmental Engineering"}
+      value="Construction Engineering Management,Outdoor Products (Cascades),Industrial Engineering,Environmental Engineering,"
+      checked={selectedOption === "Construction Engineering Management,Outdoor Products (Cascades),Industrial Engineering,Environmental Engineering,"}
       onChange={onOptionChange}
     />
     D. Industrial optimization and process engineering
@@ -135,56 +136,57 @@ const Question3 = ({ selectedOption, onOptionChange, onNext }) => (
 
 const Question4 = ({ selectedOption, onOptionChange, onNext }) => (
   <div>
-    <p>Question 4:Which field of study aligns with your career aspirations?</p>
+    <p>Question 4: Which field of study aligns with your current hobbies or interests?</p>
     <input
       type="radio"
       name="q4"
-      value="Computer Science,Ecological Engineering,Engineering Science (Cascades),"
-      checked={selectedOption === "Computer Science,Ecological Engineering,Engineering Science (Cascades),"}
+      value="Computer Science,Electrical and Computer Engineering,Radiation Health Physics,"
+      checked={selectedOption === "Computer Science,Electrical and Computer Engineering,Radiation Health Physics,"}
       onChange={onOptionChange}
     />
-    A. Civil engineering and infrastructure development
+    A. Program a robot for a battle bot competition
     <br />
     <input
       type="radio"
       name="q4"
-      value="Civil Engineering,Chemical Engineering,Industrial Engineering"
-      checked={selectedOption === "Civil Engineering,Chemical Engineering,Industrial Engineering"}
+      value="Civil Engineering,Chemical Engineering,Energy Systems Engineering (Cascades),"
+      checked={selectedOption === "Civil Engineering,Chemical Engineering,Energy Systems Engineering (Cascades),"}
       onChange={onOptionChange}
     />
-    B. Computer science and information technology
+    B. Experimenting with model bridges or building miniature architectural structures 
     <br />
     <input
       type="radio"
       name="q4"
-      value="Aerospace Engineering,Industrial Engineering,Mechanical Engineering"
-      checked={selectedOption === "Aerospace Engineering,Industrial Engineering,Mechanical Engineering"}
+      value="Aerospace Engineering,Bioengineering,Environmental Engineering,"
+      checked={selectedOption === "Aerospace Engineering,Bioengineering,Environmental Engineering,"}
       onChange={onOptionChange}
     />
-    C. Environmental engineering and sustainable design
+    C. Building and launching model rockets
     <br />
     <input
       type="radio"
       name="q4"
-      value="Mechanical Engineering,Bioengineering,Civil Engineering,Architectural Engineering"
-      checked={selectedOption === "Mechanical Engineering,Bioengineering,Civil Engineering,Architectural Engineering"}
+      value="Mechanical Engineering,Industrial Engineering,Architectural Engineering,Manufacturing Engineering,Nuclear Engineering,"
+      checked={selectedOption === "Mechanical Engineering,Industrial Engineering,Architectural Engineering,Manufacturing Engineering,Nuclear Engineering,"}
       onChange={onOptionChange}
     />
-    D. Industrial engineering and manufacturing systems
+    D. Taking apart and reassembling machinery or appliances
     <br />
     <br />
     {/* <button onClick={() => onNext(selectedOption)}>Next</button> */}
   </div>
 );
 
+
 const Question5 = ({ selectedOption, onOptionChange, onNext }) => (
   <div>
-    <p>Question 5:What motivates you to pursue a career in engineering?</p>
+    <p>Question 5: What motivates you to pursue a career in engineering?</p>
     <input
       type="radio"
       name="q5"
-      value="Computer Science,Construction Engineering Management,"
-      checked={selectedOption === "Computer Science,Construction Engineering Management,"}
+      value="Computer Science,Construction Engineering Management,Aerospace Engineering,Electrical and Computer Engineering,"
+      checked={selectedOption === "Computer Science,Construction Engineering Management,Aerospace Engineering,Electrical and Computer Engineering,"}
       onChange={onOptionChange}
     />
     A. Creating sustainable and resilient urban environments
@@ -192,8 +194,8 @@ const Question5 = ({ selectedOption, onOptionChange, onNext }) => (
     <input
       type="radio"
       name="q5"
-      value="Civil Engineering,Architectural Engineering"
-      checked={selectedOption === "Civil Engineering,Architectural Engineering"}
+      value="Civil Engineering,Architectural Engineering,Bioengineering,Nuclear Engineering,"
+      checked={selectedOption === "Civil Engineering,Architectural Engineering,Bioengineering,Nuclear Engineering,"}
       onChange={onOptionChange}
     />
     B. Innovating with technology and digital solutions
@@ -201,8 +203,8 @@ const Question5 = ({ selectedOption, onOptionChange, onNext }) => (
     <input
       type="radio"
       name="q5"
-      value="Electrical and Computer Engineering,Bioengineering,Environmental Engineering,Chemical Engineering,Ecological Engineering"
-      checked={selectedOption === "Electrical and Computer Engineering,Bioengineering,Environmental Engineering,Chemical Engineering,Ecological Engineering"}
+      value="Radiation Health Physics,Environmental Engineering,Chemical Engineering,Engineering Science (Cascades)"
+      checked={selectedOption === "Radiation Health Physics,Environmental Engineering,Chemical Engineering,Engineering Science (Cascades)"}
       onChange={onOptionChange}
     />
     C. Addressing environmental challenges and climate change
@@ -210,8 +212,8 @@ const Question5 = ({ selectedOption, onOptionChange, onNext }) => (
     <input
       type="radio"
       name="q5"
-      value="Mechanical Engineering,Industrial Engineering,Manufacturing Engineering"
-      checked={selectedOption === "Mechanical Engineering,Industrial Engineering,Manufacturing Engineering"}
+      value="Mechanical Engineering,Industrial Engineering,Manufacturing Engineering,Ecological Engineering,Energy Systems Engineering (Cascades)"
+      checked={selectedOption === "Mechanical Engineering,Industrial Engineering,Manufacturing Engineering,Ecological Engineering,Energy Systems Engineering (Cascades)"}
       onChange={onOptionChange}
     />
     D. Optimizing production processes and industrial systems
@@ -220,6 +222,7 @@ const Question5 = ({ selectedOption, onOptionChange, onNext }) => (
     {/* <button onClick={() => onNext(selectedOption)}>Next</button> */}
   </div>
 );
+
 
 const Question6 = ({ selectedOption, onOptionChange, onNext }) => (
   <div>
@@ -240,7 +243,7 @@ const Question6 = ({ selectedOption, onOptionChange, onNext }) => (
       checked={selectedOption === "Civil Engineering,Architectural Engineering,"}
       onChange={onOptionChange}
     />
-    B. Engineering and Design
+    B. Engineering and Architectural Design
     <br />
     <input
       type="radio"
@@ -249,13 +252,13 @@ const Question6 = ({ selectedOption, onOptionChange, onNext }) => (
       checked={selectedOption === "Bioengineering,Environmental Engineering,Chemical Engineering,Ecological Engineering"}
       onChange={onOptionChange}
     />
-    C. Scientific Research and Analysis
+    C. Scientific Research and Data Analysis
     <br />
     <input
       type="radio"
       name="q6"
-      value="Mechanical Engineering,Industrial Engineering,Manufacturing Engineering"
-      checked={selectedOption === "Mechanical Engineering,Industrial Engineering,Manufacturing Engineering"}
+      value="Mechanical Engineering,Industrial Engineering,Construction Engineering Management"
+      checked={selectedOption === "Mechanical Engineering,Industrial Engineering,Construction Engineering Management"}
       onChange={onOptionChange}
     />
     D. Project Management and Leadership
