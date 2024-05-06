@@ -54,6 +54,13 @@ CREATE TABLE MajorInformation (
     FOREIGN KEY (majorid) REFERENCES Majors(majorid)
 );
 
+CREATE TABLE Words (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    major_id INT,
+    word VARCHAR(255),
+    FOREIGN KEY (major_id) REFERENCES Majors(majorid)
+);
+
 -- Insert test data
 INSERT INTO Courses (CRN, course_name, course_description, credits)
 VALUES
@@ -85,10 +92,10 @@ INSERT INTO MajorInformation (majorid, topProfessors, studentQuotes, careers, mi
 VALUES 
     (1, 'Kenny Martin, Judy Liu, Chris Higgins', 'Quote 1, Quote 2, Quote 3', 'Drafter, Building Engineer, Architectural Designer', 'Minor 1, Minor 2', 'Creativity, open-mindedness, communication', 'Building design, structures, integrated design, physics, technical mindset'),
     (2, 'Professor 1, Professor 2', 'Quote 1, Quote 2, Quote 3', 'Career 1, Career 2', 'Minor 1, Minor 2', 'Skill 1, Skill 2', 'Interest 1, Interest 2'),
-    (3, 'Jeff Nason', 'There is not as much chemistry in the actual chemical engineering portion of this major. For example, you need to understand the chemistry when designing processes and reactors, but overall, a lot of the actual chemistry will be done by chemists. Your job as a chemical engineer is to take that broad understanding to design systems that are used to produce desired results, such as obtaining a high yield of product or minimizing the size of the reactor needed to achieve a complete reaction.', 'Chemical Technician, Chemical Plant Operator, Analytic Chemist, Chemical Engineer', 'Chemistry, Computer Science, Nuclear Engineering', 'Basic Chemistry, Team Work, Communication, Time Management, Good Math Skills, Time Management, Technical Writing, Work Ethic ', 'Chemistry, Consumer Products, Petroleum, Plastics, Math, Problem Solving, Lab Work'),
-    (4, 'Professor 1, Professor 2', "Finish your math classes as early as possible but make sure you grasp all of the concepts because they sneak back up in unexpected ways. Year 3 is most likely your hardest year because that's when subjects get hyper-focused and due to the specific nature of the material there is little to no help from the youtube videos you've likely been using to help yourself grasp concepts. Communication with professors is extremely important, showing up to office hours shows that you care, even if you don't have too many questions.", 'Surveyor, CAD Technician, Building Engineer', 'Minor 1, Minor 2', 'Communication, Problem Solving, Excel, Statics, Hydraulics, Curiosity, Collaboration, Deductive Reasoning ', 'Design work, Structural Knowledge, Interest in Building Materials, Construction'),
+    (3, 'Jeff Nason, Patrick Geoghegan, Adam Lambert', 'There is not as much chemistry in the actual chemical engineering portion of this major. For example, you need to understand the chemistry when designing processes and reactors, but overall, a lot of the actual chemistry will be done by chemists. Your job as a chemical engineer is to take that broad understanding to design systems that are used to produce desired results, such as obtaining a high yield of product or minimizing the size of the reactor needed to achieve a complete reaction.', 'Chemical Technician, Chemical Plant Operator, Analytic Chemist, Chemical Engineer', 'Chemistry, Computer Science, Nuclear Engineering', 'Basic Chemistry, Team Work, Communication, Time Management, Good Math Skills, Time Management, Technical Writing, Work Ethic ', 'Chemistry, Consumer Products, Petroleum, Plastics, Math, Problem Solving, Lab Work'),
+    (4, 'David Trejo, Andre Barbosa, Kenny Martin', "Finish your math classes as early as possible but make sure you grasp all of the concepts because they sneak back up in unexpected ways. Year 3 is most likely your hardest year because that's when subjects get hyper-focused and due to the specific nature of the material there is little to no help from the youtube videos you've likely been using to help yourself grasp concepts. Communication with professors is extremely important, showing up to office hours shows that you care, even if you don't have too many questions.", 'Surveyor, CAD Technician, Building Engineer', 'Minor 1, Minor 2', 'Communication, Problem Solving, Excel, Statics, Hydraulics, Curiosity, Collaboration, Deductive Reasoning ', 'Design work, Structural Knowledge, Interest in Building Materials, Construction'),
     (5, 'Rob Hess, Benjamin Brewster, Yipeng (Roger) Song', 'Computer science is definitely a field that has various opportunities for innovation and exploration. This field is for those who enjoy learning and discovering new perspectives in technology.', 'Software Engineer, Game Developer, Web Developer', 'Math, UX Research, Psychology, Business', 'Problem Solving, Patience, Willingness to Learn, Ability to adapt, Management (interpersonal and time), Communication, Team Work, Genuine Interest in Programming, Perseverance, Detail Oriented ', 'Game development, Artificial Intelligence, Mathematics, Computers, Creativity, Problem Solving, Continual Learning, Data and Statistics, Ability to Create Something, Coding'),
-    (6, 'Joe Fradella, Tracy Aras, Catarina Pestana', 'Quote 1, Quote 2, Quote 3', 'Construction Management, Project Engineer, Field Engineer', 'Minor 1, Minor 2', 'Communication, Organization, Determination ', 'Working with People, Building Things'),
+    (6, 'Joe Fradella, Tracy Arras, Catarina Pestana', 'Quote 1, Quote 2, Quote 3', 'Construction Management, Project Engineer, Field Engineer', 'Minor 1, Minor 2', 'Communication, Organization, Determination ', 'Working with People, Building Things'),
     (7, 'Desirée Tullos, John Bolte, Frank Chaplen', 'I would say that Ecological Engineering is certainly not the most universally applicable major, but it could be appropriate for someone with a strong interest in working on issues that impact the environment. It also feels like faculty in this major care about helping develop skills that may be used in the work force.', 'Water Treatment Plant Operator, Land Surveyor, Geotechnical Engineer', 'Comparative International Agriculture, Chemistry', 'Strong Math Skills, Basic Chemistry Knowledge, Human and Ecosystems Relationships, People Skills, Passion, Logical Reasoning, Communication, Problem Solving', 'Passion about the environment, math, curiosity about ecosystem and biome function, Natural sciences, environmental restoration, ecology, renewable energy, green development, urban agriculture/forestry'),
     (8, 'Professor 1, Professor 2', "Stay calm and focus because everything is gonna try to weigh you down like most majors. If you preserve and break through all those struggles then... trust me you'll have some insight into the future that you want to make for yourself. I'm sure of it. It will take time like as how a sapling grows into a grand fir tree.", 'Electrical Engineer, Electrical Designer, Systems Engineer', 'Computer Science, Education ', 'Math, Physics, Team work, Communication, Programming, Perseverance, Time management',  '3D Modeling, Circuits, Electrical Devices, Robotics, Creating Something with Electronics Knowledge'),
     (9, 'Professor 1, Professor 2', "This is not a study on the micro level of things, it is a study of energy in the macro scope. So keep that in mind. Also, you have to develop your engineering intuition starting year 1. Once you reach that state, and keep the hard work and dedication, you’re good to go!", 'Career 1, Career 2', 'Sustainability, Computer Science', 'Coding, Communication, Teamwork, Math, Science, Problem solving, Attention to Detail, Determination', 'Math, Sustainability, Clean Energy, A sense of wonder for how things are created, a desire to solve complex problems, Computers, construction, vehicles, and the science behind them '),
@@ -100,3 +107,50 @@ VALUES
     (15, 'Professor 1, Professor 2', 'Brush up on your calculus frequently and finish assignments as soon as you can, they always take longer than you think.', 'Nuclear Engineer, Reactor Engineer, Core Designer, Fuel Engineer', 'Minor 1, Minor 2', 'Communication, Data processing, Perseverance, Time management, Critical Thinking', 'Radioactivity, Physics, History, Warfare, Atomic/subatomic particles, Radiation, Math, How things work '),
     (16, 'Professor 1, Professor 2', 'Quote 1, Quote 2, Quote 3', 'Career 1, Career 2', 'Minor 1, Minor 2', 'Skill 1, Skill 2', 'Interest 1, Interest 2'),
     (17, 'Professor 1, Professor 2', 'Quote 1, Quote 2, Quote 3', 'Career 1, Career 2', 'Minor 1, Minor 2', 'Skill 1, Skill 2', 'Interest 1, Interest 2');
+
+    INSERT INTO Words (major_id, word) VALUES
+    -- Bioengineering
+    (2, 'Bioinformatics'), (2, 'Prosthetics'), (2, 'Implants'), (2, 'Bioreactors'),
+    (2, 'Cellular'), (2, 'Molecular'), (2, 'Biochemical'), (2, 'Nanotechnology'),
+    -- Chemical Engineering
+    (3, 'Chemical'), (3, 'Reactor'), (3, 'Thermodynamics'), (3, 'Kinetics'),
+    (3, 'Polymer'), (3, 'Process'), (3, 'Separation'), (3, 'Catalyst'),
+    -- Civil Engineering
+    (4, 'Structures'), (4, 'Roads'), (4, 'Bridges'), (4, 'Hydraulics'),
+    (4, 'Geotechnics'), (4, 'Construction'), (4, 'Urban'), (4, 'Environmental'),
+    -- Construction Engineering Management
+    (6, 'Project'), (6, 'Management'), (6, 'Cost'), (6, 'Schedule'),
+    (6, 'Contract'), (6, 'Quality'), (6, 'Safety'), (6, 'Risk'),
+    -- Ecological Engineering
+    (7, 'Ecosystem'), (7, 'Biodiversity'), (7, 'Sustainability'), (7, 'Restoration'),
+    (7, 'Climate'), (7, 'Conservation'), (7, 'Natural resources'), (7, 'Ecology'),
+    -- Electrical and Computer Engineering
+    (8, 'Circuits'), (8, 'Signals'), (8, 'Electronics'), (8, 'Control'),
+    (8, 'Power'), (8, 'Digital'), (8, 'Embedded'), (8, 'Communications'),
+    -- Energy Systems Engineering
+    (9, 'Renewable'), (9, 'Solar'), (9, 'Wind'), (9, 'Biofuel'),
+    (9, 'Grid'), (9, 'Storage'), (9, 'Efficiency'), (9, 'Sustainability'),
+    -- Engineering Science
+    (10, 'Interdisciplinary'), (10, 'Research'), (10, 'Analysis'), (10, 'Modeling'),
+    (10, 'Simulation'), (10, 'Optimization'), (10, 'Theory'), (10, 'Experimentation'),
+    -- Environmental Engineering
+    (11, 'Pollution'), (11, 'Waste'), (11, 'Remediation'), (11, 'Air quality'),
+    (11, 'Water treatment'), (11, 'Environmental impact'), (11, 'Regulation'), (11, 'Health'),
+    -- Industrial Engineering
+    (12, 'Optimization'), (12, 'Productivity'), (12, 'Lean'), (12, 'Six sigma'),
+    (12, 'Supply chain'), (12, 'Logistics'), (12, 'Process improvement'), (12, 'Quality control'),
+    -- Manufacturing Engineering
+    (13, 'Automation'), (13, 'Machining'), (13, 'Additive'), (13, 'Assembly'),
+    (13, 'Manufacturability'), (13, 'Tooling'), (13, 'Process'), (13, 'Production'),
+    -- Mechanical Engineering
+    (14, 'Thermodynamics'), (14, 'Fluid'), (14, 'Heat transfer'), (14, 'Mechanics'),
+    (14, 'Dynamics'), (14, 'Design'), (14, 'Materials'), (14, 'Robotics'),
+    -- Nuclear Engineering
+    (15, 'Nuclear'), (15, 'Reactors'), (15, 'Radiation'), (15, 'Safety'),
+    (15, 'Security'), (15, 'Waste'), (15, 'Fusion'), (15, 'Fission'),
+    -- Outdoor Products
+    (16, 'Gear'), (16, 'Apparel'), (16, 'Equipment'), (16, 'Textiles'),
+    (16, 'Materials'), (16, 'Design'), (16, 'Functionality'), (16, 'Sustainability'),
+    -- Radiation Health Physics
+    (17, 'Radiation'), (17, 'Health'), (17, 'Dosimetry'), (17, 'Protection'),
+    (17, 'Radiobiology'), (17, 'Medical imaging'), (17, 'Nuclear medicine'), (17, 'Regulation');

@@ -19,3 +19,11 @@
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
     z-index: 1001;
   }
+
+  .box {
+    border: 2px solid #ccc;
+    margin: auto;
+    border-radius: 10px;  
+    box-shadow: 3px 3px 10px grey;
+    padding: 100px;
+  }
