@@ -15,7 +15,8 @@ const Pet = () => {
     const [outfit, setOutfit] = useState('default');
     const [dirtOverlay, setDirtOverlay] = useState('none'); // ['none', 'light', 'heavy']
     const [loadedImages, setLoadedImages] = useState([]);
-    const walkTimeout = useRef(null);
+    //const walkTimeout = useRef(null);
+    const [waiting, setWaiting] = useState(false);
 
     const points = [
         { left: 70, top: 50, scale: 1 },
@@ -139,15 +140,18 @@ const Pet = () => {
                 // Stop walking animation when at target destination
                 if (reachedTarget) {
                     setAnimationState('idle'); // Set the pet to idle
-                    walkTimeout.current = setTimeout(() => {
-                        if (!showMenu){
-                            const newTarget = pickRandomPoint();
-                            setTargetPosition(newTarget); // Set a new destination
-                            console.log('New target:', newTarget);
-                            setAnimationState('walking'); // Start walking again
-                        }
-                    }, 3000); // Wait time in milliseconds
-                    
+                    setWaiting(true);
+                    //console.log('Pet has reached its destination');
+                    //walkTimeout.current = setTimeout(() => {
+                    //    console.log('Timer set');
+                    //    if (!showMenu){
+                    //        const newTarget = pickRandomPoint();
+                    //        setTargetPosition(newTarget); // Set a new destination
+                    //        console.log('New target:', newTarget);
+                    //        setAnimationState('walking'); // Start walking again
+                    //    }
+                    //}, 3000); // Wait time in milliseconds
+
                     return prevPosition; // Return current position to prevent state update
                 }
 
@@ -215,18 +219,30 @@ const Pet = () => {
             }  
             //if (walkTimeout) {
             //    clearTimeout(walkTimeout);
-            clearTimeout(walkTimeout.current);
+            //clearTimeout(walkTimeout.current);
         };
-    }, [targetPosition, animationState, showMenu]);
+    }, [targetPosition, animationState, showMenu, waiting]);
 
+    // Set the pet to wait for a few seconds before walking again
+    useEffect(() => {
+        if (showMenu) return
+        if (waiting) {
+            const waitTimer = setTimeout(() => {
+                setWaiting(false);
+                setAnimationState('walking');
+                setTargetPosition(pickRandomPoint());  // Pick new target after waiting
+            }, 3000);  // Wait for 3 seconds
 
+            return () => clearTimeout(waitTimer);
+        }
+    }, [waiting, showMenu]);  // Effect runs only when waiting state changes
 
     // TESTING INTERACTIONS 1 ############################################################################################
     useEffect(() => {
         if (animationState === 'eating' || animationState === 'washing' || animationState === 'petting') {
             setTimeout(() => {
                 setAnimationState('walking');
-            }, 3000);
+            }, 2200);
             return () => clearTimeout();
         }
     }, [animationState]);
@@ -237,10 +253,10 @@ const Pet = () => {
         setAnimationState('idle'); // Stop the pet from walking
         setShowMenu(true); // Show the menu
         setMenuPosition({ x: event.pageX, y: event.pageY }); // Position the menu at the click location
-        if (walkTimeout) {
-            clearTimeout(walkTimeout.current);
-            walkTimeout.current = null;
-        }
+        //if (walkTimeout) {
+        //    clearTimeout(walkTimeout.current);
+        //    walkTimeout.current = null;
+        //}
     };
 
     const handleOptionSelected = async (interactionType) => {
