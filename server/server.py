@@ -72,6 +72,7 @@ class Majors(db.Model):
     majorName = db.Column(db.String(255), unique=True, nullable=False)
     majorDescription = db.Column(db.Text, nullable=False)
     careerProspects = db.Column(db.String(255), nullable=False)
+
     def to_dict(self):
         return {
             'majorID': self.majorID,
@@ -139,6 +140,22 @@ class PetInteractions(db.Model):
     userID = db.Column(db.Integer, db.ForeignKey('Users.userID'), nullable=False)
     interactionType = db.Column(db.Enum('pet', 'play', 'feed', 'wash'), nullable=False)
     interactionTime = db.Column(db.TIMESTAMP, server_default=db.func.current_timestamp())
+
+class Words(db.Model):
+    __tablename__ = 'Words'
+    id = db.Column(db.Integer, primary_key=True)
+    major_id = db.Column(db.Integer, db.ForeignKey('Majors.majorid'), nullable=False)
+    word = db.Column(db.String(255), nullable=False)
+
+    def __repr__(self):
+        return f"<Words(id={self.id}, major_id={self.major_id}, word='{self.word}')>"
+
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'major_id': self.major_id,
+            'word': self.word
+        }
 
 
 # Create a route to query Courses and return the data (navigate to localhost:8000/courses)
@@ -313,6 +330,12 @@ def get_majorInfo(majorID):
 
     return jsonify({'message': 'Major information received successfully', 'majorInfo': majorInfo}), 200
 
+@app.route('/api/majors/<int:major_id>/words', methods=['GET'])
+def get_major_words(major_id):
+    # Query the words associated with the specified major_id
+    words = Words.query.filter_by(major_id=major_id).all()
+    word_dicts = [word.to_dict() for word in words]
+    return jsonify(word_dicts)
 
 # Degrade the pet's stats every hour
 scheduler.add_job(id='degrade_pet_stats', func=degrade_pet_stats, trigger='interval', hours=1)
