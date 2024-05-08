@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { NavLink, useSearchParams, useParams } from "react-router-dom";
 
 import '../assets/explore.css'
-import Background from '../assets/majorsbg.jpg'
+import Background from '../assets/majorsbg.png'
 
 const Explore = () => {
   const [majors, setMajors] = useState([]);
@@ -16,7 +16,7 @@ const Explore = () => {
   }, []);
 
   return (
-    <div className="majors" style={{backgroundImage: `url(${Background})`, backgroundSize: 'cover', backgroundRepeat: 'no-repeat', backgroundAttachment: 'scroll'}}>
+    <div className="majors" style={{backgroundImage: `url(${Background})`, backgroundSize: 'cover', backgroundRepeat: 'no-repeat', backgroundAttachment: 'fixed'}}>
       {majors.map(major => (
         <div key={major.majorID} class="major">
           {console.log(major.majorName)}

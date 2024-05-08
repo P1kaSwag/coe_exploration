@@ -57,6 +57,14 @@ CREATE TABLE MajorInformation (
     FOREIGN KEY (majorid) REFERENCES Majors(majorid)
 );
 
+CREATE TABLE TopProfessors (
+    professorID INT PRIMARY KEY AUTO_INCREMENT,
+    majorid INT,
+    professorName VARCHAR(255),
+    professorURL VARCHAR(255),
+    FOREIGN KEY (majorid) REFERENCES Majors(majorid)
+);
+
 CREATE TABLE Words (
     id INT PRIMARY KEY AUTO_INCREMENT,
     major_id INT,
@@ -110,6 +118,61 @@ VALUES
     (15, 'Professor 1', 'Professor 2', 'Professor 3', 'Brush up on your calculus frequently and finish assignments as soon as you can, they always take longer than you think.', 'Quote 2', 'Nuclear Engineer, Reactor Engineer, Core Designer, Fuel Engineer', 'Minor 1, Minor 2', 'Communication, Data processing, Perseverance, Time management, Critical Thinking', 'Radioactivity, Physics, History, Warfare, Atomic/subatomic particles, Radiation, Math, How things work '),
     (16, 'Professor 1', 'Professor 2', 'Professor 3', 'Quote 1', 'Quote 2', 'Career 1, Career 2', 'Minor 1, Minor 2', 'Skill 1, Skill 2', 'Interest 1, Interest 2'),
     (17, 'Professor 1', 'Professor 2', 'Professor 3', 'Quote 1', 'Quote 2', 'Career 1, Career 2', 'Minor 1, Minor 2', 'Skill 1, Skill 2', 'Interest 1, Interest 2');
+
+INSERT INTO TopProfessors (majorid, professorName, professorURL)
+VALUES 
+    (1, 'Kenny Martin', 'https://engineering.oregonstate.edu/sites/engineering.oregonstate.edu/files/styles/profile_image/public/2023-01/profile-kenny-g-martin.jpg?itok=R7KVRZM6'),
+    (1, 'Judy Liu', 'https://engineering.oregonstate.edu/sites/engineering.oregonstate.edu/files/styles/profile_image/public/2022-12/profile-juddy-liu.jpg?itok=MW8nTVZ9'),
+    (1, 'Chris Higgins', 'https://engineering.oregonstate.edu/sites/engineering.oregonstate.edu/files/styles/profile_image/public/default_images/profile_preview.png?itok=5RN_oJyY'),
+    (2, 'Professor 1', 'https://engineering.oregonstate.edu/sites/engineering.oregonstate.edu/files/styles/profile_image/public/default_images/profile_preview.png?itok=5RN_oJyY'),
+    (2, 'Professor 2', 'https://engineering.oregonstate.edu/sites/engineering.oregonstate.edu/files/styles/profile_image/public/default_images/profile_preview.png?itok=5RN_oJyY'),
+    (2, 'Professor 3', 'https://engineering.oregonstate.edu/sites/engineering.oregonstate.edu/files/styles/profile_image/public/default_images/profile_preview.png?itok=5RN_oJyY'),
+    (3, 'Jeff Nason', 'https://engineering.oregonstate.edu/sites/engineering.oregonstate.edu/files/styles/profile_image/public/2022-12/profile-Jeffrey-Nason.jpg?itok=yNwEN0zx'),
+    (3, 'Patrick Geoghegan', 'https://engineering.oregonstate.edu/sites/engineering.oregonstate.edu/files/styles/profile_image/public/2022-12/profile-Patrick-Geoghegan.jpg?itok=5qOwOtJm'),
+    (3, 'Adam Lambert', 'https://engineering.oregonstate.edu/sites/engineering.oregonstate.edu/files/styles/profile_image/public/2022-10/profile-Adam-Lambert.jpg?itok=rvMsaDZq'),
+    (4, 'David Trejo', 'https://engineering.oregonstate.edu/sites/engineering.oregonstate.edu/files/styles/profile_image/public/2024-02/profile_David_Trejo.jpg?itok=2it5Ppvo'),
+    (4, 'Andre Barbosa', 'https://engineering.oregonstate.edu/sites/engineering.oregonstate.edu/files/styles/profile_image/public/2022-12/profile-andre-barbosa.jpg?itok=5RN_oJyY'),
+    (4, 'Kenny Martin', 'https://engineering.oregonstate.edu/sites/engineering.oregonstate.edu/files/styles/profile_image/public/2023-01/profile-kenny-g-martin.jpg?itok=R7KVRZM6'),
+    (5, 'Rob Hess', 'https://web.engr.oregonstate.edu/~hessro/static/media/rob.8587b6b0e1fefd5dcca5.jpg'),
+    (5, 'Benjamin', 'https://engineering.oregonstate.edu/sites/engineering.oregonstate.edu/files/styles/profile_image/public/2022-12/profile-Brewster-Benjamin.jpg?itok=UeAtfHnk'),
+    (5, 'Yipen (Rogger) Song', 'https://engineering.oregonstate.edu/sites/engineering.oregonstate.edu/files/styles/profile_image/public/2023-04/profile-yipeng-song.jpg?itok=u0cLg8TD'),
+    (6, 'Joe Fradella', 'https://engineering.oregonstate.edu/sites/engineering.oregonstate.edu/files/styles/profile_image/public/2023-02/Profile-Joseph-Fradella.jpg?itok=msI8zFE3'),
+    (6, 'Tracy Arras', 'https://engineering.oregonstate.edu/sites/engineering.oregonstate.edu/files/styles/profile_image/public/2023-02/Profile-Tracy-Arras.jpg?itok=wVQ6erJx'),
+    (6, 'Catarina Pestana', 'https://engineering.oregonstate.edu/sites/engineering.oregonstate.edu/files/styles/profile_image/public/2023-02/profile-Catarina-Pestana.jpeg?itok=Lp_ZKqzz'),
+    (7, 'Desirée Tullos', 'https://bee.oregonstate.edu/sites/agscid7/files/styles/osu_person_image/public/desireetullos2205.jpg?itok=-E3A4uIC'),
+    (7, 'John Bolte', 'https://bee.oregonstate.edu/sites/agscid7/files/styles/osu_person_image/public/johnbolte2312.jpg?itok=UsbNSkrU'),
+    (7, 'Frank Chaplen', 'https://agsci.oregonstate.edu/sites/agscid7/files/styles/osu_person_image/public/chaplen_frank.jpg?itok=XEvxtD7M'),
+    (8, 'Professor 1', 'https://engineering.oregonstate.edu/sites/engineering.oregonstate.edu/files/styles/profile_image/public/default_images/profile_preview.png?itok=5RN_oJyY'),
+    (8, 'Professor 2', 'https://engineering.oregonstate.edu/sites/engineering.oregonstate.edu/files/styles/profile_image/public/default_images/profile_preview.png?itok=5RN_oJyY'),
+    (8, 'Professor 3', 'https://engineering.oregonstate.edu/sites/engineering.oregonstate.edu/files/styles/profile_image/public/default_images/profile_preview.png?itok=5RN_oJyY'),
+    (9, 'Professor 1', 'https://engineering.oregonstate.edu/sites/engineering.oregonstate.edu/files/styles/profile_image/public/default_images/profile_preview.png?itok=5RN_oJyY'),
+    (9, 'Professor 2', 'https://engineering.oregonstate.edu/sites/engineering.oregonstate.edu/files/styles/profile_image/public/default_images/profile_preview.png?itok=5RN_oJyY'),
+    (9, 'Professor 3', 'https://engineering.oregonstate.edu/sites/engineering.oregonstate.edu/files/styles/profile_image/public/default_images/profile_preview.png?itok=5RN_oJyY'),
+    (10, 'Professor 1', 'https://engineering.oregonstate.edu/sites/engineering.oregonstate.edu/files/styles/profile_image/public/default_images/profile_preview.png?itok=5RN_oJyY'),
+    (10, 'Professor 2', 'https://engineering.oregonstate.edu/sites/engineering.oregonstate.edu/files/styles/profile_image/public/default_images/profile_preview.png?itok=5RN_oJyY'),
+    (10, 'Professor 3', 'https://engineering.oregonstate.edu/sites/engineering.oregonstate.edu/files/styles/profile_image/public/default_images/profile_preview.png?itok=5RN_oJyY'),
+    (11, 'Professor 1', 'https://engineering.oregonstate.edu/sites/engineering.oregonstate.edu/files/styles/profile_image/public/default_images/profile_preview.png?itok=5RN_oJyY'),
+    (11, 'Professor 2', 'https://engineering.oregonstate.edu/sites/engineering.oregonstate.edu/files/styles/profile_image/public/default_images/profile_preview.png?itok=5RN_oJyY'),
+    (11, 'Professor 3', 'https://engineering.oregonstate.edu/sites/engineering.oregonstate.edu/files/styles/profile_image/public/default_images/profile_preview.png?itok=5RN_oJyY'),
+    (12, 'Professor 1', 'https://engineering.oregonstate.edu/sites/engineering.oregonstate.edu/files/styles/profile_image/public/default_images/profile_preview.png?itok=5RN_oJyY'),
+    (12, 'Professor 2', 'https://engineering.oregonstate.edu/sites/engineering.oregonstate.edu/files/styles/profile_image/public/default_images/profile_preview.png?itok=5RN_oJyY'),
+    (12, 'Professor 3', 'https://engineering.oregonstate.edu/sites/engineering.oregonstate.edu/files/styles/profile_image/public/default_images/profile_preview.png?itok=5RN_oJyY'), 
+    (13, 'Professor 1', 'https://engineering.oregonstate.edu/sites/engineering.oregonstate.edu/files/styles/profile_image/public/default_images/profile_preview.png?itok=5RN_oJyY'),
+    (13, 'Professor 2', 'https://engineering.oregonstate.edu/sites/engineering.oregonstate.edu/files/styles/profile_image/public/default_images/profile_preview.png?itok=5RN_oJyY'),
+    (13, 'Professor 3', 'https://engineering.oregonstate.edu/sites/engineering.oregonstate.edu/files/styles/profile_image/public/default_images/profile_preview.png?itok=5RN_oJyY'),
+    (14, 'Mark McGuire', 'https://engineering.oregonstate.edu/sites/engineering.oregonstate.edu/files/styles/profile_image/public/2023-03/Mark2-Samantha-Shaver.png?itok=pHJeEzH7'),
+    (14, 'Deborah Pence', 'https://engineering.oregonstate.edu/sites/engineering.oregonstate.edu/files/styles/profile_image/public/2023-02/profile-Deb-Pence.jpg?itok=tRP7Twjh'),
+    (14, 'Anthony Nix', 'https://engineering.oregonstate.edu/sites/engineering.oregonstate.edu/files/styles/profile_image/public/default_images/profile_preview.png?itok=5RN_oJyY'),
+    (15, 'Professor 1', 'https://engineering.oregonstate.edu/sites/engineering.oregonstate.edu/files/styles/profile_image/public/default_images/profile_preview.png?itok=5RN_oJyY'),
+    (15, 'Professor 2', 'https://engineering.oregonstate.edu/sites/engineering.oregonstate.edu/files/styles/profile_image/public/default_images/profile_preview.png?itok=5RN_oJyY'),
+    (15, 'Professor 3', 'https://engineering.oregonstate.edu/sites/engineering.oregonstate.edu/files/styles/profile_image/public/default_images/profile_preview.png?itok=5RN_oJyY'),
+    (16, 'Professor 1', 'https://engineering.oregonstate.edu/sites/engineering.oregonstate.edu/files/styles/profile_image/public/default_images/profile_preview.png?itok=5RN_oJyY'),
+    (16, 'Professor 2', 'https://engineering.oregonstate.edu/sites/engineering.oregonstate.edu/files/styles/profile_image/public/default_images/profile_preview.png?itok=5RN_oJyY'),
+    (16, 'Professor 3', 'https://engineering.oregonstate.edu/sites/engineering.oregonstate.edu/files/styles/profile_image/public/default_images/profile_preview.png?itok=5RN_oJyY'),
+    (17, 'Professor 1', 'https://engineering.oregonstate.edu/sites/engineering.oregonstate.edu/files/styles/profile_image/public/default_images/profile_preview.png?itok=5RN_oJyY'),
+    (17, 'Professor 2', 'https://engineering.oregonstate.edu/sites/engineering.oregonstate.edu/files/styles/profile_image/public/default_images/profile_preview.png?itok=5RN_oJyY'),
+    (17, 'Professor 3', 'https://engineering.oregonstate.edu/sites/engineering.oregonstate.edu/files/styles/profile_image/public/default_images/profile_preview.png?itok=5RN_oJyY');
+
 
     INSERT INTO Words (major_id, word) VALUES
     -- Bioengineering
