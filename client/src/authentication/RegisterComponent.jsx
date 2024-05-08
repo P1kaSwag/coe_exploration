@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import '../assets/login.css';
 
 const RegisterComponent = () => {
     const [username, setUsername] = useState('');
@@ -62,6 +63,7 @@ const RegisterComponent = () => {
         <button 
           type="submit" 
           id="registerButton" 
+          className="login-button"
           onClick={handleRegister}
         > 
           Register 

@@ -87,8 +87,11 @@ class MajorInformation(db.Model):
     majorInfoID = db.Column(db.Integer, primary_key=True, unique=True, autoincrement=True, nullable=False)
     majorID = db.Column(db.Integer, db.ForeignKey('Majors.majorID'), nullable=False)
     #majorName = db.Column(db.String(255), nullable=False)
-    topProfessors = db.Column(db.String(255), nullable=False)
-    studentQuotes = db.Column(db.Text, nullable=False)
+    topProfessor1 = db.Column(db.String(255), nullable=False)
+    topProfessor2 = db.Column(db.String(255), nullable=False)
+    topProfessor3 = db.Column(db.String(255), nullable=False)
+    studentQuote1 = db.Column(db.Text, nullable=False)
+    studentQuote2 = db.Column(db.Text, nullable=False)
     careers = db.Column(db.String(255), nullable=False)
     minors = db.Column(db.String(255), nullable=False)
     skills = db.Column(db.String(255), nullable=False)
@@ -97,8 +100,11 @@ class MajorInformation(db.Model):
          return {
             'majorID': self.majorID,
             #'majorName': self.majorName,
-            'topProfessors': self.topProfessors,
-            'studentQuotes': self.studentQuotes,
+            'topProfessor1': self.topProfessor1,
+            'topProfessor2': self.topProfessor2,
+            'topProfessor3': self.topProfessor3,
+            'studentQuote1': self.studentQuote1,
+            'studentQuote2': self.studentQuote2,
             'careers': self.careers,
             'minors': self.minors,
             'skills': self.skills,
