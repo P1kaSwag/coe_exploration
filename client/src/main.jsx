@@ -8,8 +8,12 @@ import RegisterComponent from './authentication/RegisterComponent';
 import Explore, { MajorInfo } from './explore/Explore';
 import { AuthProvider } from './authentication/AuthComponent';
 import Profile from './ProfileComponent';
+//import Pet from './Pet'
 import Pet from './pet/Pet';
 import MinigameLoader from './explore/minigames/MinigameLoader';
+import Home from './home/Home'
+// import WordSearchGame from './explore/minigames/RadiationHealthPhysicsGame';
+import HowTo from './home/HowTo';
 
 import './index.css';
 
@@ -19,7 +23,15 @@ const router = createBrowserRouter([
     element: <Root />,
     errorElement: <Root><ErrorPage /></Root>,
     children: [
-      { index: true, element: <LoginComponent /> }, // HomeComponent
+      { index: true, element: <Home /> }, // Set Home component as index
+      {
+        path: "login", // Changed path from "/" to "login"
+        element: <LoginComponent />,
+      },
+      {
+        path: "howto",
+        element: <HowTo />,
+      },
       {
         path: "quiz",
         element: <Quiz />,

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { NavLink, useSearchParams, useParams } from "react-router-dom";
 
 import './explore.css'
+import Background from '../assets/majorsbg.png'
 
 const Explore = () => {
   const [majors, setMajors] = useState([]);
@@ -15,12 +16,12 @@ const Explore = () => {
   }, []);
 
   return (
-    <div className="majors">
+    <div className="majors" style={{backgroundImage: `url(${Background})`, backgroundSize: 'cover', backgroundRepeat: 'no-repeat', backgroundAttachment: 'fixed'}}>
       {majors.map(major => (
         <div key={major.majorID} className="major">
           {console.log(major.majorName)}
           {console.log(major.majorID)}
-          <NavLink to={`/explore/${encodeURIComponent(major.majorName)}?majorID=${major.majorID}`}>
+          <NavLink to={`/explore/${encodeURIComponent(major.majorName)}?majorID=${major.majorID}`} style={{ textDecoration: 'none', color: 'black' }}>
               <h2>{major.majorName}</h2></NavLink>
           <p>{major.majorDescription}</p>
           <p>Career Prospects: {major.careerProspects}</p>
@@ -58,37 +59,45 @@ export function MajorInfo() {
   return (
     <>
       <h1>{majorName} Information</h1>
-      <div class="majorInfo">
+      <div className="majorInfo">
         <h3>Top Professors</h3> 
-        <p>{majorInfo.topProfessors}</p>
+          <div className="center">
+            <div className="professorCard"> {majorInfo.topProfessor1} </div>
+            <div className="professorCard"> {majorInfo.topProfessor2} </div>
+            <div className="professorCard"> {majorInfo.topProfessor3} </div>
+          </div>
+        {/*<p>{majorInfo.topProfessors}</p>*/}
       </div>
 
-      <div class="majorInfo"> 
+      <div className="majorInfo"> 
         <h3>Student Quotes</h3> 
-        <p>{majorInfo.studentQuotes}</p>
+        <ul class="leftText">
+          <li>{majorInfo.studentQuote1}</li>
+          <li>{majorInfo.studentQuote2}</li>
+        </ul>
       </div>
 
-      <div class="majorInfo">
+      <div className="majorInfo">
         <h3>Careers </h3>
         <p>{majorInfo.careers}</p>
       </div>
 
-      <div class="majorInfo">
-        <h3>Minors</h3>
+      <div className="majorInfo">
+        <h3>Potential Minors</h3>
         <p>{majorInfo.minors}</p>
       </div>
 
-      <div class="majorInfo">
-        <h3>Skills</h3>
+      <div className="majorInfo">
+        <h3>Skills Current Students Recommend to be Successfull in {majorName} </h3>
         <p>{majorInfo.skills}</p>
       </div>
 
-      <div class="majorInfo">
-        <h3>Interests</h3> 
+      <div className="majorInfo">
+        <h3>Interests that led Current Students to {majorName}</h3> 
         <p>{majorInfo.interests}</p>
       </div>
 
-      <div><NavLink to={`/explore/${majorName}/minigame`}>Play {majorName} Game</NavLink></div>
+      <div className="playButton"><NavLink to={`/explore/${majorName}/minigame`} style={{ textDecoration: 'none', color: 'black' }}>Play the {majorName} Game</NavLink></div>
     </>
   );
 }
