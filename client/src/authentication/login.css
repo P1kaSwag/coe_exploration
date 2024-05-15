@@ -35,5 +35,3 @@ input[type=email] {
 button + button {
   margin-left: 2; /* Reset left margin for the second button */
 }
-
-

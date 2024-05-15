@@ -35,6 +35,24 @@ CREATE TABLE PetInteractions (
     FOREIGN KEY (userid) REFERENCES Users(userid)
 );
 
+CREATE TABLE Rewards (
+    rewardID INT PRIMARY KEY AUTO_INCREMENT,
+    majorID INT,
+    rewardName VARCHAR(255),
+    rewardDescription TEXT,
+    rewardType ENUM('outfit', 'cosmetic', 'mechanic'),
+    FOREIGN KEY (majorID) REFERENCES Majors(majorid)
+);
+
+CREATE TABLE PetRewards (
+    PetRewardID INT PRIMARY KEY AUTO_INCREMENT,
+    petID INT,
+    rewardID INT,
+    isActive BOOLEAN DEFAULT FALSE,
+    FOREIGN KEY (petID) REFERENCES Pets(PetID),
+    FOREIGN KEY (rewardID) REFERENCES Rewards(rewardID)
+);
+
 CREATE TABLE Majors (
     majorid INT PRIMARY KEY AUTO_INCREMENT,
     majorName VARCHAR(255),
@@ -55,24 +73,6 @@ CREATE TABLE MajorInformation (
     skills VARCHAR(255),
     interests VARCHAR(255),
     FOREIGN KEY (majorid) REFERENCES Majors(majorid)
-);
-
-CREATE TABLE Rewards (
-    rewardID INT PRIMARY KEY AUTO_INCREMENT,
-    majorID INT,
-    rewardName VARCHAR(255),
-    rewardDescription TEXT,
-    rewardType ENUM('outfit', 'cosmetic', 'mechanic'),
-    FOREIGN KEY (majorID) REFERENCES Majors(majorid)
-);
-
-CREATE TABLE PetRewards (
-    PetRewardID INT PRIMARY KEY AUTO_INCREMENT,
-    petID INT,
-    rewardID INT,
-    isActive BOOLEAN DEFAULT FALSE,
-    FOREIGN KEY (petID) REFERENCES Pets(PetID),
-    FOREIGN KEY (rewardID) REFERENCES Rewards(rewardID)
 );
 
 CREATE TABLE TopProfessors (

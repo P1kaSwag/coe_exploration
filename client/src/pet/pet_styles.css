@@ -13,7 +13,7 @@ nav.nav-pet:hover {
   
 .backyard {
   aspect-ratio: 16 / 9;
-  background-image: url('../assets/backyard.png');
+  background-image: url('../assets/landscape.png');
   position: relative;
   width: 100vw;
   height: auto;
@@ -42,7 +42,7 @@ nav.nav-pet:hover {
   background-color: rgba(255, 0, 0, 0.5); 
   border: 2px solid red;
   background-repeat: no-repeat;
-  background-size: cover;
+  background-size: cover;  
 }
 
 .walking {
@@ -52,6 +52,19 @@ nav.nav-pet:hover {
 /* Chemical Engineering outfit uses second half of idle animation */
 .ChemicalEngineering-walking {
   animation: chem_eng_walk_cycle 1s steps(13) infinite;
+}
+
+.ComputerScience-walking {
+  animation: cs_walk_cycle 1s steps(13) infinite;
+}
+
+@keyframes cs_walk_cycle {
+  from { 
+    background-position: 51.85%; 
+  }
+  to { 
+    background-position: 100%; /* 14 frames * (100 / 27 frames) */
+  }
 }
 
 @keyframes chem_eng_walk_cycle {
@@ -81,6 +94,10 @@ nav.nav-pet:hover {
   animation: idle_cycle 2s steps(27) infinite;
 }
 
+.ComputerScience-idle {
+  animation: idle_cycle 2s steps(27) infinite;
+}
+
 @keyframes idle_cycle {
   from {
     background-position: 0;
@@ -98,6 +115,10 @@ nav.nav-pet:hover {
   animation: eat_cycle 2s steps(34) 1;
 }
 
+.ComputerScience-eating {
+  animation: eat_cycle 2s steps(34) 1;
+}
+
 @keyframes eat_cycle {
   from {
     background-position: 0;
@@ -112,6 +133,10 @@ nav.nav-pet:hover {
 }
 
 .ChemicalEngineering-petting {
+  animation: pet_cycle 1s steps(13) 2;
+}
+
+.ComputerScience-petting {
   animation: pet_cycle 1s steps(13) 2;
 }
 
@@ -172,54 +197,26 @@ nav.nav-pet:hover {
 .pet-menu {
   position: absolute;
   display: flex;
-  flex-direction: column;
   align-items: center;
-  z-index: 10;
+  justify-content: center;
 }
 
 .menu-option {
-  position: absolute;
+  position: fixed;
+  width: 4vw;
+  height: 3vw;
   display: flex;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
+  transform-origin: center;
+  font-size: 1vw;
+  font-weight: bold;
+  background-color: #37d0ff;
+  border-radius: 100%;
   cursor: pointer;
-  border: none;
-  background: transparent;
-  background-size: cover;
-  background-position: center;
-  transition: filter 0.3s ease;
 }
+
 
 .menu-option:hover {
   filter: brightness(75%);
-}
-
-.top {
-  width: 40px;
-  height: 60px;
-  transform: translateY(-50px);
-  background-image: url('../assets/Top_menu_option.png'); /* These are all the same image just rotated but I'll add custom symbols later*/
-}
-
-.right {
-  width: 60px;
-  height: 40px;
-  transform: translateX(50px);
-  background-image: url('../assets/Right_menu_option.png');
-
-}
-
-.bottom {
-  width: 40px;
-  height: 60px;
-  transform: translateY(50px);
-  background-image: url('../assets/Bottom_menu_option.png');
-}
-
-.left {
-  width: 60px;
-  height: 40px;
-  transform: translateX(-50px);
-  background-image: url('../assets/Left_menu_option.png');
-
 }

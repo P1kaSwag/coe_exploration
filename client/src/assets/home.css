@@ -1,3 +1,13 @@
+.home-background {
+    background-image: url('../assets/homebg.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    height: 100vh;
+    overflow: hidden;
+}
+
+
 .howto-container {
     border: 2px solid #ccc; /* Add a border around the entire quiz */
     padding: 50px; /* Add some padding inside the container */

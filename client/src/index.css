@@ -35,7 +35,7 @@ body {
   background-color: #1a1a1a;
   overflow: visible;
 }
-*/
+
 @media (prefers-color-scheme: dark) {
   :root {
     color: #f9f9f9;
@@ -48,7 +48,7 @@ body {
     background-color: #f9f9f9;
   }
 }
-
+*/
 body {
   font-family: 'Helvetica Neue', sans-serif;
   text-decoration: none;

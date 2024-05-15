@@ -12,6 +12,12 @@ const outfitMappings = {
       idle: 'idle',
       petting: 'petting'
     },
+    ComputerScience: {
+      walking: 'idle', // Use idle overlay for walking
+      eating: 'eating',
+      idle: 'idle',
+      petting: 'petting'
+    },
     RadiationHealthPhysics: {
       walking: 'walking',
       eating: 'eating',

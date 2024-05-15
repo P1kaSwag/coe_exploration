@@ -15,8 +15,8 @@ const Pet = () => {
     const [outfit, setOutfit] = useState('default');
     const [dirtOverlay, setDirtOverlay] = useState('none'); // ['none', 'light', 'heavy']
     const [loadedImages, setLoadedImages] = useState([]);
-    //const walkTimeout = useRef(null);
     const [waiting, setWaiting] = useState(false);
+    const [playModeFetch, setPlayModeFetch] = useState(false);
 
     const points = [
         { left: 70, top: 50, scale: 1 },
@@ -141,17 +141,6 @@ const Pet = () => {
                 if (reachedTarget) {
                     setAnimationState('idle'); // Set the pet to idle
                     setWaiting(true);
-                    //console.log('Pet has reached its destination');
-                    //walkTimeout.current = setTimeout(() => {
-                    //    console.log('Timer set');
-                    //    if (!showMenu){
-                    //        const newTarget = pickRandomPoint();
-                    //        setTargetPosition(newTarget); // Set a new destination
-                    //        console.log('New target:', newTarget);
-                    //        setAnimationState('walking'); // Start walking again
-                    //    }
-                    //}, 3000); // Wait time in milliseconds
-
                     return prevPosition; // Return current position to prevent state update
                 }
 
@@ -165,9 +154,7 @@ const Pet = () => {
                 ) {
                     // If the pet hasn't reached the newLeft position, move towards it
                     newLeft +=
-                        targetPosition.left > prevPosition.left
-                            ? leftStepSize
-                            : -leftStepSize;
+                        targetPosition.left > prevPosition.left ? leftStepSize : -leftStepSize;
                 } else {
                     // Adjust newLeft to exactly match the target to prevent overshooting
                     newLeft = targetPosition.left;
@@ -217,9 +204,6 @@ const Pet = () => {
             if (intervalId) {
                 clearInterval(intervalId);
             }  
-            //if (walkTimeout) {
-            //    clearTimeout(walkTimeout);
-            //clearTimeout(walkTimeout.current);
         };
     }, [targetPosition, animationState, showMenu, waiting]);
 
@@ -231,7 +215,7 @@ const Pet = () => {
                 setWaiting(false);
                 setAnimationState('walking');
                 setTargetPosition(pickRandomPoint());  // Pick new target after waiting
-            }, 3000);  // Wait for 3 seconds
+            }, 4000);  // Wait for 4 seconds
 
             return () => clearTimeout(waitTimer);
         }
@@ -247,32 +231,61 @@ const Pet = () => {
         }
     }, [animationState]);
 
+    // TESTING FETCH COMMAND ############################################################################################
+    useEffect(() => {
+        const handleFetch = (event) => {
+            if (playModeFetch) {
+                console.log('Fetch command received');
+                const rect = event.target.getBoundingClientRect();
+                const left = Math.max(0, Math.min(70, ((event.clientX - rect.left) / rect.width) * 100));
+                const top = Math.max(20, Math.min(50, ((event.clientY - rect.top) / rect.height) * 100));
+                console.log(`Click position: ${left}, ${top}`);
+                setTargetPosition({ left, top, scale: 1 }); // Set target position to clicked location
+                setAnimationState('walking');
+                setPlayModeFetch(false); // Exit play mode after one click
+            }
+        };
+
+        if (playModeFetch) {
+            document.addEventListener('click', handleFetch);
+        }
+
+        return () => {
+            document.removeEventListener('click', handleFetch);
+        };
+    }, [playModeFetch]);
+
 
 
     const handlePetClick = (event) => {
-        setAnimationState('idle'); // Stop the pet from walking
-        setShowMenu(true); // Show the menu
-        setMenuPosition({ x: event.pageX, y: event.pageY }); // Position the menu at the click location
-        //if (walkTimeout) {
-        //    clearTimeout(walkTimeout.current);
-        //    walkTimeout.current = null;
-        //}
+        if (!showMenu) {
+            setAnimationState('idle'); // Stop the pet from walking
+            setShowMenu(true); // Show the menu
+            setMenuPosition({ x: event.pageX, y: event.pageY }); // Position the menu at the click location
+        }
+        else {
+            setAnimationState('walking'); // Stop the pet from walking
+            setShowMenu(false);
+        }
     };
 
     const handleOptionSelected = async (interactionType) => {
         console.log(`Selected option: ${interactionType}`);
         setShowMenu(false);
 
-
-        // TESTING INTERACTIONS 2 ########################################################################################
         if (interactionType === 'feed') {
             setAnimationState('eating');
         } else if (interactionType === 'wash') {
             setAnimationState('washing');
         } else if (interactionType === 'pet') {
             setAnimationState('petting');
+        } else if (interactionType === 'play') {
+            
+            setPlayModeFetch(true);
         }
-
+        else {
+            setAnimationState('walking');
+        }
 
         if (!accessToken) {
             console.error('User token not found');
@@ -312,7 +325,7 @@ const Pet = () => {
 
     const debugAnimation = () => {
         if (outfit === 'default') {
-            setOutfit('ChemicalEngineering');
+            setOutfit('ComputerScience');
         } else {
             setOutfit('default');
         }
@@ -328,6 +341,7 @@ const Pet = () => {
 
     return (
         <div className="backyard">
+            <img src="src/assets/yard_fence.png" alt="fence" className="overlay" />
             <img src="src/assets/doghouse.png" alt="Doghouse" className="overlay" />
             <img src="src/assets/flowerbush.png" alt="Flowers" className="overlay" />
 
@@ -345,20 +359,19 @@ const Pet = () => {
             <button style={{
                 position: 'absolute',
                 left: '0%',
-                top: '90%'}}>test</button>
+                top: '85%'}}>test</button>
             {/* DEBUG */}
-
             
                 <div
                     key={`pet ${animationState}`}
                     className={`pet ${animationState}`}
-                    //onClick={handlePetClick}
                     style={{
                         backgroundImage: `url('src/assets/default/${animationState}.png')`,
                         position: 'absolute',
                         left: `${position.left}%`,
                         top: `${position.top}%`,
                         transform: `scale(${position.scale}) scaleX(${position.flip})`,
+                        pointerEvents: 'none',
                     }}>
                     <div
                         key={`${outfit} ${animationState}`}
@@ -372,10 +385,12 @@ const Pet = () => {
                             backgroundImage: `url(${getOutfitImage(animationState)})`,
                             backgroundSize: 'cover',
                             backgroundRepeat: 'no-repeat',
+                            pointerEvents: 'none',
                         }}
                     ></div>
                     <div className='clickableArea'
-                    onClick={handlePetClick}
+                    //onClick={handlePetClick}
+                    onClick={animationState === 'walking' || animationState === 'idle' ? handlePetClick : null}
                     style={{
                         position: 'absolute',
                         top: '40%',
@@ -383,6 +398,7 @@ const Pet = () => {
                         width: '40%',
                         height: '30%',
                         cursor: 'pointer',
+                        pointerEvents: 'visible',
                     }}
                     ></div>
 
