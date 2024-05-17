@@ -112,6 +112,22 @@ class MajorInformation(db.Model):
             'interests': self.interests
        }
     
+
+class TopProfessors(db.Model):
+    __tablename__ = 'TopProfessors'
+    professorID = db.Column(db.Integer, primary_key=True, unique=True, autoincrement=True, nullable=False)
+    majorID = db.Column(db.Integer, db.ForeignKey('Majors.majorID'), nullable=False)
+    professorName = db.Column(db.String(255), nullable=False)
+    professorURL = db.Column(db.String(255), nullable=False)
+
+    def to_dict(self):
+        return {
+            'professorID': self.professorID,
+            'majorID': self.majorID,
+            'professorName': self.professorName,
+            'professorURL': self.professorURL
+        }
+    
 class Pets(db.Model):
     __tablename__ = 'Pets'
     petID = db.Column(db.Integer, primary_key=True, autoincrement=True)
@@ -426,6 +442,11 @@ def get_majors():
     majors = Majors.query.all()
     return jsonify([major.to_dict() for major in majors])
 
+# TODO: Add a route to get professor information for a specific major
+@app.route('/api/professors', methods=['GET'])
+def get_professors():
+    professors = TopProfessors.query.all()
+    return jsonify([professor.to_dict() for professor in professors])
 
 @app.route('/api/majors/majorinformation/<int:majorID>', methods=['GET'])
 def get_majorInfo(majorID):

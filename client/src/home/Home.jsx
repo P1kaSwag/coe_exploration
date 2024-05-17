@@ -1,6 +1,10 @@
 import '../assets/home.css'
-import { NavLink, Outlet } from "react-router-dom";
+import { NavLink, Outlet } from "react-router-dom"
 import Background from '../assets/homebg.jpg'
+import Quiz from '../assets/hiring.png'
+import Explore from '../assets/mortarboard.png'
+import Reward from '../assets/safety.png'
+
 
 const Home = () => {
     return (
@@ -17,10 +21,31 @@ const Home = () => {
                     </div>
                 </div>
 
-                <div>
-                    <div className="small-card"> Take the quiz. Our quiz is made to find you your top three engineering majors at Oregon State University. </div> 
-                    <div className="small-card"> Explore all 17 majors within the College of Engineering. You can learn about every major from a students perspective. </div>
-                    <div className="small-card"> Apply your items to your pet. Play all of the 17 mini games to get every item you can equipt to your pet. </div>
+                <div className="container">
+                    <div className="small-card"> 
+                        <div className="icon-container">
+                            <img src={Quiz} className="icon-small"></img>
+                        </div>
+                        <div className="text-container">
+                        Take the quiz. Our quiz is made to find you your top three engineering majors at Oregon State University. 
+                        </div>
+                    </div> 
+                    <div className="small-card"> 
+                        <div className="icon-container">
+                            <img src={Explore} className="icon-small"></img>
+                        </div>
+                        <div className="text-container">
+                        Explore all 16 majors within the College of Engineering. You can learn about every major from a students perspective. 
+                        </div>
+                    </div>
+                    <div className="small-card"> 
+                        <div className="icon-container">
+                            <img src={Reward} className="icon-small"></img>
+                        </div>
+                        <div className="text-container">
+                            Apply your items to your pet. Play all of the 17 mini games to get every item you can equipt to your pet. 
+                        </div>
+                    </div>
                 </div>
             </div>
         </>

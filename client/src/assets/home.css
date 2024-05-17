@@ -29,13 +29,18 @@
     border-radius: 10px;
     border: 2px solid #ccc;
     box-shadow: 3px 3px 10px grey;
-    display: inline-block;
     background-color: white; 
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
 }
 
-.center {
-    margin-left: auto;
-    margin-right: auto;
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* height: 100vh; /* This centers vertically */
 }
 
 .link-button {
@@ -48,3 +53,18 @@
     width: calc(25% - 4px); 
     margin: 20px 4px;
 }
+
+.icon-small {
+    width: 55px; /* Adjust the size as needed */
+    height: auto;
+    margin-right: 10px; /* Adjust spacing between icon and text */
+    vertical-align: middle; /* Align icon vertically with text */
+  }
+
+  .icon-container {
+    margin: 20px;
+  }
+
+  .text-container {
+    text-align: center;
+  }
