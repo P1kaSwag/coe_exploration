@@ -9,7 +9,7 @@ import Reward from '../assets/safety.png'
 const Home = () => {
     return (
         <>
-            <div style={{backgroundImage: `url(${Background})`, backgroundSize: 'cover', backgroundRepeat: 'no-repeat', backgroundAttachment: 'fixed'}}> 
+            <div className="home-background"> 
                 <div className="howto-container">
                     <h1> Explore the College of Engineering Majors</h1>
                     <p> We've taken information from students in the College of Engineering at Oregon State University and turn it into a quiz

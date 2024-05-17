@@ -29,7 +29,8 @@ const ElectricalAndComputerEngineeringGame = () => {
       });  
 
       const shuffledCards = cards.sort(() => Math.random() - 0.5);
-      console.log(shuffledCards);
+      // Prints the order of the cards to the console
+      //console.log(shuffledCards);
       return shuffledCards;
     }
 
@@ -83,7 +84,7 @@ const ElectricalAndComputerEngineeringGame = () => {
           {card.isFlipped ? (
             <div className="front">{card.content}</div>
           ) : (
-            <div className="back">""</div>
+            <div className="back"></div>
           )}
         </div>
       );
@@ -117,7 +118,7 @@ const ElectricalAndComputerEngineeringGame = () => {
   
     return (
       <div className="ece-game">
-        <h1>Engineering Matching Game</h1>
+        <h1>Electrical and Computer Engineering Matching Game</h1>
         {gameEnd ? <Reward /> : renderGrid()}
       </div>
     );

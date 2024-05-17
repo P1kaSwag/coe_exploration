@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import '../assets/login.css';
+import './login.css';
 
 const RegisterComponent = () => {
     const [username, setUsername] = useState('');
@@ -9,7 +9,7 @@ const RegisterComponent = () => {
 
   const handleRegister = async () => {
     // TODO: Change localhost to something else
-    const response = await fetch('http://localhost:8000/api/users/register', {
+    const response = await fetch('/api/users/register', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
