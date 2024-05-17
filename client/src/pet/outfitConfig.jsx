@@ -1,3 +1,8 @@
+/* 
+Some outfit assets can be reused across different animations so instead of having a separate 
+asset for each animation, we can map the outfit to the animation it should be used for. 
+*/
+
 const outfitMappings = {
     default: {
       walking: 'walking',

@@ -12,17 +12,18 @@ CREATE TABLE Users (
     password VARCHAR(255)
 );
 
--- TODO: still need outfitID FK to a rewards table
 CREATE TABLE Pets (
     PetID INT PRIMARY KEY AUTO_INCREMENT,
     userid INT NOT NULL,
+    outfitID INT DEFAULT NULL,
     pet_name VARCHAR(255) NOT NULL,
     mood ENUM('happy', 'sad', 'angry', 'neutral', 'excited', 'tired', 'curious') DEFAULT 'neutral',
     love INT DEFAULT 50,
     recreation INT DEFAULT 30,
     hunger INT DEFAULT 30,
     cleanliness INT DEFAULT 100,
-    FOREIGN KEY (userid) REFERENCES Users(userid)
+    FOREIGN KEY (userid) REFERENCES Users(userid),
+    FOREIGN KEY (outfitID) REFERENCES Rewards(rewardID)
 );
 
 CREATE TABLE PetInteractions (
@@ -50,7 +51,8 @@ CREATE TABLE PetRewards (
     rewardID INT,
     isActive BOOLEAN DEFAULT FALSE,
     FOREIGN KEY (petID) REFERENCES Pets(PetID),
-    FOREIGN KEY (rewardID) REFERENCES Rewards(rewardID)
+    FOREIGN KEY (rewardID) REFERENCES Rewards(rewardID),
+    CONSTRAINT unique_reward UNIQUE (petID, rewardID)
 );
 
 CREATE TABLE Majors (
@@ -192,7 +194,7 @@ VALUES
     (17, 'Professor 3', 'https://engineering.oregonstate.edu/sites/engineering.oregonstate.edu/files/styles/profile_image/public/default_images/profile_preview.png?itok=5RN_oJyY');
 
 
-    INSERT INTO Words (major_id, word) VALUES
+INSERT INTO Words (major_id, word) VALUES
     -- Bioengineering
     (2, 'Bioinformatics'), (2, 'Prosthetics'), (2, 'Implants'), (2, 'Bioreactors'),
     (2, 'Cellular'), (2, 'Molecular'), (2, 'Biochemical'), (2, 'Nanotechnology'),
@@ -238,3 +240,22 @@ VALUES
     -- Radiation Health Physics
     (17, 'Radiation'), (17, 'Health'), (17, 'Dosimetry'), (17, 'Protection'),
     (17, 'Radiobiology'), (17, 'Medical imaging'), (17, 'Nuclear medicine'), (17, 'Regulation');
+
+INSERT INTO Rewards (majorID, rewardName, rewardDescription, rewardType)
+VALUES
+    (1, 'Architectural Engineering', 'A new home for your pet!', 'cosmetic'),
+    (2, 'Bioengineering', 'Now you can see a live report of how your pet is feeling!', 'mechanic'),
+    (3, 'Chemical Engineering', 'A new outfit for your pet!', 'outfit'),
+    (4, 'Civil Engineering', 'A new outfit for your pet!', 'outfit'),
+    (5, 'Computer Science', 'A new outfit for your pet!', 'outfit'),
+    /*(6, 'Construction Engineering Management', 'A new toy for your pet!', 'mechanic'),*/
+    (7, 'Ecological Engineering', 'Add some flowers to your yard!', 'cosmetic'),
+    (8, 'Electrical and Computer Engineering', 'Light up your yard!', 'cosmetic'),
+    (9, 'Energy Systems Engineering', 'Add a view of some wind turbines to your yard!', 'cosmetic'),
+    (10, 'Engineering Science', 'A new outfit for your pet!', 'outfit'),
+    (11, 'Environmental Engineering', 'A new way to see your yard! (Best used with the Electrical and Computer Engineering reward)', 'mechanic'),
+    (12, 'Industrial Engineering', 'A new outfit for your pet!', 'outfit'),
+    (14, 'Mechanical Engineering', 'A new outfit for your pet!', 'outfit'),
+    (15, 'Nuclear Engineering', 'A new outfit for your pet!', 'outfit'),
+    (16, 'Outdoor Products', 'A new way to play with your pet!', 'mechanic'),
+    (17, 'Radiation Health Physics', 'A new outfit for your pet!', 'outfit');

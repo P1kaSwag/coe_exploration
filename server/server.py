@@ -122,6 +122,7 @@ class Pets(db.Model):
     recreation = db.Column(db.Integer, default=30)
     hunger = db.Column(db.Integer, default=30)
     cleanliness = db.Column(db.Integer, default=100)
+    outfitID = db.Column(db.Integer, db.ForeignKey('Rewards.rewardID'), nullable=True)
 
     def to_dict(self):
         return {
@@ -130,9 +131,9 @@ class Pets(db.Model):
             'love': self.love,
             'recreation': self.recreation,
             'hunger': self.hunger,
-            'cleanliness': self.cleanliness
+            'cleanliness': self.cleanliness,
+            'outfitID': self.outfitID
         }
-
 
 class PetInteractions(db.Model):
     __tablename__ = 'PetInteractions'
@@ -141,6 +142,30 @@ class PetInteractions(db.Model):
     userID = db.Column(db.Integer, db.ForeignKey('Users.userID'), nullable=False)
     interactionType = db.Column(db.Enum('pet', 'play', 'feed', 'wash'), nullable=False)
     interactionTime = db.Column(db.TIMESTAMP, server_default=db.func.current_timestamp())
+
+class Rewards(db.Model):
+    __tablename__ = 'Rewards'
+    rewardID = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    majorID = db.Column(db.Integer, db.ForeignKey('Majors.majorID'), nullable=False)
+    rewardName = db.Column(db.String(255), nullable=False)
+    rewardDescription = db.Column(db.Text, nullable=False)
+    rewardType = db.Column(db.Enum('outfit', 'cosmetic', 'mechanic'), nullable=False)
+
+    def to_dict(self):
+        return {
+            'rewardID': self.rewardID,
+            'majorID': self.majorID,
+            'rewardName': self.rewardName,
+            'rewardDescription': self.rewardDescription,
+            'rewardType': self.rewardType
+        }
+    
+class PetRewards(db.Model):
+    __tablename__ = 'PetRewards'
+    PetRewardID = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    PetID = db.Column(db.Integer, db.ForeignKey('Pets.PetID'), nullable=False)
+    rewardID = db.Column(db.Integer, db.ForeignKey('Rewards.rewardID'), nullable=False)
+    isActive = db.Column(db.Boolean, default=False)
 
 class Words(db.Model):
     __tablename__ = 'Words'
@@ -187,7 +212,6 @@ def interact_with_pet():
         return jsonify({'message': 'Maximum daily interactions exceeded'}), 429
 
     # Execute the interaction
-    # TODO: Add some logic to update the pet's mood based on the interactions
     match interaction_type:
         case 'pet':
             pet.love = min(pet.love + 1, 100)   # Clamp the values between 0 and 100
@@ -246,25 +270,98 @@ def get_pet_stats():
         return jsonify({'message': 'Pet not found'}), 404
     
     pet_stats = pet.to_dict()
+    outfit = Rewards.query.filter_by(rewardID=pet.outfitID).first()
+    outfit_name = outfit.rewardName if outfit else 'default'
+    pet_stats['outfit'] = outfit_name
     print(pet_stats)
     
     return jsonify({'message': 'Pet stats retrieved successfully', 'petStats': pet_stats}), 200
 
+@app.route('/api/pet/equip-outfit', methods=['POST'])
+@jwt_required()
+def equip_outfit():
+    """Equip an outfit to the current user's pet."""
+    current_user_id = get_jwt_identity()
+    data = request.json
+    reward_id = data.get('rewardID')
+
+    pet = Pets.query.filter_by(userID=current_user_id).first()
+    if not pet:
+        return jsonify({'message': 'Pet not found'}), 404
+
+    reward = Rewards.query.filter_by(rewardID=reward_id).first()
+    if not reward or reward.rewardType != 'outfit':
+        return jsonify({'message': 'Invalid outfit reward'}), 400
+
+    pet.outfitID = reward_id
+    db.session.commit()
+
+    return jsonify({'message': 'Outfit equipped successfully'}), 200
+
+@app.route('/api/pet/toggle-cosmetic', methods=['POST'])
+@jwt_required()
+def toggle_cosmetic():
+    """Toggle a cosmetic item for the current user's pet."""
+    current_user_id = get_jwt_identity()
+    data = request.get_json()
+    reward_id = data.get('rewardId')
+    is_active = data.get('isActive')
+    pet = Pets.query.filter_by(userID=current_user_id).first()
+    
+    if not pet:
+        return jsonify({'message': 'Pet not found'}), 404
+    
+    pet_reward = PetRewards.query.filter_by(petID=pet.PetID, rewardID=reward_id).first()
+    if not pet_reward:
+        return jsonify({'message': 'Reward not found for this pet'}), 404
+    
+    pet_reward.isActive = is_active
+    db.session.commit()
+    
+    return jsonify({'message': 'Cosmetic item toggled successfully'}), 200
+
+@app.route('/api/pet/rewards', methods=['GET'])
+@jwt_required()
+def get_pet_rewards():
+    current_user_id = get_jwt_identity()
+    pet = Pets.query.filter_by(userID=current_user_id).first()
+
+    if not pet:
+        return jsonify({'message': 'Pet not found'}), 404
+
+    pet_rewards = (db.session.query(PetRewards, Rewards)
+                   .join(Rewards, PetRewards.rewardID == Rewards.rewardID)
+                   .filter(PetRewards.petID == pet.PetID)
+                   .all())
+
+    rewards_list = []
+    for pet_reward, reward in pet_rewards:
+        reward_data = reward.to_dict()
+        reward_data['isActive'] = pet_reward.isActive
+        rewards_list.append(reward_data)
+
+    # Identify active outfit
+    active_outfit = pet.outfitID
+
+    return jsonify({
+        'message': 'Rewards retrieved successfully',
+        'rewards': rewards_list,
+        'activeOutfit': active_outfit
+    }), 200
 
 def degrade_pet_stats():
     """Periodically degrades the stats of all pets in the database."""
     with app.app_context(): # Need to create a new app context to access the database outside of a request from the frontend
         pets = Pets.query.all()
         for pet in pets:
-            print(pet.to_dict())
+            print(pet.to_dict())                    # TODO: Remove this line later
             pet.love = max(pet.love - 1, 0)
             pet.recreation = max(pet.recreation - 1, 0)
-            pet.hunger = min(pet.hunger + 1, 100)
-            pet.cleanliness = max(pet.cleanliness - 1, 0)
+            pet.hunger = min(pet.hunger + 5, 100)
+            pet.cleanliness = max(pet.cleanliness - 3, 0)
             print(pet.to_dict())
 
         db.session.commit()
-
 
 @app.route('/api/users/register', methods=['POST'])
 def register():
@@ -341,6 +438,28 @@ def get_major_words(major_id):
 
 # Degrade the pet's stats every hour
 scheduler.add_job(id='degrade_pet_stats', func=degrade_pet_stats, trigger='interval', hours=1)
+
+
+
+
+# TODO: Remove this later
+def insert_test_user():
+    username = 'test'
+    email = 'test@mail.com'
+    password = 'password'
+
+    hashed_password = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt())
+    new_user = Users(username=username, email=email, password=hashed_password)
+
+    db.session.add(new_user)
+    db.session.commit()
+
+    new_pet = Pets(userid=new_user.userID, pet_name="Test Pet")
+    db.session.add(new_pet)
+    db.session.commit()
+
+insert_test_user()
+
 
 # Running app
 if __name__ == '__main__':

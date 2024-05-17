@@ -1,14 +1,14 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { useAuth } from '../authentication/AuthComponent';
 import PetMenu from './PetMenu';
-import './pet_styles.css';
 import outfitMappings from './outfitConfig';
+import RewardManager from './RewardManagerComponent';
+import './pet_styles.css';
 
 const Pet = () => {
     const { accessToken } = useAuth();  // Get the access token from the AuthProvider to make authenticated requests
-
-    // State to manage the pet's menu and skills
     const [showMenu, setShowMenu] = useState(false);
+    const [showRewards, setShowRewards] = useState(false);
     const [menuPosition, setMenuPosition] = useState({ x: 0, y: 0 });
     const [petStats, setPetStats] = useState({ pet_name: "O'malley", mood: "neutral", love: 0, recreation: 0, hunger: 0, cleanliness: 0 })
     const [animationState, setAnimationState] = useState('walking'); // ['walking', 'eating', 'idle', 'washing', 'petting']
@@ -154,7 +154,8 @@ const Pet = () => {
                 ) {
                     // If the pet hasn't reached the newLeft position, move towards it
                     newLeft +=
-                        targetPosition.left > prevPosition.left ? leftStepSize : -leftStepSize;
+                        targetPosition.left > prevPosition.left ? leftStepSize
+                            : -leftStepSize;
                 } else {
                     // Adjust newLeft to exactly match the target to prevent overshooting
                     newLeft = targetPosition.left;
@@ -280,11 +281,14 @@ const Pet = () => {
         } else if (interactionType === 'pet') {
             setAnimationState('petting');
         } else if (interactionType === 'play') {
-            
             setPlayModeFetch(true);
+        } else if (interactionType === 'style') {
+            setShowRewards(true);
+            return;
         }
         else {
             setAnimationState('walking');
+            return;
         }
 
         if (!accessToken) {
@@ -315,6 +319,7 @@ const Pet = () => {
 
     };
 
+    // Some outfits share overlay images for certain states, so we need to check the mappings to get the correct images
     const getOutfitImage = (state) => {
         if (outfit && outfit !== 'default' && outfitMappings[outfit][state]) {
           return `src/assets/${outfit}/${outfitMappings[outfit][state]}.png`;
@@ -413,6 +418,7 @@ const Pet = () => {
                 <p>Cleanliness: {petStats.cleanliness}</p>
             </div>
             {showMenu && <PetMenu x={menuPosition.x} y={menuPosition.y} onOptionSelected={handleOptionSelected} />}
+            {showRewards && <RewardManager onClose={() => [setShowRewards(false), setAnimationState('walking')]} />}
         </div>
     );
 };

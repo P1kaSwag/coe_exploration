@@ -9,6 +9,7 @@ with open('words_file.txt', 'r') as file:
             word_list.append(word)
 
 with open('words_list.txt', 'w') as file:
+    word_list.sort()
     for word in word_list:
         file.write(word + ',\n')
 
