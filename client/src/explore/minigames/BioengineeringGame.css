@@ -115,7 +115,7 @@ button:hover {
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 100%; /* Ensures the container takes full width to utilize the space for the reset button */
+  /*width: 100%;  Ensures the container takes full width to utilize the space for the reset button */
 }
 
 .biogame-container .reset-button {
