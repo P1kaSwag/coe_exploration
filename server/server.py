@@ -114,7 +114,7 @@ class MajorInformation(db.Model):
     
 class Pets(db.Model):
     __tablename__ = 'Pets'
-    PetID = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    petID = db.Column(db.Integer, primary_key=True, autoincrement=True)
     userID = db.Column(db.Integer, db.ForeignKey('Users.userID'), nullable=False)
     pet_name = db.Column(db.String(255), nullable=False)
     mood = db.Column(db.Enum('happy', 'sad', 'angry', 'neutral', 'excited', 'tired', 'curious'), default='neutral', nullable=False)
@@ -138,7 +138,7 @@ class Pets(db.Model):
 class PetInteractions(db.Model):
     __tablename__ = 'PetInteractions'
     PetInteractionsID = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    PetID = db.Column(db.Integer, db.ForeignKey('Pets.PetID'), nullable=False)
+    petID = db.Column(db.Integer, db.ForeignKey('Pets.petID'), nullable=False)
     userID = db.Column(db.Integer, db.ForeignKey('Users.userID'), nullable=False)
     interactionType = db.Column(db.Enum('pet', 'play', 'feed', 'wash'), nullable=False)
     interactionTime = db.Column(db.TIMESTAMP, server_default=db.func.current_timestamp())
@@ -163,7 +163,7 @@ class Rewards(db.Model):
 class PetRewards(db.Model):
     __tablename__ = 'PetRewards'
     PetRewardID = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    PetID = db.Column(db.Integer, db.ForeignKey('Pets.PetID'), nullable=False)
+    petID = db.Column(db.Integer, db.ForeignKey('Pets.petID'), nullable=False)
     rewardID = db.Column(db.Integer, db.ForeignKey('Rewards.rewardID'), nullable=False)
     isActive = db.Column(db.Boolean, default=False)
 
@@ -205,7 +205,7 @@ def interact_with_pet():
     
     # Check to make sure number of interactions per day is not exceeded for the interaction type
     today = datetime.now().date()
-    interaction_count = PetInteractions.query.filter(PetInteractions.PetID == pet.PetID, PetInteractions.interactionType == interaction_type, db.func.date(PetInteractions.interactionTime) == today).count()
+    interaction_count = PetInteractions.query.filter(PetInteractions.petID == pet.petID, PetInteractions.interactionType == interaction_type, db.func.date(PetInteractions.interactionTime) == today).count()
     print(f"There's been {interaction_count + 1} {interaction_type} interactions on {today} so far")
 
     if interaction_count >= MAX_INTERACTIONS_PER_DAY[interaction_type]:
@@ -231,7 +231,7 @@ def interact_with_pet():
     pet.mood = update_pet_mood(pet)
     
     # Create a new interaction record
-    new_interaction = PetInteractions(PetID=pet.PetID, userID=current_user_id, interactionType=interaction_type)
+    new_interaction = PetInteractions(petID=pet.petID, userID=current_user_id, interactionType=interaction_type)
     
     # Save the changes to the database (don't need to add the pet to the session since it's already there)
     db.session.add(new_interaction)
@@ -272,10 +272,12 @@ def get_pet_stats():
     pet_stats = pet.to_dict()
     outfit = Rewards.query.filter_by(rewardID=pet.outfitID).first()
     outfit_name = outfit.rewardName if outfit else 'default'
+    pet_stats['outfitID'] = pet.outfitID
     pet_stats['outfit'] = outfit_name
     print(pet_stats)
     
     return jsonify({'message': 'Pet stats retrieved successfully', 'petStats': pet_stats}), 200
+
 
 @app.route('/api/pet/equip-outfit', methods=['POST'])
 @jwt_required()
@@ -283,11 +285,18 @@ def equip_outfit():
     """Equip an outfit to the current user's pet."""
     current_user_id = get_jwt_identity()
     data = request.json
-    reward_id = data.get('rewardID')
+    reward_id = data.get('rewardId')
+    print(f"Reward ID: {reward_id}")
 
     pet = Pets.query.filter_by(userID=current_user_id).first()
     if not pet:
         return jsonify({'message': 'Pet not found'}), 404
+
+    if reward_id is None:
+        # Set the outfit to default
+        pet.outfitID = None
+        db.session.commit()
+        return jsonify({'message': 'Outfit set to default'}), 200
 
     reward = Rewards.query.filter_by(rewardID=reward_id).first()
     if not reward or reward.rewardType != 'outfit':
@@ -297,6 +306,7 @@ def equip_outfit():
     db.session.commit()
 
     return jsonify({'message': 'Outfit equipped successfully'}), 200
+
 
 @app.route('/api/pet/toggle-cosmetic', methods=['POST'])
 @jwt_required()
@@ -311,7 +321,7 @@ def toggle_cosmetic():
     if not pet:
         return jsonify({'message': 'Pet not found'}), 404
     
-    pet_reward = PetRewards.query.filter_by(petID=pet.PetID, rewardID=reward_id).first()
+    pet_reward = PetRewards.query.filter_by(petID=pet.petID, rewardID=reward_id).first()
     if not pet_reward:
         return jsonify({'message': 'Reward not found for this pet'}), 404
     
@@ -331,7 +341,7 @@ def get_pet_rewards():
 
     pet_rewards = (db.session.query(PetRewards, Rewards)
                    .join(Rewards, PetRewards.rewardID == Rewards.rewardID)
-                   .filter(PetRewards.petID == pet.PetID)
+                   .filter(PetRewards.petID == pet.petID)
                    .all())
 
     rewards_list = []
@@ -441,24 +451,24 @@ scheduler.add_job(id='degrade_pet_stats', func=degrade_pet_stats, trigger='inter
 
 
 
+@app.route('/api/debug/unlock-rewards', methods=['POST'])
+@jwt_required()
+def unlock_rewards():
+    """Unlock all rewards for the current user's pet."""
+    current_user_id = get_jwt_identity()
+    pet = Pets.query.filter_by(userID=current_user_id).first()
 
-# TODO: Remove this later
-def insert_test_user():
-    username = 'test'
-    email = 'test@mail.com'
-    password = 'password'
+    if not pet:
+        return jsonify({'message': 'Pet not found'}), 404
 
-    hashed_password = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt())
-    new_user = Users(username=username, email=email, password=hashed_password)
+    rewards = Rewards.query.all()
+    for reward in rewards:
+        pet_reward = PetRewards(petID=pet.petID, rewardID=reward.rewardID)
+        db.session.add(pet_reward)
 
-    db.session.add(new_user)
     db.session.commit()
 
-    new_pet = Pets(userid=new_user.userID, pet_name="Test Pet")
-    db.session.add(new_pet)
-    db.session.commit()
-
-insert_test_user()
+    return jsonify({'message': 'All rewards unlocked successfully'}), 200
 
 
 # Running app

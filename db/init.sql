@@ -12,8 +12,24 @@ CREATE TABLE Users (
     password VARCHAR(255)
 );
 
+CREATE TABLE Majors (
+    majorid INT PRIMARY KEY AUTO_INCREMENT,
+    majorName VARCHAR(255),
+    majorDescription TEXT,
+    careerProspects VARCHAR(255)
+);
+
+CREATE TABLE Rewards (
+    rewardID INT PRIMARY KEY AUTO_INCREMENT,
+    majorID INT,
+    rewardName VARCHAR(255),
+    rewardDescription TEXT,
+    rewardType ENUM('outfit', 'cosmetic', 'mechanic'),
+    FOREIGN KEY (majorID) REFERENCES Majors(majorid)
+);
+
 CREATE TABLE Pets (
-    PetID INT PRIMARY KEY AUTO_INCREMENT,
+    petID INT PRIMARY KEY AUTO_INCREMENT,
     userid INT NOT NULL,
     outfitID INT DEFAULT NULL,
     pet_name VARCHAR(255) NOT NULL,
@@ -28,21 +44,12 @@ CREATE TABLE Pets (
 
 CREATE TABLE PetInteractions (
     PetInteractionsID INT AUTO_INCREMENT PRIMARY KEY,
-    PetID INT NOT NULL,
+    petID INT NOT NULL,
     userid INT NOT NULL,
     InteractionType ENUM('pet', 'play', 'feed', 'wash') NOT NULL,
     InteractionTime TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (PetID) REFERENCES Pets(PetID),
+    FOREIGN KEY (petID) REFERENCES Pets(petID),
     FOREIGN KEY (userid) REFERENCES Users(userid)
-);
-
-CREATE TABLE Rewards (
-    rewardID INT PRIMARY KEY AUTO_INCREMENT,
-    majorID INT,
-    rewardName VARCHAR(255),
-    rewardDescription TEXT,
-    rewardType ENUM('outfit', 'cosmetic', 'mechanic'),
-    FOREIGN KEY (majorID) REFERENCES Majors(majorid)
 );
 
 CREATE TABLE PetRewards (
@@ -50,16 +57,9 @@ CREATE TABLE PetRewards (
     petID INT,
     rewardID INT,
     isActive BOOLEAN DEFAULT FALSE,
-    FOREIGN KEY (petID) REFERENCES Pets(PetID),
+    FOREIGN KEY (petID) REFERENCES Pets(petID),
     FOREIGN KEY (rewardID) REFERENCES Rewards(rewardID),
     CONSTRAINT unique_reward UNIQUE (petID, rewardID)
-);
-
-CREATE TABLE Majors (
-    majorid INT PRIMARY KEY AUTO_INCREMENT,
-    majorName VARCHAR(255),
-    majorDescription TEXT,
-    careerProspects VARCHAR(255)
 );
 
 CREATE TABLE MajorInformation (
@@ -248,7 +248,7 @@ VALUES
     (3, 'Chemical Engineering', 'A new outfit for your pet!', 'outfit'),
     (4, 'Civil Engineering', 'A new outfit for your pet!', 'outfit'),
     (5, 'Computer Science', 'A new outfit for your pet!', 'outfit'),
-    /*(6, 'Construction Engineering Management', 'A new toy for your pet!', 'mechanic'),*/
+    (6, 'Construction Engineering Management', 'A new outfit for your pet!', 'outfit'),
     (7, 'Ecological Engineering', 'Add some flowers to your yard!', 'cosmetic'),
     (8, 'Electrical and Computer Engineering', 'Light up your yard!', 'cosmetic'),
     (9, 'Energy Systems Engineering', 'Add a view of some wind turbines to your yard!', 'cosmetic'),

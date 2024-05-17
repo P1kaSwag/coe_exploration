@@ -71,6 +71,7 @@ const Pet = () => {
             const data = await response.json();
             console.log(data.petStats);
             setPetStats(data.petStats);
+            setOutfit(data.petStats.outfit.replace(/\s/g, '')); // Remove spaces from outfit name
         } else {
             console.error(`Error status: ${response.status}`);
         }
@@ -222,17 +223,10 @@ const Pet = () => {
         }
     }, [waiting, showMenu]);  // Effect runs only when waiting state changes
 
-    // TESTING INTERACTIONS 1 ############################################################################################
-    useEffect(() => {
-        if (animationState === 'eating' || animationState === 'washing' || animationState === 'petting') {
-            setTimeout(() => {
-                setAnimationState('walking');
-            }, 2200);
-            return () => clearTimeout();
-        }
-    }, [animationState]);
 
-    // TESTING FETCH COMMAND ############################################################################################
+
+
+    // TESTING FETCH COMMAND (NOT COMPLETELY IMPLEMENTED) ############################################################################################
     useEffect(() => {
         const handleFetch = (event) => {
             if (playModeFetch) {
@@ -285,8 +279,7 @@ const Pet = () => {
         } else if (interactionType === 'style') {
             setShowRewards(true);
             return;
-        }
-        else {
+        } else {
             setAnimationState('walking');
             return;
         }
@@ -314,8 +307,9 @@ const Pet = () => {
         } else {
             console.error(`Error status: ${response.status}`);
         }
-
-        setAnimationState('walking');
+        setTimeout(() => {
+            setAnimationState('walking');
+        }, 2200);
 
     };
 
@@ -327,6 +321,12 @@ const Pet = () => {
           return '';
         }
       };
+
+    const handleCloseRewards = () => {
+        setShowRewards(false);
+        setAnimationState('walking');
+        window.location.reload(); // Reload the page
+    };
 
     const debugAnimation = () => {
         if (outfit === 'default') {
@@ -343,6 +343,23 @@ const Pet = () => {
             setAnimationState('walking');
         }
     }
+
+    const debugRewards = async () => {
+        const response = await fetch('/api/debug/unlock-rewards', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${accessToken}`,
+            }});
+        
+        if (response.ok) {
+            const data = await response.json();
+            console.log(data.rewards);
+        } else {
+            console.error(`Error status: ${response.status}`);
+        }
+    };
+        
 
     return (
         <div className="backyard">
@@ -361,10 +378,10 @@ const Pet = () => {
                 left: '11.1%',
                 top: '32%',
                 }}>Idle</button>
-            <button style={{
+            <button onClick={debugRewards} style={{
                 position: 'absolute',
                 left: '0%',
-                top: '85%'}}>test</button>
+                top: '85%'}}>Unlock Rewards</button>
             {/* DEBUG */}
             
                 <div
@@ -398,10 +415,10 @@ const Pet = () => {
                     onClick={animationState === 'walking' || animationState === 'idle' ? handlePetClick : null}
                     style={{
                         position: 'absolute',
-                        top: '40%',
-                        left: '30%',
-                        width: '40%',
-                        height: '30%',
+                        top: '30%',
+                        left: '35%',
+                        width: '50%',
+                        height: '50%',
                         cursor: 'pointer',
                         pointerEvents: 'visible',
                     }}
@@ -418,7 +435,7 @@ const Pet = () => {
                 <p>Cleanliness: {petStats.cleanliness}</p>
             </div>
             {showMenu && <PetMenu x={menuPosition.x} y={menuPosition.y} onOptionSelected={handleOptionSelected} />}
-            {showRewards && <RewardManager onClose={() => [setShowRewards(false), setAnimationState('walking')]} />}
+            {showRewards && <RewardManager onClose={handleCloseRewards} />}
         </div>
     );
 };
