@@ -333,6 +333,7 @@ def toggle_cosmetic():
 @app.route('/api/pet/rewards', methods=['GET'])
 @jwt_required()
 def get_pet_rewards():
+    """Get all the earned rewards of the current user's pet."""
     current_user_id = get_jwt_identity()
     pet = Pets.query.filter_by(userID=current_user_id).first()
 
@@ -358,6 +359,29 @@ def get_pet_rewards():
         'rewards': rewards_list,
         'activeOutfit': active_outfit
     }), 200
+
+@app.route('/api/pet/check-reward/<int:reward_id>', methods=['GET'])
+@jwt_required()
+def check_reward(reward_id):
+    """Check if the current user's pet already has the reward."""
+    current_user_id = get_jwt_identity()
+
+    pet = Pets.query.filter_by(userID=current_user_id).first()
+    if not pet:
+        return jsonify({'message': 'Pet not found'}), 404
+
+    # Check if the pet has the specified reward
+    has_reward = PetRewards.query.filter_by(petID=pet.petID, rewardID=reward_id).first() is not None
+
+    if not has_reward:
+        # If the pet doesn't have the reward, add it to the pet's rewards
+        new_pet_reward = PetRewards(petID=pet.petID, rewardID=reward_id, isActive=False)
+        db.session.add(new_pet_reward)
+        db.session.commit()
+        has_reward = True
+
+    return jsonify({'hasReward': has_reward}), 200
+
 
 def degrade_pet_stats():
     """Periodically degrades the stats of all pets in the database."""

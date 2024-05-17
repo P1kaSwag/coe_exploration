@@ -5,6 +5,8 @@ import outfitMappings from './outfitConfig';
 import RewardManager from './RewardManagerComponent';
 import './pet_styles.css';
 
+import RewardNotification from '../explore/minigames/RewardNotificationComponent';
+
 const Pet = () => {
     const { accessToken } = useAuth();  // Get the access token from the AuthProvider to make authenticated requests
     const [showMenu, setShowMenu] = useState(false);
