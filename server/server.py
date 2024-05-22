@@ -391,7 +391,7 @@ def check_reward(reward_id):
 
     if not has_reward:
         # If the pet doesn't have the reward, add it to the pet's rewards
-        new_pet_reward = PetRewards(petID=pet.petID, rewardID=reward_id, isActive=False)
+        new_pet_reward = PetRewards(petID=pet.petID, rewardID=reward_id, isActive=False)    # TODO: Change isActive to True for mechanic rewards
         db.session.add(new_pet_reward)
         db.session.commit()
         has_reward = True

@@ -38,7 +38,6 @@ nav.nav-pet:hover {
   height: 22vw;
 /*
   cursor: grab;
-  
   background-color: rgba(255, 0, 0, 0.5); 
   border: 2px solid red;*/
   background-repeat: no-repeat;
@@ -46,6 +45,14 @@ nav.nav-pet:hover {
 }
 
 .walking {
+  animation: walk_cycle 1s steps(13) infinite;
+}
+
+.dirt-light-walking {
+  animation: walk_cycle 1s steps(13) infinite;
+}
+
+.dirt-heavy-walking {
   animation: walk_cycle 1s steps(13) infinite;
 }
 
@@ -88,6 +95,14 @@ nav.nav-pet:hover {
 
 .idle {
   animation: idle_cycle 2s steps(27) infinite;
+}
+
+.dirt-light-idle {
+  animation: walk_cycle 2s steps(27) infinite;
+}
+
+.dirt-heavy-idle {
+  animation: walk_cycle 2s steps(27) infinite;
 }
 
 .ChemicalEngineering-idle {

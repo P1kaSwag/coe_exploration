@@ -19,6 +19,7 @@ const Pet = () => {
     const [loadedImages, setLoadedImages] = useState([]);
     const [waiting, setWaiting] = useState(false);
     const [playModeFetch, setPlayModeFetch] = useState(false);
+    const [playMode, setPlayMode] = useState(false);
 
     const points = [
         { left: 70, top: 50, scale: 1 },
@@ -107,7 +108,7 @@ const Pet = () => {
             const dirtStates = ['walking', 'eating', 'idle'];
             dirtStates.forEach(state => {
                 const img = new Image();
-                img.src = `src/assets/dirt/${dirtOverlay}_${state}.png`;
+                img.src = `src/assets/dirt/${dirtOverlay}_${state}.png`; // outfitMappings[dirtOverlay][state]
                 images.push(img);
             });
         }
@@ -253,6 +254,10 @@ const Pet = () => {
     }, [playModeFetch]);
 
 
+    // TESTING PLAY MODE (NOT COMPLETELY IMPLEMENTED) ############################################################################################
+
+
+
 
     const handlePetClick = (event) => {
         if (!showMenu) {
@@ -277,7 +282,8 @@ const Pet = () => {
         } else if (interactionType === 'pet') {
             setAnimationState('petting');
         } else if (interactionType === 'play') {
-            setPlayModeFetch(true);
+            //setPlayModeFetch(true);
+            setPlayMode(true);
         } else if (interactionType === 'style') {
             setShowRewards(true);
             return;
@@ -285,6 +291,10 @@ const Pet = () => {
             setAnimationState('walking');
             return;
         }
+
+        setTimeout(() => {
+            setAnimationState('walking');
+        }, 2200);
 
         if (!accessToken) {
             console.error('User token not found');
@@ -309,9 +319,6 @@ const Pet = () => {
         } else {
             console.error(`Error status: ${response.status}`);
         }
-        setTimeout(() => {
-            setAnimationState('walking');
-        }, 2200);
 
     };
 
@@ -322,7 +329,15 @@ const Pet = () => {
         } else {
           return '';
         }
-      };
+    };
+
+    const getDirtOverlayImage = (state) => {
+        if (dirtOverlay !== 'none') {
+            return `src/assets/dirt/${outfitMappings[dirtOverlay][state]}.png`;         // TODO: TESTING ############################################################################################################
+        } else {
+            return '';
+        }
+    }
 
     const handleCloseRewards = () => {
         setShowRewards(false);
@@ -368,6 +383,7 @@ const Pet = () => {
             <img src="src/assets/yard_fence.png" alt="fence" className="overlay" />
             <img src="src/assets/doghouse.png" alt="Doghouse" className="overlay" />
             <img src="src/assets/flowerbush.png" alt="Flowers" className="overlay" />
+            <img src="src/assets/frisbee.png" alt="frisbee" className="frisbee" style={{height: '15%', width: '15%', left: '1%', top: '70%'}} />
 
             {/* DEBUG */}
             <button className="backyardButton" onClick={debugAnimation} style={{
@@ -380,13 +396,18 @@ const Pet = () => {
                 left: '11.1%',
                 top: '32%',
                 }}>Idle</button>
+            <button onClick={() => setDirtOverlay('light')} style={{
+                position: 'absolute',
+                left: '11.1%',
+                top: '34%',
+                }}>Light Dirt</button>
             <button onClick={debugRewards} style={{
                 position: 'absolute',
                 left: '0%',
                 top: '85%'}}>Unlock Rewards</button>
             {/* DEBUG */}
             
-                <div
+                <div    // Pet base image
                     key={`pet ${animationState}`}
                     className={`pet ${animationState}`}
                     style={{
@@ -397,7 +418,21 @@ const Pet = () => {
                         transform: `scale(${position.scale}) scaleX(${position.flip})`,
                         pointerEvents: 'none',
                     }}>
-                    <div
+                    <div // Dirt overlay image
+                        key={`${dirtOverlay} ${animationState}`}
+                        className={`dirt-${dirtOverlay}-${animationState}`} 
+                        style={{
+                            backgroundImage: `url('src/assets/dirt/${dirtOverlay}_${animationState}.png')`,
+                            position: 'absolute',
+                            top: 0,
+                            left: 0,
+                            right: 0,
+                            bottom: 0,
+                            backgroundSize: 'cover',
+                            backgroundRepeat: 'no-repeat',
+                            pointerEvents: 'none',
+                    }} />
+                    <div // Outfit overlay image
                         key={`${outfit} ${animationState}`}
                         className={`${outfit}-${animationState}`}
                         style={{
@@ -411,9 +446,8 @@ const Pet = () => {
                             backgroundRepeat: 'no-repeat',
                             pointerEvents: 'none',
                         }}
-                    ></div>
+                    />
                     <div className='clickableArea'
-                    //onClick={handlePetClick}
                     onClick={animationState === 'walking' || animationState === 'idle' ? handlePetClick : null}
                     style={{
                         position: 'absolute',
@@ -424,7 +458,7 @@ const Pet = () => {
                         cursor: 'pointer',
                         pointerEvents: 'visible',
                     }}
-                    ></div>
+                    />
 
                 </div>
 

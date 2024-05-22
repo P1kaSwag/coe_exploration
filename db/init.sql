@@ -251,7 +251,7 @@ VALUES
     (8, 'Electrical and Computer Engineering', 'Light up your yard!', 'cosmetic'),
     (9, 'Energy Systems Engineering', 'Add a view of some wind turbines to your yard!', 'cosmetic'),
     (10, 'Engineering Science', 'A new outfit for your pet!', 'outfit'),
-    (11, 'Environmental Engineering', 'A new way to see your yard! (Best used with the Electrical and Computer Engineering reward)', 'mechanic'),
+    (11, 'Environmental Engineering', 'A new outfit for your pet!', 'outfit'),
     (12, 'Industrial Engineering', 'A new outfit for your pet!', 'outfit'),
     (14, 'Mechanical Engineering', 'A new outfit for your pet!', 'outfit'),
     (15, 'Nuclear Engineering', 'A new outfit for your pet!', 'outfit'),
