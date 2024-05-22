@@ -7,29 +7,29 @@ const RewardNotification = ({ rewardId, rewardName, onClose }) => {
     const { accessToken } = useAuth();
     const [showNotification, setShowNotification] = useState(false);
 
-    //useEffect(() => {
-    //    const checkReward = async () => {
-    //        const response = await fetch(`/api/pet/check-reward/${rewardId}`, {
-    //            method: 'GET',
-    //            headers: {
-    //                'Content-Type': 'application/json',
-    //                'Authorization': `Bearer ${accessToken}`,
-    //            },
-    //        });
-//
-    //        if (response.ok) {
-    //            const data = await response.json();
-    //            setShowNotification(!data.hasReward);
-    //        } else {
-    //            console.error(`Error status: ${response.status}`);
-    //        }
-    //    };
-    //    checkReward();
-    //}, [accessToken, rewardId]);
-//
-    //if (!showNotification) {
-    //    return null;
-    //}
+    useEffect(() => {
+        const checkReward = async () => {
+            const response = await fetch(`/api/pet/check-reward/${rewardId}`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${accessToken}`,
+                },
+            });
+
+            if (response.ok) {
+                const data = await response.json();
+                setShowNotification(!data.hasReward);
+            } else {
+                console.error(`Error status: ${response.status}`);
+            }
+        };
+        checkReward();
+    }, [accessToken, rewardId]);
+
+    if (!showNotification) {
+        return null;
+    }
 
     return (
         <div className="reward-popup">
