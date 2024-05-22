@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useAuth } from '../authentication/AuthComponent';
-import './reward_styles.css';
+import './reward_manager_styles.css';
 
 const RewardManager = ({ onClose }) => {
     const { accessToken } = useAuth();
