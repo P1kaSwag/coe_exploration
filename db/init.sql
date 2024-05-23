@@ -207,7 +207,7 @@ INSERT INTO Words (major_id, word) VALUES
     (6, 'Contract'), (6, 'Quality'), (6, 'Safety'), (6, 'Risk'),
     -- Ecological Engineering
     (7, 'Ecosystem'), (7, 'Biodiversity'), (7, 'Sustainability'), (7, 'Restoration'),
-    (7, 'Climate'), (7, 'Conservation'), (7, 'Natural resources'), (7, 'Ecology'),
+    (7, 'Climate'), (7, 'Conservation'), (7, 'Natural'), (7, 'Ecology'),
     -- Electrical and Computer Engineering
     (8, 'Circuits'), (8, 'Signals'), (8, 'Electronics'), (8, 'Control'),
     (8, 'Power'), (8, 'Digital'), (8, 'Embedded'), (8, 'Communications'),
@@ -218,16 +218,16 @@ INSERT INTO Words (major_id, word) VALUES
     (10, 'Interdisciplinary'), (10, 'Research'), (10, 'Analysis'), (10, 'Modeling'),
     (10, 'Simulation'), (10, 'Optimization'), (10, 'Theory'), (10, 'Experimentation'),
     -- Environmental Engineering
-    (11, 'Pollution'), (11, 'Waste'), (11, 'Remediation'), (11, 'Air quality'),
-    (11, 'Water treatment'), (11, 'Environmental impact'), (11, 'Regulation'), (11, 'Health'),
+    (11, 'Pollution'), (11, 'Waste'), (11, 'Remediation'), (11, 'Air'),
+    (11, 'Water'), (11, 'Environmental'), (11, 'Regulation'), (11, 'Health'),
     -- Industrial Engineering
-    (12, 'Optimization'), (12, 'Productivity'), (12, 'Lean'), (12, 'Six sigma'),
-    (12, 'Supply chain'), (12, 'Logistics'), (12, 'Process improvement'), (12, 'Quality control'),
+    (12, 'Optimization'), (12, 'Productivity'), (12, 'Lean'), (12, 'Six'),
+    (12, 'Supply'), (12, 'Logistics'), (12, 'Process'), (12, 'Quality'),
     -- Manufacturing Engineering
     (13, 'Automation'), (13, 'Machining'), (13, 'Additive'), (13, 'Assembly'),
     (13, 'Manufacturability'), (13, 'Tooling'), (13, 'Process'), (13, 'Production'),
     -- Mechanical Engineering
-    (14, 'Thermodynamics'), (14, 'Fluid'), (14, 'Heat transfer'), (14, 'Mechanics'),
+    (14, 'Thermodynamics'), (14, 'Fluid'), (14, 'Heat'), (14, 'Mechanics'),
     (14, 'Dynamics'), (14, 'Design'), (14, 'Materials'), (14, 'Robotics'),
     -- Nuclear Engineering
     (15, 'Nuclear'), (15, 'Reactors'), (15, 'Radiation'), (15, 'Safety'),
@@ -237,7 +237,7 @@ INSERT INTO Words (major_id, word) VALUES
     (16, 'Materials'), (16, 'Design'), (16, 'Functionality'), (16, 'Sustainability'),
     -- Radiation Health Physics
     (17, 'Radiation'), (17, 'Health'), (17, 'Dosimetry'), (17, 'Protection'),
-    (17, 'Radiobiology'), (17, 'Medical imaging'), (17, 'Nuclear medicine'), (17, 'Regulation');
+    (17, 'Radiobiology'), (17, 'Medical'), (17, 'Nuclear'), (17, 'Regulation');
 
 INSERT INTO Rewards (majorID, rewardName, rewardDescription, rewardType)
 VALUES

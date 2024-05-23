@@ -4,16 +4,16 @@ import { useParams } from 'react-router-dom'; // Import useParams hook
 import './Wordsearch.css'; // Import CSS file for styling
 
 const sentences = {
-    Radiation: "Radiation shapes health and physics, guiding our understanding with its invisible force.",
-    Health: "Radiation health physicists wield knowledge to protect life, vigilantly guarding against unseen threats.",
-    Dosimetry: "Dosimetry, pivotal in radiation health physics, measures and manages radiation exposure.",
-    Protection: "Protection, paramount in radiation health physics, shields against radiation's invisible dangers.",
-    Radiobiology: "Radiobiology explores radiation's impact on life, unraveling its effects at the cellular level.",
-    Medical: "Medical imaging, vital in radiation health physics, reveals health insights through radiation's lens.",
-    Nuclear: "Nuclear medicine, merging physics and medicine, heals with radiation under safety's watchful eye.",
-    Regulation: "Regulation anchors radiation health physics, ensuring safe and ethical radiation use across disciplines."
-  };
-  
+    Gear: "Gear is the backbone of adventure, providing essential tools and enhancing every journey.",
+    Apparel: "Apparel marries fashion with function, creating garments that protect, comfort, and express individuality.",
+    Equipment: "Equipment is crucial across industries, boosting productivity and ensuring tasks are completed with precision.",
+    Textiles: "Textiles are the threads of innovation, interweaving technology and tradition to create versatile fabrics.",
+    Materials: "Materials science transforms raw substances into indispensable components, driving progress across sectors.",
+    Design: "Design synthesizes creativity and practicality, crafting solutions that are both beautiful and effective.",
+    Functionality: "Functionality is at the core of innovation, ensuring that every product serves its purpose with excellence.",
+    Sustainability: "Sustainability guides the future of production, promoting practices that protect our planet and resources."
+};
+
 const WordSearchGame = () => {
     const { majorId } = useParams(); // Retrieve majorId from URL parameters
     const [words, setWords] = useState([]);
@@ -26,7 +26,7 @@ const WordSearchGame = () => {
     useEffect(() => {
         const fetchWords = async () => {
             try {
-                const response = await fetch(`/api/majors/17/words`);
+                const response = await fetch(`http://localhost:8000/api/majors/16/words`);
                 const data = await response.json();
                 const wordsData = data.map(item => item.word);
                 setWords(wordsData);
@@ -107,7 +107,7 @@ const WordSearchGame = () => {
     return (
         <div className="word-search-container">
             <div className="word-list">
-                <h1>Radiation Health Physics Wordsearch</h1>
+                <h1>Outdoor Products Wordsearch</h1>
                 <ul>
                     <li>click and drag to highlight words from the list below</li>
                     <li>When found click the 'X' button next to the word to mark it off</li>
