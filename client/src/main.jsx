@@ -13,6 +13,7 @@ import Pet from './pet/Pet';
 import MinigameLoader from './explore/minigames/MinigameLoader';
 import Home from './home/Home'
 // import WordSearchGame from './explore/minigames/RadiationHealthPhysicsGame';
+import HowTo from './home/HowTo';
 
 import './index.css';
 
@@ -26,6 +27,10 @@ const router = createBrowserRouter([
       {
         path: "login", // Changed path from "/" to "login"
         element: <LoginComponent />,
+      },
+      {
+        path: "howto",
+        element: <HowTo />,
       },
       {
         path: "quiz",

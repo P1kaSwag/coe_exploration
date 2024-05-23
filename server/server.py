@@ -87,27 +87,50 @@ class MajorInformation(db.Model):
     majorInfoID = db.Column(db.Integer, primary_key=True, unique=True, autoincrement=True, nullable=False)
     majorID = db.Column(db.Integer, db.ForeignKey('Majors.majorID'), nullable=False)
     #majorName = db.Column(db.String(255), nullable=False)
-    topProfessors = db.Column(db.String(255), nullable=False)
-    studentQuotes = db.Column(db.Text, nullable=False)
+    topProfessor1 = db.Column(db.String(255), nullable=False)
+    topProfessor2 = db.Column(db.String(255), nullable=False)
+    topProfessor3 = db.Column(db.String(255), nullable=False)
+    studentQuote1 = db.Column(db.Text, nullable=False)
+    studentQuote2 = db.Column(db.Text, nullable=False)
     careers = db.Column(db.String(255), nullable=False)
     minors = db.Column(db.String(255), nullable=False)
     skills = db.Column(db.String(255), nullable=False)
     interests = db.Column(db.String(255), nullable=False)
+
     def to_dict(self):
          return {
             'majorID': self.majorID,
             #'majorName': self.majorName,
-            'topProfessors': self.topProfessors,
-            'studentQuotes': self.studentQuotes,
+            'topProfessor1': self.topProfessor1,
+            'topProfessor2': self.topProfessor2,
+            'topProfessor3': self.topProfessor3,
+            'studentQuote1': self.studentQuote1,
+            'studentQuote2': self.studentQuote2,
             'careers': self.careers,
             'minors': self.minors,
             'skills': self.skills,
             'interests': self.interests
        }
     
+
+class TopProfessors(db.Model):
+    __tablename__ = 'TopProfessors'
+    professorID = db.Column(db.Integer, primary_key=True, unique=True, autoincrement=True, nullable=False)
+    majorID = db.Column(db.Integer, db.ForeignKey('Majors.majorID'), nullable=False)
+    professorName = db.Column(db.String(255), nullable=False)
+    professorURL = db.Column(db.String(255), nullable=False)
+
+    def to_dict(self):
+        return {
+            'professorID': self.professorID,
+            'majorID': self.majorID,
+            'professorName': self.professorName,
+            'professorURL': self.professorURL
+        }
+    
 class Pets(db.Model):
     __tablename__ = 'Pets'
-    PetID = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    petID = db.Column(db.Integer, primary_key=True, autoincrement=True)
     userID = db.Column(db.Integer, db.ForeignKey('Users.userID'), nullable=False)
     pet_name = db.Column(db.String(255), nullable=False)
     mood = db.Column(db.Enum('happy', 'sad', 'angry', 'neutral', 'excited', 'tired', 'curious'), default='neutral', nullable=False)
@@ -115,6 +138,7 @@ class Pets(db.Model):
     recreation = db.Column(db.Integer, default=30)
     hunger = db.Column(db.Integer, default=30)
     cleanliness = db.Column(db.Integer, default=100)
+    outfitID = db.Column(db.Integer, db.ForeignKey('Rewards.rewardID'), nullable=True)
 
     def to_dict(self):
         return {
@@ -123,17 +147,41 @@ class Pets(db.Model):
             'love': self.love,
             'recreation': self.recreation,
             'hunger': self.hunger,
-            'cleanliness': self.cleanliness
+            'cleanliness': self.cleanliness,
+            'outfitID': self.outfitID
         }
-
 
 class PetInteractions(db.Model):
     __tablename__ = 'PetInteractions'
     PetInteractionsID = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    PetID = db.Column(db.Integer, db.ForeignKey('Pets.PetID'), nullable=False)
+    petID = db.Column(db.Integer, db.ForeignKey('Pets.petID'), nullable=False)
     userID = db.Column(db.Integer, db.ForeignKey('Users.userID'), nullable=False)
     interactionType = db.Column(db.Enum('pet', 'play', 'feed', 'wash'), nullable=False)
     interactionTime = db.Column(db.TIMESTAMP, server_default=db.func.current_timestamp())
+
+class Rewards(db.Model):
+    __tablename__ = 'Rewards'
+    rewardID = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    majorID = db.Column(db.Integer, db.ForeignKey('Majors.majorID'), nullable=False)
+    rewardName = db.Column(db.String(255), nullable=False)
+    rewardDescription = db.Column(db.Text, nullable=False)
+    rewardType = db.Column(db.Enum('outfit', 'cosmetic', 'mechanic'), nullable=False)
+
+    def to_dict(self):
+        return {
+            'rewardID': self.rewardID,
+            'majorID': self.majorID,
+            'rewardName': self.rewardName,
+            'rewardDescription': self.rewardDescription,
+            'rewardType': self.rewardType
+        }
+    
+class PetRewards(db.Model):
+    __tablename__ = 'PetRewards'
+    PetRewardID = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    petID = db.Column(db.Integer, db.ForeignKey('Pets.petID'), nullable=False)
+    rewardID = db.Column(db.Integer, db.ForeignKey('Rewards.rewardID'), nullable=False)
+    isActive = db.Column(db.Boolean, default=False)
 
 class Words(db.Model):
     __tablename__ = 'Words'
@@ -173,14 +221,13 @@ def interact_with_pet():
     
     # Check to make sure number of interactions per day is not exceeded for the interaction type
     today = datetime.now().date()
-    interaction_count = PetInteractions.query.filter(PetInteractions.PetID == pet.PetID, PetInteractions.interactionType == interaction_type, db.func.date(PetInteractions.interactionTime) == today).count()
+    interaction_count = PetInteractions.query.filter(PetInteractions.petID == pet.petID, PetInteractions.interactionType == interaction_type, db.func.date(PetInteractions.interactionTime) == today).count()
     print(f"There's been {interaction_count + 1} {interaction_type} interactions on {today} so far")
 
     if interaction_count >= MAX_INTERACTIONS_PER_DAY[interaction_type]:
         return jsonify({'message': 'Maximum daily interactions exceeded'}), 429
 
     # Execute the interaction
-    # TODO: Add some logic to update the pet's mood based on the interactions
     match interaction_type:
         case 'pet':
             pet.love = min(pet.love + 1, 100)   # Clamp the values between 0 and 100
@@ -200,7 +247,7 @@ def interact_with_pet():
     pet.mood = update_pet_mood(pet)
     
     # Create a new interaction record
-    new_interaction = PetInteractions(PetID=pet.PetID, userID=current_user_id, interactionType=interaction_type)
+    new_interaction = PetInteractions(petID=pet.petID, userID=current_user_id, interactionType=interaction_type)
     
     # Save the changes to the database (don't need to add the pet to the session since it's already there)
     db.session.add(new_interaction)
@@ -239,9 +286,117 @@ def get_pet_stats():
         return jsonify({'message': 'Pet not found'}), 404
     
     pet_stats = pet.to_dict()
+    outfit = Rewards.query.filter_by(rewardID=pet.outfitID).first()
+    outfit_name = outfit.rewardName if outfit else 'default'
+    pet_stats['outfitID'] = pet.outfitID
+    pet_stats['outfit'] = outfit_name
     print(pet_stats)
     
     return jsonify({'message': 'Pet stats retrieved successfully', 'petStats': pet_stats}), 200
+
+
+@app.route('/api/pet/equip-outfit', methods=['POST'])
+@jwt_required()
+def equip_outfit():
+    """Equip an outfit to the current user's pet."""
+    current_user_id = get_jwt_identity()
+    data = request.json
+    reward_id = data.get('rewardId')
+    print(f"Reward ID: {reward_id}")
+
+    pet = Pets.query.filter_by(userID=current_user_id).first()
+    if not pet:
+        return jsonify({'message': 'Pet not found'}), 404
+
+    if reward_id is None:
+        # Set the outfit to default
+        pet.outfitID = None
+        db.session.commit()
+        return jsonify({'message': 'Outfit set to default'}), 200
+
+    reward = Rewards.query.filter_by(rewardID=reward_id).first()
+    if not reward or reward.rewardType != 'outfit':
+        return jsonify({'message': 'Invalid outfit reward'}), 400
+
+    pet.outfitID = reward_id
+    db.session.commit()
+
+    return jsonify({'message': 'Outfit equipped successfully'}), 200
+
+
+@app.route('/api/pet/toggle-cosmetic', methods=['POST'])
+@jwt_required()
+def toggle_cosmetic():
+    """Toggle a cosmetic item for the current user's pet."""
+    current_user_id = get_jwt_identity()
+    data = request.get_json()
+    reward_id = data.get('rewardId')
+    is_active = data.get('isActive')
+    pet = Pets.query.filter_by(userID=current_user_id).first()
+    
+    if not pet:
+        return jsonify({'message': 'Pet not found'}), 404
+    
+    pet_reward = PetRewards.query.filter_by(petID=pet.petID, rewardID=reward_id).first()
+    if not pet_reward:
+        return jsonify({'message': 'Reward not found for this pet'}), 404
+    
+    pet_reward.isActive = is_active
+    db.session.commit()
+    
+    return jsonify({'message': 'Cosmetic item toggled successfully'}), 200
+
+@app.route('/api/pet/rewards', methods=['GET'])
+@jwt_required()
+def get_pet_rewards():
+    """Get all the earned rewards of the current user's pet."""
+    current_user_id = get_jwt_identity()
+    pet = Pets.query.filter_by(userID=current_user_id).first()
+
+    if not pet:
+        return jsonify({'message': 'Pet not found'}), 404
+
+    pet_rewards = (db.session.query(PetRewards, Rewards)
+                   .join(Rewards, PetRewards.rewardID == Rewards.rewardID)
+                   .filter(PetRewards.petID == pet.petID)
+                   .all())
+
+    rewards_list = []
+    for pet_reward, reward in pet_rewards:
+        reward_data = reward.to_dict()
+        reward_data['isActive'] = pet_reward.isActive
+        rewards_list.append(reward_data)
+
+    # Identify active outfit
+    active_outfit = pet.outfitID
+
+    return jsonify({
+        'message': 'Rewards retrieved successfully',
+        'rewards': rewards_list,
+        'activeOutfit': active_outfit
+    }), 200
+
+@app.route('/api/pet/check-reward/<int:reward_id>', methods=['GET'])
+@jwt_required()
+def check_reward(reward_id):
+    """Check if the current user's pet already has the reward."""
+    current_user_id = get_jwt_identity()
+
+    pet = Pets.query.filter_by(userID=current_user_id).first()
+    if not pet:
+        return jsonify({'message': 'Pet not found'}), 404
+
+    # Check if the pet has the specified reward
+    has_reward = PetRewards.query.filter_by(petID=pet.petID, rewardID=reward_id).first() is not None
+
+    if not has_reward:
+        # If the pet doesn't have the reward, add it to the pet's rewards
+        new_pet_reward = PetRewards(petID=pet.petID, rewardID=reward_id, isActive=False)
+        db.session.add(new_pet_reward)
+        db.session.commit()
+        has_reward = True
+
+    return jsonify({'hasReward': has_reward}), 200
 
 
 def degrade_pet_stats():
@@ -249,15 +404,14 @@ def degrade_pet_stats():
     with app.app_context(): # Need to create a new app context to access the database outside of a request from the frontend
         pets = Pets.query.all()
         for pet in pets:
-            print(pet.to_dict())
+            print(pet.to_dict())                    # TODO: Remove this line later
             pet.love = max(pet.love - 1, 0)
             pet.recreation = max(pet.recreation - 1, 0)
-            pet.hunger = min(pet.hunger + 1, 100)
-            pet.cleanliness = max(pet.cleanliness - 1, 0)
+            pet.hunger = min(pet.hunger + 5, 100)
+            pet.cleanliness = max(pet.cleanliness - 3, 0)
             print(pet.to_dict())
 
         db.session.commit()
-
 
 @app.route('/api/users/register', methods=['POST'])
 def register():
@@ -312,6 +466,11 @@ def get_majors():
     majors = Majors.query.all()
     return jsonify([major.to_dict() for major in majors])
 
+# TODO: Add a route to get professor information for a specific major
+@app.route('/api/professors', methods=['GET'])
+def get_professors():
+    professors = TopProfessors.query.all()
+    return jsonify([professor.to_dict() for professor in professors])
 
 @app.route('/api/majors/majorinformation/<int:majorID>', methods=['GET'])
 def get_majorInfo(majorID):
@@ -331,8 +490,31 @@ def get_major_words(major_id):
     word_dicts = [word.to_dict() for word in words]
     return jsonify(word_dicts)
 
+
 # Degrade the pet's stats every hour
 scheduler.add_job(id='degrade_pet_stats', func=degrade_pet_stats, trigger='interval', hours=1)
+
+
+
+@app.route('/api/debug/unlock-rewards', methods=['POST'])
+@jwt_required()
+def unlock_rewards():
+    """Unlock all rewards for the current user's pet."""
+    current_user_id = get_jwt_identity()
+    pet = Pets.query.filter_by(userID=current_user_id).first()
+
+    if not pet:
+        return jsonify({'message': 'Pet not found'}), 404
+
+    rewards = Rewards.query.all()
+    for reward in rewards:
+        pet_reward = PetRewards(petID=pet.petID, rewardID=reward.rewardID)
+        db.session.add(pet_reward)
+
+    db.session.commit()
+
+    return jsonify({'message': 'All rewards unlocked successfully'}), 200
+
 
 # Running app
 if __name__ == '__main__':

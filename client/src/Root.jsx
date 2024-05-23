@@ -1,7 +1,7 @@
 import React from "react";
 import { NavLink, Outlet } from "react-router-dom";
 import { useAuth } from "./authentication/AuthComponent";
-import './assets/root.css'
+import './root.css'
 
 // Add imports from Mo's branch
 import {
@@ -60,11 +60,12 @@ export function Root(props) {
         </div>
       </nav>
       <main>{children || <Outlet />}</main>
-      {!isPetPage && <Footer/>} {/*The pet page has no visable overflow so this would never be shown on screen there anyway*/}
+      {/*{!isPetPage && <Footer/>} {/*The pet page has no visable overflow so this would never be shown on screen there anyway*/}
     </>
   );
 }
 
+/*
 function Footer() {
   return (
     <>
@@ -75,6 +76,7 @@ function Footer() {
     </>
   );
 }
+*/
 
 export function ErrorPage() {
   const error = useRouteError(); // Assuming you're using React Router for navigation

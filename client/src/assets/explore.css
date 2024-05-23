@@ -6,6 +6,7 @@
     box-shadow: 3px 3px 10px grey;
     padding: 10px;
     text-decoration: none;
+    background-color: white;
   }
 
 .major:hover {
@@ -17,14 +18,15 @@ h2 {
   text-decoration: none;
 }
 
-NavLink {
+h1 {
+  text-align: center;
   text-decoration: none;
-} 
+}
 
 /* Remove border later - using for visualization */
 .majorInfo {
   text-align: center;
-  border: 1px solid black;
+  /*border: 1px solid black; -- border for visualization */ 
   margin: 10px;
   padding: 20px;
 }
@@ -32,12 +34,20 @@ NavLink {
 .professorCard {
   padding: 10px;
   margin: 20px;
-  float: center;
-  height: 200px;
-  width: 150px;
+  height: 250px;
+  width: 200px;
   border-radius: 10px;
   border: 2px solid #ccc;
   box-shadow: 3px 3px 10px grey;
+  display: inline-block;
+  text-align: center;
+  background-color: white;
+}
+
+.professorImage {
+  max-width: 100%;
+  height: auto;
+  margin-bottom: 10px;
 }
 
 .playButton {
@@ -54,6 +64,14 @@ NavLink {
   margin-top: 40px;
 }
 
+.playButton:hover {
+  transform: scale(1.005);
+}
+
 .leftText {
   text-align: left;
+}
+
+.center {
+  margin: auto; 
 }
