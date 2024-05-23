@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { NavLink } from "react-router-dom";
 import { useAuth } from './AuthComponent';
 
+import LoginBackground from '../assets/loginbg.png';
+
 import './login.css';
 
 const LoginComponent = () => {
@@ -35,39 +37,41 @@ const LoginComponent = () => {
   };
 
   return (
-    <div className='login'>
-      <h1>Login Page</h1>
-      <div className="login_container">
-        <label id="userlabel"> Username </label>
-        <input 
-          type="text" 
-          placeholder="Enter Username" 
-          name="username"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
-        />
-        <label id='passlabel'> Password </label>
-        <input 
-          type="password" 
-          placeholder="Enter Password" 
-          name="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
-        {errorMessage && <p className="error-message">{errorMessage}</p>}
-        <button 
-          type="submit" 
-          id="loginButton" 
-          onClick={handleLogin}
-          className='login-button'
-        > 
-          Login 
-        </button>
-            <NavLink to="/register">
-          <button type="submit" id="registerButton" className='login-button' > 
-            Register 
+    <div style={{backgroundImage: `url(${LoginBackground})`, backgroundSize: 'cover', backgroundRepeat: 'no-repeat', backgroundAttachment: 'fixed'}}>
+      <div className='login'>
+        <h1>Login Page</h1>
+        <div className="login_container">
+          <label id="userlabel"> Username </label>
+          <input 
+            type="text" 
+            placeholder="Enter Username" 
+            name="username"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+          />
+          <label id='passlabel'> Password </label>
+          <input 
+            type="password" 
+            placeholder="Enter Password" 
+            name="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
+          {errorMessage && <p className="error-message">{errorMessage}</p>}
+          <button 
+            type="submit" 
+            id="loginButton" 
+            onClick={handleLogin}
+            className='login-button'
+          > 
+            Login 
           </button>
-          </NavLink>
+              <NavLink to="/register">
+            <button type="submit" id="registerButton" className='login-button' > 
+              Register 
+            </button>
+            </NavLink>
+        </div>
       </div>
     </div>
   );
