@@ -105,10 +105,10 @@ const Pet = () => {
 
         // Preload the dirt overlay images if applicable
         if (dirtOverlay !== 'none') {
-            const dirtStates = ['walking', 'eating', 'idle'];
+            const dirtStates = ['walking', 'eating', 'idle', 'petting'];
             dirtStates.forEach(state => {
                 const img = new Image();
-                img.src = `src/assets/dirt/${dirtOverlay}_${state}.png`; // outfitMappings[dirtOverlay][state]
+                img.src = `src/assets/dirt/${dirtOverlay}_${outfitMappings[dirtOverlay][state]}.png`; // outfitMappings[dirtOverlay][state]
                 images.push(img);
             });
         }
@@ -333,7 +333,7 @@ const Pet = () => {
 
     const getDirtOverlayImage = (state) => {
         if (dirtOverlay !== 'none') {
-            return `src/assets/dirt/${outfitMappings[dirtOverlay][state]}.png`;         // TODO: TESTING ############################################################################################################
+            return `src/assets/dirt/${dirtOverlay}_${outfitMappings[dirtOverlay][state]}.png`;
         } else {
             return '';
         }
@@ -347,7 +347,7 @@ const Pet = () => {
 
     const debugAnimation = () => {
         if (outfit === 'default') {
-            setOutfit('ComputerScience');
+            setOutfit('RadiationHealthPhysics');
         } else {
             setOutfit('default');
         }
@@ -401,6 +401,16 @@ const Pet = () => {
                 left: '11.1%',
                 top: '34%',
                 }}>Light Dirt</button>
+            <button onClick={() => setDirtOverlay('heavy')} style={{
+                position: 'absolute',
+                left: '11.1%',
+                top: '36%',
+                }}>Heavy Dirt</button>
+            <button onClick={() => setDirtOverlay('none')} style={{
+                position: 'absolute',
+                left: '11.1%',
+                top: '38%',
+                }}>No Dirt</button>
             <button onClick={debugRewards} style={{
                 position: 'absolute',
                 left: '0%',
@@ -408,7 +418,7 @@ const Pet = () => {
             {/* DEBUG */}
             
                 <div    // Pet base image
-                    key={`pet ${animationState}`}
+                    key={`pet-${animationState}-${outfit}-${dirtOverlay}`}
                     className={`pet ${animationState}`}
                     style={{
                         backgroundImage: `url('src/assets/default/${animationState}.png')`,
@@ -419,21 +429,22 @@ const Pet = () => {
                         pointerEvents: 'none',
                     }}>
                     <div // Dirt overlay image
-                        key={`${dirtOverlay} ${animationState}`}
+                        key={`${dirtOverlay}-${animationState}`}
                         className={`dirt-${dirtOverlay}-${animationState}`} 
                         style={{
-                            backgroundImage: `url('src/assets/dirt/${dirtOverlay}_${animationState}.png')`,
                             position: 'absolute',
                             top: 0,
                             left: 0,
                             right: 0,
                             bottom: 0,
+                            //backgroundImage: `url('src/assets/dirt/${dirtOverlay}_${animationState}.png')`,
+                            backgroundImage: `url(${getDirtOverlayImage(animationState)})`,
                             backgroundSize: 'cover',
                             backgroundRepeat: 'no-repeat',
                             pointerEvents: 'none',
                     }} />
                     <div // Outfit overlay image
-                        key={`${outfit} ${animationState}`}
+                        key={`${outfit}-${animationState}`}
                         className={`${outfit}-${animationState}`}
                         style={{
                             position: 'absolute',

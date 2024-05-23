@@ -9,8 +9,8 @@ nav.nav-pet {
 
 nav.nav-pet:hover {
   background: #242424;
-}  
-  
+}
+
 .backyard {
   aspect-ratio: 16 / 9;
   background-image: url('../assets/landscape.png');
@@ -36,145 +36,121 @@ nav.nav-pet:hover {
 .pet {
   width: 22vw;
   height: 22vw;
-/*
+  /*
   cursor: grab;
   background-color: rgba(255, 0, 0, 0.5); 
   border: 2px solid red;*/
   background-repeat: no-repeat;
-  background-size: cover;  
+  background-size: cover;
 }
 
-.walking {
-  animation: walk_cycle 1s steps(13) infinite;
-}
 
-.dirt-light-walking {
-  animation: walk_cycle 1s steps(13) infinite;
-}
+/* Pet animations */
 
-.dirt-heavy-walking {
-  animation: walk_cycle 1s steps(13) infinite;
-}
+@keyframes second_half_cycle {
 
-/* Chemical Engineering outfit uses second half of idle animation */
-.ChemicalEngineering-walking {
-  animation: chem_eng_walk_cycle 1s steps(13) infinite;
-}
-
-.ComputerScience-walking {
-  animation: cs_walk_cycle 1s steps(13) infinite;
-}
-
-@keyframes cs_walk_cycle {
-  from { 
-    background-position: 51.85%; 
+  /* Use second half of idle animations for the walk cycle of outfits that don't have leg movements */
+  from {
+    background-position: 51.85%;
   }
-  to { 
-    background-position: 100%; /* 14 frames * (100 / 27 frames) */
+
+  to {
+    background-position: 100%;
+    /* 14 frames * (100 / 27 frames) */
   }
 }
 
-@keyframes chem_eng_walk_cycle {
-  from { 
-    background-position: 51.85%; /* 14 frames * (100 / 27 frames) */
-  }
-  to { 
-    background-position: 100%; 
-  }
-}
-
-
-@keyframes walk_cycle {
+@keyframes full_cycle {
   from {
     background-position: 0;
   }
+
   to {
     background-position: 100%;
   }
 }
 
-.idle {
-  animation: idle_cycle 2s steps(27) infinite;
+/* Walking */
+
+.walking,
+.dirt-heavy-walking,
+.dirt-light-walking,
+.RadiationHealthPhysics-walking {
+  animation: full_cycle 1s steps(13) infinite;
+}
+
+/* These outfits use the second half of idle animation */
+.ChemicalEngineering-walking,
+.CivilEngineering-walking,
+.ComputerScience-walking,
+.ConstructionEngineeringManagement-walking,
+.EnvironmentalEngineering-walking,
+.IndustrialEngineering-walking,
+.MechanicalEngineering-walking,
+.NuclearEngineering-walking {
+  animation: second_half_cycle 1s steps(13) infinite;
+}
+
+/* Idle */
+
+.idle,
+.dirt-heavy-idle,
+.ChemicalEngineering-idle,
+.CivilEngineering-idle,
+.ComputerScience-idle,
+.ConstructionEngineeringManagement-idle,
+.EnvironmentalEngineering-idle,
+.IndustrialEngineering-idle,
+.MechanicalEngineering-idle,
+.NuclearEngineering-idle,
+.RadiationHealthPhysics-idle {
+  animation: full_cycle 2s steps(27) infinite;
 }
 
 .dirt-light-idle {
-  animation: walk_cycle 2s steps(27) infinite;
+  /* The light dirt is just on the feet so we just need one frame to be displayed */
+  animation: full_cycle 1s steps(1) infinite;
 }
 
-.dirt-heavy-idle {
-  animation: walk_cycle 2s steps(27) infinite;
+/* Eating */
+
+.eating,
+.dirt-heavy-eating,
+.ChemicalEngineering-eating,
+.CivilEngineering-eating,
+.ComputerScience-eating,
+.ConstructionEngineeringManagement-eating,
+.EnvironmentalEngineering-eating,
+.IndustrialEngineering-eating,
+.MechanicalEngineering-eating,
+.NuclearEngineering-eating,
+.RadiationHealthPhysics-eating {
+  animation: full_cycle 2s steps(34) 1;
 }
 
-.ChemicalEngineering-idle {
-  animation: idle_cycle 2s steps(27) infinite;
+/* Petting */
+
+.petting,
+.dirt-heavy-petting,
+.ChemicalEngineering-petting,
+.CivilEngineering-petting,
+.ComputerScience-petting,
+.ConstructionEngineeringManagement-petting,
+.EnvironmentalEngineering-petting,
+.IndustrialEngineering-petting,
+.MechanicalEngineering-petting,
+.NuclearEngineering-petting {
+  animation: full_cycle 1s steps(13) 2;
 }
 
-.ComputerScience-idle {
-  animation: idle_cycle 2s steps(27) infinite;
+.RadiationHealthPhysics-petting {
+  animation: second_half_cycle 1s steps(13) infinite;
 }
 
-@keyframes idle_cycle {
-  from {
-    background-position: 0;
-  }
-  to {
-    background-position: 100%;
-  }
-}
-
-.eating {
-  animation: eat_cycle 2s steps(34) 1;
-}
-
-.ChemicalEngineering-eating {
-  animation: eat_cycle 2s steps(34) 1;
-}
-
-.ComputerScience-eating {
-  animation: eat_cycle 2s steps(34) 1;
-}
-
-@keyframes eat_cycle {
-  from {
-    background-position: 0;
-  }
-  to {
-    background-position: 100%;
-  }
-}
-
-.petting {
-  animation: pet_cycle 1s steps(13) 2;
-}
-
-.ChemicalEngineering-petting {
-  animation: pet_cycle 1s steps(13) 2;
-}
-
-.ComputerScience-petting {
-  animation: pet_cycle 1s steps(13) 2;
-}
-
-@keyframes pet_cycle {
-  from {
-    background-position: 0;
-  }
-  to {
-    background-position: 100%;
-  }
-}
+/* Washing */
 
 .washing {
-  animation: wash_cycle 2s steps(27) 3;
-}
-
-@keyframes wash_cycle {
-  from {
-    background-position: 0;
-  }
-  to {
-    background-position: 100%;
-  }
+  animation: full_cycle 2s steps(27) 3;
 }
 
 /* Pet Stat Board */
@@ -185,11 +161,11 @@ nav.nav-pet:hover {
   border: 2px solid #333;
   color: black;
   border-radius: 8px;
-  top: 69%; 
-  right: 1%; 
-  width: 200px; 
+  top: 69%;
+  right: 1%;
+  width: 200px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  z-index: 20; 
+  z-index: 20;
 }
 
 .statBoard h3 {
