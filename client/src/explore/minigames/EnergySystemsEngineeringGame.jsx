@@ -4,15 +4,15 @@ import { useParams } from 'react-router-dom'; // Import useParams hook
 import './Wordsearch.css'; // Import CSS file for styling
 
 const sentences = {
-    Radiation: "Radiation shapes health and physics, guiding our understanding with its invisible force.",
-    Health: "Radiation health physicists wield knowledge to protect life, vigilantly guarding against unseen threats.",
-    Dosimetry: "Dosimetry, pivotal in radiation health physics, measures and manages radiation exposure.",
-    Protection: "Protection, paramount in radiation health physics, shields against radiation's invisible dangers.",
-    Radiobiology: "Radiobiology explores radiation's impact on life, unraveling its effects at the cellular level.",
-    Medical: "Medical imaging, vital in radiation health physics, reveals health insights through radiation's lens.",
-    Nuclear: "Nuclear medicine, merging physics and medicine, heals with radiation under safety's watchful eye.",
-    Regulation: "Regulation anchors radiation health physics, ensuring safe and ethical radiation use across disciplines."
-  };
+    Renewable: "Renewable energy systems engineering focuses on developing sustainable energy sources that can be replenished naturally.",
+    Solar: "Solar energy systems harness the power of the sun, converting sunlight into electricity through photovoltaic cells and thermal collectors.",
+    Wind: "Wind energy systems capture kinetic energy from wind using turbines, generating clean and sustainable electricity.",
+    Biofuel: "Biofuel engineering transforms organic materials into renewable energy sources, providing an alternative to fossil fuels.",
+    Grid: "Grid systems engineering ensures the efficient distribution of electricity from various sources to meet consumer demand reliably.",
+    Storage: "Energy storage systems are critical in energy engineering, allowing excess energy to be saved and used when needed, enhancing grid stability.",
+    Efficiency: "Efficiency in energy systems engineering aims to maximize energy output while minimizing waste and consumption.",
+    Sustainability: "Sustainability in energy systems engineering promotes the development and use of technologies that reduce environmental impact and conserve resources."
+};
   
 const WordSearchGame = () => {
     const { majorId } = useParams(); // Retrieve majorId from URL parameters
@@ -26,7 +26,7 @@ const WordSearchGame = () => {
     useEffect(() => {
         const fetchWords = async () => {
             try {
-                const response = await fetch(`/api/majors/17/words`);
+                const response = await fetch(`http://localhost:8000/api/majors/9/words`);
                 const data = await response.json();
                 const wordsData = data.map(item => item.word);
                 setWords(wordsData);
@@ -107,7 +107,7 @@ const WordSearchGame = () => {
     return (
         <div className="word-search-container">
             <div className="word-list">
-                <h1>Radiation Health Physics Wordsearch</h1>
+                <h1>Energy Systems Engineering Wordsearch</h1>
                 <ul>
                     <li>click and drag to highlight words from the list below</li>
                     <li>When found click the 'X' button next to the word to mark it off</li>

@@ -204,7 +204,7 @@ INSERT INTO Words (major_id, word) VALUES
     (6, 'Contract'), (6, 'Quality'), (6, 'Safety'), (6, 'Risk'),
     -- Ecological Engineering
     (7, 'Ecosystem'), (7, 'Biodiversity'), (7, 'Sustainability'), (7, 'Restoration'),
-    (7, 'Climate'), (7, 'Conservation'), (7, 'Natural resources'), (7, 'Ecology'),
+    (7, 'Climate'), (7, 'Conservation'), (7, 'Natural'), (7, 'Ecology'),
     -- Electrical and Computer Engineering
     (8, 'Circuits'), (8, 'Signals'), (8, 'Electronics'), (8, 'Control'),
     (8, 'Power'), (8, 'Digital'), (8, 'Embedded'), (8, 'Communications'),
@@ -215,11 +215,11 @@ INSERT INTO Words (major_id, word) VALUES
     (10, 'Interdisciplinary'), (10, 'Research'), (10, 'Analysis'), (10, 'Modeling'),
     (10, 'Simulation'), (10, 'Optimization'), (10, 'Theory'), (10, 'Experimentation'),
     -- Environmental Engineering
-    (11, 'Pollution'), (11, 'Waste'), (11, 'Remediation'), (11, 'Air quality'),
-    (11, 'Water treatment'), (11, 'Environmental impact'), (11, 'Regulation'), (11, 'Health'),
+    (11, 'Pollution'), (11, 'Waste'), (11, 'Remediation'), (11, 'Air'),
+    (11, 'Water'), (11, 'Environmental'), (11, 'Regulation'), (11, 'Health'),
     -- Industrial Engineering
-    (12, 'Optimization'), (12, 'Productivity'), (12, 'Lean'), (12, 'Six sigma'),
-    (12, 'Supply chain'), (12, 'Logistics'), (12, 'Process improvement'), (12, 'Quality control'),
+    (12, 'Optimization'), (12, 'Productivity'), (12, 'Lean'), (12, 'Six'),
+    (12, 'Supply'), (12, 'Logistics'), (12, 'Process'), (12, 'Quality'),
     -- Manufacturing Engineering
     -- Mechanical Engineering
     (13, 'Thermodynamics'), (13, 'Fluid'), (13, 'Heat transfer'), (13, 'Mechanics'),
