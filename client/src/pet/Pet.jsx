@@ -21,11 +21,12 @@ const Pet = () => {
     const [waiting, setWaiting] = useState(false);
     const [playModeFetch, setPlayModeFetch] = useState(false);
     const [playMode, setPlayMode] = useState(false);
-    const [activeRewards, setActiveRewards] = useState([{rewardID: 1, rewardName: 'flowerbush', rewardType: 'cosmetic'}, 
-                                                        {rewardID: 2, rewardName: 'Doghouse', rewardType: 'cosmetic'},
-                                                        {rewardID: 3, rewardName: 'windturbine', rewardType: 'cosmetic'},
-                                                        {rewardID: 5, rewardName: 'lights', rewardType: 'cosmetic'},
-                                                        {rewardID: 6, rewardName: 'Bioengineering', rewardType: 'mechanic'},]);
+    const [activeRewards, setActiveRewards] = useState([{rewardID: 1, rewardName: 'Flower Bush', rewardType: 'cosmetic'}, 
+                                                        {rewardID: 2, rewardName: 'Dog House', rewardType: 'cosmetic'},
+                                                        {rewardID: 3, rewardName: 'Wind Turbines', rewardType: 'cosmetic'},
+                                                        {rewardID: 5, rewardName: 'Lights', rewardType: 'cosmetic'},
+                                                        {rewardID: 6, rewardName: 'Bioengineering', rewardType: 'mechanic'},
+                                                        {rewardID: 7, rewardName: 'Bell', rewardType: 'mechanic'},]);
 
     const points = [
         { left: 70, top: 50, scale: 1 },
@@ -332,15 +333,27 @@ const Pet = () => {
         }
     }
 
-    const handleFrisbeeThrow = () => {
-        setTimeout(() => {
-            setTargetPosition({ left: -20, top: 50, scale: 1 });
-        }, 1);
+    const handleFrisbeeThrow = (newTargetPosition) => {
+        const newTarget = newTargetPosition;
+        const petPosition = position;
+        // We just want the pet to move left
+        setTargetPosition({left: newTarget.left, top: petPosition.top, scale: petPosition.scale});
         setAnimationState('walking');
     }
     
     const resetFrisbeePosition = () => {
-        setTargetPosition(pickRandomPoint());
+        console.log('Resetting frisbee position');
+        //setTargetPosition(pickRandomPoint());
+    }
+
+    const handleBell = () => {
+        // Set new target position to front of the screen
+        if (waiting) {
+            setWaiting(false);
+            setAnimationState('walking');
+        }
+        setTargetPosition({left: 50, top: 60, scale: 1.1});
+
     }
 
     const handleCloseRewards = () => {
@@ -352,10 +365,11 @@ const Pet = () => {
     // Render the rewards the pet has unlocked
     const renderRewards = (reward) => {
         //const rewardClass = 'reward-${reward.rewardName.replace(/\s/g, "")-overlay}';
+        const name = reward.rewardName.replace(/\s+/g, '').toLowerCase();
         return (
             <React.Fragment key={reward.rewardID}>
-                {reward.rewardType === 'cosmetic' && <img src={`src/assets/Decorations/${reward.rewardName}.png`} alt={reward.rewardName} className={`reward-${reward.rewardName} overlay`}/>}
-                {reward.rewardType === 'mechanic' && reward.rewardName !== "Bioengineering" && <img src={`src/assets/Decorations/${reward.rewardName}.png`} alt={reward.rewardName} className={`${reward.rewardName}`}/>}
+                {reward.rewardType === 'cosmetic' && <img src={`src/assets/Decorations/${name}.png`} alt={reward.rewardName} className={`reward-${name} overlay`}/> }
+                {reward.rewardType === 'mechanic' && name === "bell" && <img src={`src/assets/Decorations/${name}.png`} alt={reward.rewardName} className={`${name} mechanic`} onClick={handleBell}/>}
             </React.Fragment>
         );
     };
@@ -397,6 +411,10 @@ const Pet = () => {
         }
     }
 
+    const debugAnimation3 = () => {
+        setAnimationState('running');
+    }
+
     const debugRewards = async () => {
         const response = await fetch('/api/debug/unlock-rewards', {
             method: 'POST',
@@ -418,7 +436,6 @@ const Pet = () => {
         <div className="backyard">
             <img src="src/assets/yard_fence.png" alt="fence" className="fence overlay" />
             {activeRewards.map(renderRewards)}
-            {/*<img src="src/assets/decorations/lights.png" alt="lights" className="overlay" style={{zIndex: '1000000', pointerEvents: 'none',}}/>*/}
 
             {isBioengineeringRewardActive && <PetStatsDisplay petStats={petStats} />}
             <FrisbeeReward onThrow={handleFrisbeeThrow} resetPosition={resetFrisbeePosition} />
@@ -439,6 +456,11 @@ const Pet = () => {
                 left: '11.1%',
                 top: '34%',
                 }}>Add dirt</button>
+            <button className='debug' onClick={debugAnimation3} style={{
+                position: 'absolute',
+                left: '11.1%',
+                top: '36%',
+            }}>run</button>
 
             <button className="debug" onClick={debugRewards} style={{
                 position: 'absolute',

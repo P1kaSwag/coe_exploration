@@ -51,17 +51,32 @@ nav.nav-pet:hover {
   object-fit: contain;
 }
 
+.mechanic {
+  position: absolute;
+  z-index: 11;
+  height: 10%;
+  width: auto;
+  cursor: pointer;
+  top: 80%;
+  left: 10%;
+}
+
 .frisbee {
   position: absolute;
-  z-index: 3;
-  height: 15%;
   width: auto;
-  top: 70%;
-  left: 40%;
   cursor: pointer;
 }
 
-.reward-windturbine {
+.bell {
+  position: absolute;
+  height: 10%;
+  width: auto;
+  cursor: pointer;
+  top: 80%;
+  left: 68%;
+}
+
+.reward-windturbines {
   position: absolute;
   z-index: 0;
 }
@@ -87,7 +102,7 @@ nav.nav-pet:hover {
 
 }
 
-.Bioengineering {
+.bioengineering {
   position: absolute;
   z-index: 500;
 }
@@ -139,6 +154,21 @@ nav.nav-pet:hover {
 .dirt-light-walking,
 .RadiationHealthPhysics-walking {
   animation: full_cycle 1s steps(13) infinite;
+}
+
+.running,
+.dirt-heavy-running,
+.dirt-light-running,
+.RadiationHealthPhysics-running,
+.ChemicalEngineering-running,
+.CivilEngineering-running,
+.ComputerScience-running,
+.ConstructionEngineeringManagement-running,
+.EnvironmentalEngineering-running,
+.IndustrialEngineering-running,
+.MechanicalEngineering-running,
+.NuclearEngineering-running {
+  animation: full_cycle 0.5s steps(13) infinite;
 }
 
 /* These outfits use the second half of idle animation */
