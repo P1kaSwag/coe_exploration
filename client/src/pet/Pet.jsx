@@ -3,16 +3,17 @@ import { useAuth } from '../authentication/AuthComponent';
 import PetMenu from './PetMenu';
 import outfitMappings from './outfitConfig';
 import RewardManager from './RewardManagerComponent';
+import PetStatsDisplay from './PetStatsDisplay';
+import FrisbeeReward from './frisbee';
 import './pet_styles.css';
 
-import RewardNotification from '../explore/minigames/RewardNotificationComponent';
 
 const Pet = () => {
     const { accessToken } = useAuth();  // Get the access token from the AuthProvider to make authenticated requests
     const [showMenu, setShowMenu] = useState(false);
     const [showRewards, setShowRewards] = useState(false);
     const [menuPosition, setMenuPosition] = useState({ x: 0, y: 0 });
-    const [petStats, setPetStats] = useState({ pet_name: "O'malley", mood: "neutral", love: 0, recreation: 0, hunger: 0, cleanliness: 0 })
+    const [petStats, setPetStats] = useState({ pet_name: "O'malley", mood: "neutral", love: 0, recreation: 0, hunger: 0, cleanliness: 100 })
     const [animationState, setAnimationState] = useState('walking'); // ['walking', 'eating', 'idle', 'washing', 'petting']
     const [outfit, setOutfit] = useState('default');
     const [dirtOverlay, setDirtOverlay] = useState('none'); // ['none', 'light', 'heavy']
@@ -20,17 +21,29 @@ const Pet = () => {
     const [waiting, setWaiting] = useState(false);
     const [playModeFetch, setPlayModeFetch] = useState(false);
     const [playMode, setPlayMode] = useState(false);
+    const [activeRewards, setActiveRewards] = useState([{rewardID: 1, rewardName: 'flowerbush', rewardType: 'cosmetic'}, 
+                                                        {rewardID: 2, rewardName: 'Doghouse', rewardType: 'cosmetic'},
+                                                        {rewardID: 3, rewardName: 'windturbine', rewardType: 'cosmetic'},
+                                                        {rewardID: 5, rewardName: 'lights', rewardType: 'cosmetic'},
+                                                        {rewardID: 6, rewardName: 'Bioengineering', rewardType: 'mechanic'},]);
 
     const points = [
         { left: 70, top: 50, scale: 1 },
         { left: 35, top: 50, scale: 1 },
         { left: 5, top: 50, scale: 1 },
+        { left: -5, top: 50, scale: 1},
+        { left: 0, top: 45, scale: 0.95 },
+        { left: 70, top: 45, scale: 0.95 },
         { left: 70, top: 40, scale: 0.9 },
+        { left: 50, top: 40, scale: 0.9},
         { left: 30, top: 40, scale: 0.9 },
         { left: 76, top: 30, scale: 0.8 },
         { left: 0, top: 30, scale: 0.8 },
         { left: 40, top: 20, scale: 0.7 },
         { left: 65, top: 20, scale: 0.7 },
+        {left: 80, top: 15, scale: 0.65},
+        {left: 81, top: 15, scale: 0.65},
+        {left: 73, top: 15, scale: 0.65},
     ];
 
     const pickRandomPoint = () => {
@@ -75,6 +88,7 @@ const Pet = () => {
             console.log(data.petStats);
             setPetStats(data.petStats);
             setOutfit(data.petStats.outfit.replace(/\s/g, '')); // Remove spaces from outfit name
+            setDirtOverlay(getDirtLevel(data.petStats.cleanliness));
         } else {
             console.error(`Error status: ${response.status}`);
         }
@@ -227,38 +241,6 @@ const Pet = () => {
     }, [waiting, showMenu]);  // Effect runs only when waiting state changes
 
 
-
-
-    // TESTING FETCH COMMAND (NOT COMPLETELY IMPLEMENTED) ############################################################################################
-    useEffect(() => {
-        const handleFetch = (event) => {
-            if (playModeFetch) {
-                console.log('Fetch command received');
-                const rect = event.target.getBoundingClientRect();
-                const left = Math.max(0, Math.min(70, ((event.clientX - rect.left) / rect.width) * 100));
-                const top = Math.max(20, Math.min(50, ((event.clientY - rect.top) / rect.height) * 100));
-                console.log(`Click position: ${left}, ${top}`);
-                setTargetPosition({ left, top, scale: 1 }); // Set target position to clicked location
-                setAnimationState('walking');
-                setPlayModeFetch(false); // Exit play mode after one click
-            }
-        };
-
-        if (playModeFetch) {
-            document.addEventListener('click', handleFetch);
-        }
-
-        return () => {
-            document.removeEventListener('click', handleFetch);
-        };
-    }, [playModeFetch]);
-
-
-    // TESTING PLAY MODE (NOT COMPLETELY IMPLEMENTED) ############################################################################################
-
-
-
-
     const handlePetClick = (event) => {
         if (!showMenu) {
             setAnimationState('idle'); // Stop the pet from walking
@@ -316,6 +298,7 @@ const Pet = () => {
             const data = await response.json();
             console.log(data.message, data.pet);
             setPetStats(data.pet);
+            setDirtOverlay(getDirtLevel(data.pet.cleanliness));
         } else {
             console.error(`Error status: ${response.status}`);
         }
@@ -339,14 +322,67 @@ const Pet = () => {
         }
     }
 
+    const getDirtLevel = (cleanliness) => {
+        if (cleanliness > 70) {
+            return 'none';
+        } else if (cleanliness > 30) {
+            return 'light';
+        } else {
+            return 'heavy';
+        }
+    }
+
+    const handleFrisbeeThrow = () => {
+        setTimeout(() => {
+            setTargetPosition({ left: -20, top: 50, scale: 1 });
+        }, 1);
+        setAnimationState('walking');
+    }
+    
+    const resetFrisbeePosition = () => {
+        setTargetPosition(pickRandomPoint());
+    }
+
     const handleCloseRewards = () => {
         setShowRewards(false);
         setAnimationState('walking');
         window.location.reload(); // Reload the page
     };
 
+    // Render the rewards the pet has unlocked
+    const renderRewards = (reward) => {
+        //const rewardClass = 'reward-${reward.rewardName.replace(/\s/g, "")-overlay}';
+        return (
+            <React.Fragment key={reward.rewardID}>
+                {reward.rewardType === 'cosmetic' && <img src={`src/assets/Decorations/${reward.rewardName}.png`} alt={reward.rewardName} className={`reward-${reward.rewardName} overlay`}/>}
+                {reward.rewardType === 'mechanic' && reward.rewardName !== "Bioengineering" && <img src={`src/assets/Decorations/${reward.rewardName}.png`} alt={reward.rewardName} className={`${reward.rewardName}`}/>}
+            </React.Fragment>
+        );
+    };
+
+    const isBioengineeringRewardActive = activeRewards.some(
+        (reward) => reward.rewardName === 'Bioengineering'
+    );
+
+
     const debugAnimation = () => {
         if (outfit === 'default') {
+            setOutfit('ChemicalEngineering');
+        } else if (outfit === 'ChemicalEngineering') {
+            setOutfit('CivilEngineering');
+        } else if (outfit === 'CivilEngineering') {
+            setOutfit('ComputerScience');
+        } else if (outfit === 'ComputerScience') {
+            setOutfit('ConstructionEngineeringManagement');
+        } else if (outfit === 'ConstructionEngineeringManagement') {
+            setOutfit('EnvironmentalEngineering');
+        } else if (outfit === 'EnvironmentalEngineering') {
+            setOutfit('IndustrialEngineering');
+        } else if (outfit === 'IndustrialEngineering') {
+            setOutfit('MechanicalEngineering');
+        } else if (outfit === 'MechanicalEngineering') {
+            setOutfit('NuclearEngineering');
+        } else if (outfit === 'NuclearEngineering') {
             setOutfit('RadiationHealthPhysics');
         } else {
             setOutfit('default');
@@ -380,38 +416,31 @@ const Pet = () => {
 
     return (
         <div className="backyard">
-            <img src="src/assets/yard_fence.png" alt="fence" className="overlay" />
-            <img src="src/assets/doghouse.png" alt="Doghouse" className="overlay" />
-            <img src="src/assets/flowerbush.png" alt="Flowers" className="overlay" />
-            <img src="src/assets/frisbee.png" alt="frisbee" className="frisbee" style={{height: '15%', width: '15%', left: '1%', top: '70%'}} />
+            <img src="src/assets/yard_fence.png" alt="fence" className="fence overlay" />
+            {activeRewards.map(renderRewards)}
+            {/*<img src="src/assets/decorations/lights.png" alt="lights" className="overlay" style={{zIndex: '1000000', pointerEvents: 'none',}}/>*/}
+
+            {isBioengineeringRewardActive && <PetStatsDisplay petStats={petStats} />}
+            <FrisbeeReward onThrow={handleFrisbeeThrow} resetPosition={resetFrisbeePosition} />
 
             {/* DEBUG */}
-            <button className="backyardButton" onClick={debugAnimation} style={{
+            <button className="debug" onClick={debugAnimation} style={{
                 position: 'absolute',
                 left: '11.1%',
                 top: '30%',
                 }}>{outfit}</button>
-            <button onClick={debugAnimation2} style={{
+            <button className="debug" onClick={debugAnimation2} style={{
                 position: 'absolute',
                 left: '11.1%',
                 top: '32%',
                 }}>Idle</button>
-            <button onClick={() => setDirtOverlay('light')} style={{
+            <button className="debug" onClick={() => [petStats.cleanliness -= 20, setDirtOverlay(getDirtLevel(petStats.cleanliness))]} style={{
                 position: 'absolute',
                 left: '11.1%',
                 top: '34%',
-                }}>Light Dirt</button>
-            <button onClick={() => setDirtOverlay('heavy')} style={{
-                position: 'absolute',
-                left: '11.1%',
-                top: '36%',
-                }}>Heavy Dirt</button>
-            <button onClick={() => setDirtOverlay('none')} style={{
-                position: 'absolute',
-                left: '11.1%',
-                top: '38%',
-                }}>No Dirt</button>
-            <button onClick={debugRewards} style={{
+                }}>Add dirt</button>
+
+            <button className="debug" onClick={debugRewards} style={{
                 position: 'absolute',
                 left: '0%',
                 top: '85%'}}>Unlock Rewards</button>
@@ -437,7 +466,6 @@ const Pet = () => {
                             left: 0,
                             right: 0,
                             bottom: 0,
-                            //backgroundImage: `url('src/assets/dirt/${dirtOverlay}_${animationState}.png')`,
                             backgroundImage: `url(${getDirtOverlayImage(animationState)})`,
                             backgroundSize: 'cover',
                             backgroundRepeat: 'no-repeat',
@@ -473,16 +501,11 @@ const Pet = () => {
 
                 </div>
 
-            <div className="statBoard">
-                <h3>{petStats.pet_name} is feeling...</h3>
-                <p>Mood: {petStats.mood}</p>
-                <p>Love: {petStats.love}</p>
-                <p>Recreation: {petStats.recreation}</p>
-                <p>Hunger: {petStats.hunger}</p>
-                <p>Cleanliness: {petStats.cleanliness}</p>
-            </div>
             {showMenu && <PetMenu x={menuPosition.x} y={menuPosition.y} onOptionSelected={handleOptionSelected} />}
             {showRewards && <RewardManager onClose={handleCloseRewards} />}
+            <div className="resize-message">
+                <p>Please enlarge your screen or rotate your device for the best experience.</p>
+            </div>
         </div>
     );
 };
