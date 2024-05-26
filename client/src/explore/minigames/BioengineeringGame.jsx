@@ -161,6 +161,7 @@ const BioengineeringGame = () => {
     if (submission === gRNA) {
       setGameWon(true);
       setShowReward(true);
+      console.log("Show Reward: ", showReward);
     } else {
       handleReset();
     }
@@ -316,7 +317,7 @@ const BioengineeringGame = () => {
         </>
       ) : (
         <div className="winner-container">
-          {showReward && <RewardNotification rewardId={2} rewardName="Biology" onClose={handleCloseNotification} />}
+          {showReward && <RewardNotification rewardId={2} rewardName="Stat Button" onClose={handleCloseNotification} />}
           <h2>Well done, scientist!</h2>
           <p>
             You've expertly designed the gRNA. The path is now clear to correct

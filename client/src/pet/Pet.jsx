@@ -7,9 +7,6 @@ import PetStatsDisplay from './PetStatsDisplay';
 import FrisbeeReward from './frisbee';
 import './pet_styles.css';
 
-import RewardNotification from '../explore/minigames/RewardNotificationComponent';
-
-
 const Pet = () => {
     const { accessToken } = useAuth();  // Get the access token from the AuthProvider to make authenticated requests
     const [showMenu, setShowMenu] = useState(false);
@@ -26,12 +23,13 @@ const Pet = () => {
     const [playModeType, setPlayModeType] = useState(null);
     const [showPaws, setShowPaws] = useState(false);
     const [jumpToPosition, setJumpToPosition] = useState(false);
-    const [activeRewards, setActiveRewards] = useState([{rewardID: 1, rewardName: 'Flower Bush', rewardType: 'cosmetic'}, 
-                                                        {rewardID: 2, rewardName: 'Dog House', rewardType: 'cosmetic'},
-                                                        {rewardID: 3, rewardName: 'Wind Turbines', rewardType: 'cosmetic'},
-                                                        {rewardID: 5, rewardName: 'Lights', rewardType: 'cosmetic'},
-                                                        {rewardID: 6, rewardName: 'Bioengineering', rewardType: 'mechanic'},
-                                                        {rewardID: 7, rewardName: 'Bell', rewardType: 'mechanic'},]);
+    //const [activeRewards, setActiveRewards] = useState([{rewardID: 1, rewardName: 'Flower Bush', rewardType: 'cosmetic'}, 
+    //                                                    {rewardID: 2, rewardName: 'Dog House', rewardType: 'cosmetic'},
+    //                                                    {rewardID: 3, rewardName: 'Wind Turbines', rewardType: 'cosmetic'},
+    //                                                    {rewardID: 5, rewardName: 'Lights', rewardType: 'cosmetic'},
+    //                                                    {rewardID: 6, rewardName: 'Bioengineering', rewardType: 'mechanic'},
+    //                                                    {rewardID: 7, rewardName: 'Bell', rewardType: 'mechanic'},]);
+    const [activeRewards, setActiveRewards] = useState([]);
 
     const points = [
         { left: 70, top: 50, scale: 1 },
@@ -72,34 +70,55 @@ const Pet = () => {
         }
     }, []);
 
-    // Fetch the pet's stats from the server
+    // Fetch the pet's stats and active rewards from the server
     useEffect(() => {
-        const fetchPetStats = async () => {
+        const fetchPetStatsAndRewards = async () => {
             if (!accessToken) {
                 console.error('User token not found');
                 return;
             }
-        // Send a request to the server to get the pet's stats
-        const response = await fetch('/api/pet/stats', {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${accessToken}`, // Send the access token in the header
-            },
-        });
 
-        // Check if the request was successful (response code 200-299), then get the pet's stats
-        if (response.ok) {
-            const data = await response.json();
-            console.log(data.petStats);
-            setPetStats(data.petStats);
-            setOutfit(data.petStats.outfit.replace(/\s/g, '')); // Remove spaces from outfit name
-            setDirtOverlay(getDirtLevel(data.petStats.cleanliness));
-        } else {
-            console.error(`Error status: ${response.status}`);
-        }
+            try {
+                // Fetch pet stats
+                const petStatsResponse = await fetch('/api/pet/stats', {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${accessToken}`,
+                    },
+                });
+
+                if (petStatsResponse.ok) {
+                    const petStatsData = await petStatsResponse.json();
+                    console.log(petStatsData.petStats);
+                    setPetStats(petStatsData.petStats);
+                    setOutfit(petStatsData.petStats.outfit.replace(/\s/g, ''));
+                } else {
+                    console.error(`Error fetching pet stats: ${petStatsResponse.status}`);
+                }
+
+                // Fetch rewards
+                const rewardsResponse = await fetch('/api/pet/rewards', {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${accessToken}`,
+                    },
+                });
+
+                if (rewardsResponse.ok) {
+                    const rewardsData = await rewardsResponse.json();
+                    console.log(rewardsData.rewards);
+                    setActiveRewards(rewardsData.rewards);
+                } else {
+                    console.error(`Error fetching rewards: ${rewardsResponse.status}`);
+                }
+            } catch (error) {
+                console.error('Error fetching data:', error);
+            }
         };
-        fetchPetStats();
+
+        fetchPetStatsAndRewards();
     }, [accessToken]);
 
     // Preload the pet's images to prevent flickering when transitioning between animations
@@ -482,7 +501,6 @@ const Pet = () => {
         <div className="backyard">
             <img src="src/assets/yard_fence.png" alt="fence" className="fence overlay" />
             {activeRewards.map(renderRewards)}
-            <RewardNotification rewardId={1} rewardName={'Bioengineering'} onClose={handleCloseRewards} />
 
             {/* DEBUG */}
             <button className="debug" onClick={debugAnimation} style={{
