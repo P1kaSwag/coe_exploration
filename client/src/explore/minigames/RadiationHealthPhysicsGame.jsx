@@ -26,7 +26,7 @@ const WordSearchGame = () => {
     useEffect(() => {
         const fetchWords = async () => {
             try {
-                const response = await fetch(`/api/majors/17/words`);
+                const response = await fetch(`/api/majors/16/words`);
                 const data = await response.json();
                 const wordsData = data.map(item => item.word);
                 setWords(wordsData);

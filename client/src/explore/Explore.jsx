@@ -72,7 +72,7 @@ export function MajorInfo() {
 
         <div className="majorInfo"> 
           <h3>Student Quotes</h3> 
-          <ul class="leftText">
+          <ul className="leftText">
             <li>{majorInfo.studentQuote1}</li>
             <li>{majorInfo.studentQuote2}</li>
           </ul>

@@ -17,8 +17,44 @@ const outfitMappings = {
       idle: 'idle',
       petting: 'petting'
     },
+    CivilEngineering: {
+      walking: 'idle',
+      eating: 'eating',
+      idle: 'idle',
+      petting: 'petting'
+    },
     ComputerScience: {
-      walking: 'idle', // Use idle overlay for walking
+      walking: 'idle',
+      eating: 'eating',
+      idle: 'idle',
+      petting: 'petting'
+    },
+    ConstructionEngineeringManagement: {
+      walking: 'idle',
+      eating: 'eating',
+      idle: 'idle',
+      petting: 'petting'
+    },
+    EnvironmentalEngineering: {
+      walking: 'idle',
+      eating: 'eating',
+      idle: 'idle',
+      petting: 'petting'
+    },
+    IndustrialEngineering: {
+      walking: 'idle',
+      eating: 'eating',
+      idle: 'idle',
+      petting: 'petting'
+    },
+    MechanicalEngineering: {
+      walking: 'idle',
+      eating: 'eating',
+      idle: 'idle',
+      petting: 'petting'
+    },
+    NuclearEngineering: {
+      walking: 'idle', 
       eating: 'eating',
       idle: 'idle',
       petting: 'petting'
@@ -27,7 +63,19 @@ const outfitMappings = {
       walking: 'walking',
       eating: 'eating',
       idle: 'idle',
-      petting: 'idle' // Use idle overlay for petting
+      petting: 'idle'
+    },
+    light: {
+      walking: 'walking',
+      eating: 'eating',
+      idle: 'walking',
+      petting: 'walking'
+    },
+    heavy: {
+      walking: 'walking',
+      eating: 'eating',
+      idle: 'idle',
+      petting: 'petting'
     },
     // Add other outfits here
   };
