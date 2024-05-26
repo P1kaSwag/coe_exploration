@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import RewardNotification from './RewardNotificationComponent';
 import './BioengineeringGame.css';
 
 const BioengineeringGame = () => {
@@ -15,6 +16,7 @@ const BioengineeringGame = () => {
   const [selectedFragments, setSelectedFragments] = useState([]);
   const [showStartScreen, setShowStartScreen] = useState(true); // true to show the start screen by default
   const [gameWon, setGameWon] = useState(false);
+  const [showReward, setShowReward] = useState(false);
 
   const gridSize = 9;
 
@@ -158,10 +160,16 @@ const BioengineeringGame = () => {
     const submission = selectedFragments.join('');
     if (submission === gRNA) {
       setGameWon(true);
+      setShowReward(true);
+      console.log("Show Reward: ", showReward);
     } else {
       handleReset();
     }
     return;
+  };
+
+  const handleCloseNotification = () => {
+    setShowReward(false);
   };
 
   const startNewGame = () => {
@@ -309,6 +317,7 @@ const BioengineeringGame = () => {
         </>
       ) : (
         <div className="winner-container">
+          {showReward && <RewardNotification rewardId={2} rewardName="Stat Button" onClose={handleCloseNotification} />}
           <h2>Well done, scientist!</h2>
           <p>
             You've expertly designed the gRNA. The path is now clear to correct

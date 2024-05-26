@@ -21,9 +21,9 @@ const Explore = () => {
       {majors.map(major => (
         <NavLink to={`/explore/${encodeURIComponent(major.majorName)}?majorID=${major.majorID}`} key={major.majorID} style={{ textDecoration: 'none', color: 'black' }}>
           <div className="major">
-            <h2>{major.majorName}</h2>
+            <h2 className="leftText">{major.majorName}</h2>
             <p>{major.majorDescription}</p>
-            <p>Career Prospects: {major.careerProspects}</p>
+            <p>Career Ideas: {major.careerProspects}</p>
           </div>
         </NavLink>
       ))}
@@ -72,7 +72,7 @@ export function MajorInfo() {
 
         <div className="majorInfo"> 
           <h3>Student Quotes</h3> 
-          <ul class="leftText">
+          <ul className="leftText">
             <li>{majorInfo.studentQuote1}</li>
             <li>{majorInfo.studentQuote2}</li>
           </ul>

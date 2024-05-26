@@ -379,24 +379,33 @@ def get_pet_rewards():
 @app.route('/api/pet/check-reward/<int:reward_id>', methods=['GET'])
 @jwt_required()
 def check_reward(reward_id):
-    """Check if the current user's pet already has the reward."""
+    """Check if the current user's pet already has the reward with the specified ID. If not, add it to the pet's rewards."""
     current_user_id = get_jwt_identity()
 
     pet = Pets.query.filter_by(userID=current_user_id).first()
     if not pet:
         return jsonify({'message': 'Pet not found'}), 404
+    
+    # Get the reward type from the Rewards table
+    reward = Rewards.query.filter_by(rewardID=reward_id).first()
+    if not reward:
+        return jsonify({'message': 'Reward not found'}), 404    
 
     # Check if the pet has the specified reward
     has_reward = PetRewards.query.filter_by(petID=pet.petID, rewardID=reward_id).first() is not None
+    print(f"Has reward: {has_reward}")
 
     if not has_reward:
+        # Check if the reward is a mechanic reward
+        is_mechanic = reward.rewardType == 'mechanic'
+        
         # If the pet doesn't have the reward, add it to the pet's rewards
-        new_pet_reward = PetRewards(petID=pet.petID, rewardID=reward_id, isActive=False)
+        new_pet_reward = PetRewards(petID=pet.petID, rewardID=reward_id, isActive=is_mechanic)
         db.session.add(new_pet_reward)
         db.session.commit()
-        has_reward = True
+        #has_reward = True
 
-    return jsonify({'hasReward': has_reward}), 200
+    return jsonify({'hasReward': has_reward, 'rewardDescription': reward.rewardDescription}), 200
 
 
 def degrade_pet_stats():
@@ -488,6 +497,7 @@ def get_major_words(major_id):
     # Query the words associated with the specified major_id
     words = Words.query.filter_by(major_id=major_id).all()
     word_dicts = [word.to_dict() for word in words]
+
     return jsonify(word_dicts)
 
 
@@ -509,7 +519,9 @@ def unlock_rewards():
     rewards = Rewards.query.all()
     for reward in rewards:
         pet_reward = PetRewards(petID=pet.petID, rewardID=reward.rewardID)
-        db.session.add(pet_reward)
+        print(pet_reward.rewardID)
+        if not pet_reward:
+            db.session.add(pet_reward)
 
     db.session.commit()
 

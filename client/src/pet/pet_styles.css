@@ -1,4 +1,21 @@
-/* Note: Even though the page resizes, we'll likely still need to add media queries to make sure the pet is always visible and the menu is always in the same place. */
+.resize-message {
+  display: none; /* Hidden by default */
+  position: fixed; /* Make it cover the entire screen */
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.8); /* Semi-transparent black background */
+  color: white;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  z-index: 1000; /* Make sure it's on top */
+  padding: 20px; /* Padding for text */
+  box-sizing: border-box; /* Include padding in width and height */
+  font-size: 20px; /* Larger text */
+}
+
 nav.nav-pet {
   display: flex;
   position: fixed;
@@ -9,8 +26,8 @@ nav.nav-pet {
 
 nav.nav-pet:hover {
   background: #242424;
-}  
-  
+}
+
 .backyard {
   aspect-ratio: 16 / 9;
   background-image: url('../assets/landscape.png');
@@ -24,8 +41,9 @@ nav.nav-pet:hover {
   /*overflow: hidden;*/
 }
 
-.backyard .overlay {
+.overlay {
   position: absolute;
+  z-index: 2;
   top: 0;
   left: 0;
   width: 100%;
@@ -33,169 +51,203 @@ nav.nav-pet:hover {
   object-fit: contain;
 }
 
+.mechanic {
+  position: absolute;
+  z-index: 11;
+  height: 10%;
+  width: auto;
+  cursor: pointer;
+}
+
+.frisbee {
+  top: 80%;
+  left: 78%;
+}
+
+.bell {
+  top: 80%;
+  left: 71%;
+}
+
+.mechanic:hover {
+  scale: 1.1;
+}
+
+.reward-windturbines {
+  position: absolute;
+  z-index: 0;
+}
+
+.fence {
+  position: absolute;
+  z-index: 1;
+}
+
 .pet {
+  position: absolute;
   width: 22vw;
   height: 22vw;
-/*
-  cursor: grab;
-  
-  background-color: rgba(255, 0, 0, 0.5); 
-  border: 2px solid red;*/
+  z-index: 10;
   background-repeat: no-repeat;
-  background-size: cover;  
+  background-size: cover;
 }
 
-.walking {
-  animation: walk_cycle 1s steps(13) infinite;
+.reward-lights {
+  position: absolute;
+  z-index: 50;
+  pointer-events: none;
+
 }
 
-/* Chemical Engineering outfit uses second half of idle animation */
-.ChemicalEngineering-walking {
-  animation: chem_eng_walk_cycle 1s steps(13) infinite;
+.bioengineering {
+  position: absolute;
+  z-index: 500;
 }
 
-.ComputerScience-walking {
-  animation: cs_walk_cycle 1s steps(13) infinite;
+.debug {
+  position: absolute;
+  z-index: 51;
 }
 
-@keyframes cs_walk_cycle {
-  from { 
-    background-position: 51.85%; 
+@media (max-width: 600px) {
+  .resize-message {
+    display: flex;
   }
-  to { 
-    background-position: 100%; /* 14 frames * (100 / 27 frames) */
-  }
-}
-
-@keyframes chem_eng_walk_cycle {
-  from { 
-    background-position: 51.85%; /* 14 frames * (100 / 27 frames) */
-  }
-  to { 
-    background-position: 100%; 
+  .pet, .pet-menu, button {
+    display: none;
   }
 }
 
 
-@keyframes walk_cycle {
+/* Pet animations */
+
+@keyframes second_half_cycle {
+
+  /* Use second half of idle animations for the walk cycle of outfits that don't have leg movements */
+  from {
+    background-position: 51.85%;
+  }
+
+  to {
+    background-position: 100%;
+    /* 14 frames * (100 / 27 frames) */
+  }
+}
+
+@keyframes full_cycle {
   from {
     background-position: 0;
   }
+
   to {
     background-position: 100%;
   }
 }
 
-.idle {
-  animation: idle_cycle 2s steps(27) infinite;
+/* Walking */
+
+.walking,
+.dirt-heavy-walking,
+.dirt-light-walking,
+.RadiationHealthPhysics-walking {
+  animation: full_cycle 1s steps(13) infinite;
 }
 
-.ChemicalEngineering-idle {
-  animation: idle_cycle 2s steps(27) infinite;
+.running,
+.dirt-heavy-running,
+.dirt-light-running,
+.RadiationHealthPhysics-running,
+.ChemicalEngineering-running,
+.CivilEngineering-running,
+.ComputerScience-running,
+.ConstructionEngineeringManagement-running,
+.EnvironmentalEngineering-running,
+.IndustrialEngineering-running,
+.MechanicalEngineering-running,
+.NuclearEngineering-running {
+  animation: full_cycle 0.5s steps(13) infinite;
 }
 
-.ComputerScience-idle {
-  animation: idle_cycle 2s steps(27) infinite;
+/* These outfits use the second half of idle animation */
+.ChemicalEngineering-walking,
+.CivilEngineering-walking,
+.ComputerScience-walking,
+.ConstructionEngineeringManagement-walking,
+.EnvironmentalEngineering-walking,
+.IndustrialEngineering-walking,
+.MechanicalEngineering-walking,
+.NuclearEngineering-walking {
+  animation: second_half_cycle 1s steps(13) infinite;
 }
 
-@keyframes idle_cycle {
-  from {
-    background-position: 0;
-  }
-  to {
-    background-position: 100%;
-  }
+/* Idle */
+
+.idle,
+.dirt-heavy-idle,
+.ChemicalEngineering-idle,
+.CivilEngineering-idle,
+.ComputerScience-idle,
+.ConstructionEngineeringManagement-idle,
+.EnvironmentalEngineering-idle,
+.IndustrialEngineering-idle,
+.MechanicalEngineering-idle,
+.NuclearEngineering-idle,
+.RadiationHealthPhysics-idle {
+  animation: full_cycle 2s steps(27) infinite;
 }
 
-.eating {
-  animation: eat_cycle 2s steps(34) 1;
+.dirt-light-idle {
+  /* The light dirt is just on the feet so we just need one frame to be displayed */
+  animation: full_cycle 1s steps(1) infinite;
 }
 
-.ChemicalEngineering-eating {
-  animation: eat_cycle 2s steps(34) 1;
+/* Eating */
+
+.eating,
+.dirt-heavy-eating,
+.ChemicalEngineering-eating,
+.CivilEngineering-eating,
+.ComputerScience-eating,
+.ConstructionEngineeringManagement-eating,
+.EnvironmentalEngineering-eating,
+.IndustrialEngineering-eating,
+.MechanicalEngineering-eating,
+.NuclearEngineering-eating,
+.RadiationHealthPhysics-eating {
+  animation: full_cycle 2s steps(34) 1;
 }
 
-.ComputerScience-eating {
-  animation: eat_cycle 2s steps(34) 1;
+/* Petting */
+
+.petting,
+.dirt-heavy-petting,
+.ChemicalEngineering-petting,
+.CivilEngineering-petting,
+.ComputerScience-petting,
+.ConstructionEngineeringManagement-petting,
+.EnvironmentalEngineering-petting,
+.IndustrialEngineering-petting,
+.MechanicalEngineering-petting,
+.NuclearEngineering-petting {
+  animation: full_cycle 1s steps(13) 2;
 }
 
-@keyframes eat_cycle {
-  from {
-    background-position: 0;
-  }
-  to {
-    background-position: 100%;
-  }
+.RadiationHealthPhysics-petting {
+  animation: second_half_cycle 1s steps(13) infinite;
 }
 
-.petting {
-  animation: pet_cycle 1s steps(13) 2;
-}
-
-.ChemicalEngineering-petting {
-  animation: pet_cycle 1s steps(13) 2;
-}
-
-.ComputerScience-petting {
-  animation: pet_cycle 1s steps(13) 2;
-}
-
-@keyframes pet_cycle {
-  from {
-    background-position: 0;
-  }
-  to {
-    background-position: 100%;
-  }
-}
+/* Washing */
 
 .washing {
-  animation: wash_cycle 2s steps(27) 3;
+  animation: full_cycle 2s steps(27) 3;
 }
 
-@keyframes wash_cycle {
-  from {
-    background-position: 0;
-  }
-  to {
-    background-position: 100%;
-  }
-}
-
-/* Pet Stat Board */
-.statBoard {
-  position: absolute;
-  padding: 10px;
-  background-color: white;
-  border: 2px solid #333;
-  color: black;
-  border-radius: 8px;
-  top: 69%; 
-  right: 1%; 
-  width: 200px; 
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  z-index: 20; 
-}
-
-.statBoard h3 {
-  margin-top: 0;
-  text-align: center;
-}
-
-.statBoard ul {
-  list-style-type: none;
-  padding: 0;
-}
-
-.statBoard li {
-  margin: 5px 0;
-  text-align: center;
-}
 
 
 /* Pet menu */
 .pet-menu {
   position: absolute;
+  z-index: 20;
   display: flex;
   align-items: center;
   justify-content: center;
