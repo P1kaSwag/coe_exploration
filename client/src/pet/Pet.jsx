@@ -416,15 +416,15 @@ const Pet = () => {
             <React.Fragment key={reward.rewardID}>
                 {reward.rewardType === 'cosmetic' && <img src={`src/assets/Decorations/${name}.png`} alt={reward.rewardName} className={`reward-${name} overlay`}/> }
                 {reward.rewardType === 'mechanic' && name === "bell" && <img src={`src/assets/Decorations/${name}.png`} alt={reward.rewardName} className={`${name} mechanic`} onClick={handleBell}/>}
-                {isBioengineeringRewardActive && <PetStatsDisplay petStats={petStats} />}
-                <FrisbeeReward onThrow={handleFrisbeeThrow} resetPosition={resetFrisbeePosition} />
+                {reward.rewardType === 'mechanic' && name === "bioengineering" && <PetStatsDisplay petStats={petStats} />}
+                {reward.rewardType === 'mechanic' && name === "frisbee" && <FrisbeeReward onThrow={handleFrisbeeThrow} resetPosition={resetFrisbeePosition} />}
             </React.Fragment>
         );
     };
 
-    const isBioengineeringRewardActive = activeRewards.some(
-        (reward) => reward.rewardName === 'Bioengineering'
-    );
+    //const isBioengineeringRewardActive = activeRewards.some(
+    //    (reward) => reward.rewardName === 'Bioengineering'
+    //);
 
 
     const debugAnimation = () => {
@@ -481,7 +481,7 @@ const Pet = () => {
 
 
     const checkReward = async () => {
-        const response = await fetch(`/api/pet/check-reward/1`, {
+        const response = await fetch(`/api/pet/check-reward/15`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',

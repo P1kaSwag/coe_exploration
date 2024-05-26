@@ -11,7 +11,7 @@ with open('words_file.txt', 'r') as file:
 with open('words_list.txt', 'w') as file:
     word_list.sort()
     for word in word_list:
-        file.write(word + ',\n')
+        file.write(f"'{word}'" + ',\n')
 
 if __name__ == '__main__':
     print('fate' in word_list)

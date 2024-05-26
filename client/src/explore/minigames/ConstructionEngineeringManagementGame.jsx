@@ -50,6 +50,7 @@ const ConstructionEngineeringManagementGame = () => {
         'weld',
         'yield',
         'brick',
+        'bricks',
         'budget',
         'design',
         'safety',

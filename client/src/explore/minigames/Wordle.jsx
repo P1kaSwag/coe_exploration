@@ -100,7 +100,7 @@ const Wordle = ({ word_list, rewardID, rewardName }) => {
   };
 
   const evaluateGuess = (guess, rowIndex) => {
-    // TODO: Check that guess is a valid word by checking real_word.txt
+    // TODO: Check that guess is a valid word by checking words.jsx
     console.log(guess);
     const status = guess.map((letter, index) => {
       if (letter === solution[index]) {
@@ -132,6 +132,7 @@ const Wordle = ({ word_list, rewardID, rewardName }) => {
     // Check for win condition
     if (status.every((s) => s === 'correct')) {
       setGameStatus('won');
+      setShowReward(true);
     } else if (
       rowIndex === maxAttempts - 1 &&
       !status.every((s) => s === 'correct')
@@ -159,6 +160,10 @@ const Wordle = ({ word_list, rewardID, rewardName }) => {
         ? 'fade 0.5s ease'
         : 'none',
   });
+
+  const handleCloseNotification = () => {
+    setShowReward(false);
+  };
 
   const GamePopup = ({ status }) => {
     if (status === 'playing') return null;
@@ -195,14 +200,9 @@ const Wordle = ({ word_list, rewardID, rewardName }) => {
     );
   };
 
-  const handleCloseNotification = () => {
-    setShowReward(false);
-  };
-
   return (
     <div className="wordle-board">
       <div>
-        <p>Answer = {solution}</p>
         <h1 className='wordle-title'>Wordle</h1>
         {guesses.map((row, rowIndex) => (
           <div key={rowIndex} className='wordle-row' style={{ display: 'flex' }}>
@@ -228,9 +228,17 @@ const Wordle = ({ word_list, rewardID, rewardName }) => {
       </div>
       <div className="wordle_keyboard">
         <Keyboard onKeyPress={handleKeyPress} keyStatuses={keyStatuses} />
+        <p>Answer = {solution}</p>
       </div>
-      {showReward && <RewardNotification rewardId={rewardID} rewardName={rewardName} onClose={handleCloseNotification} />}
-      <GamePopup status={gameStatus} />
+      <div className='new-game'>
+        {gameStatus !== 'playing' && <button className="wordle-play-again-button" style={{
+            padding: 10,
+            background: 'white',
+            borderRadius: 5,
+            color: 'black',
+          }} onClick={initializeGame}>Play Again</button>}
+      </div>
+      {gameStatus === "won" && <RewardNotification rewardId={rewardID} rewardName={rewardName} onClose={initializeGame} />}
     </div>
   );
 };
