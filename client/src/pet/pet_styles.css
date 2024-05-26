@@ -57,23 +57,20 @@ nav.nav-pet:hover {
   height: 10%;
   width: auto;
   cursor: pointer;
-  top: 80%;
-  left: 10%;
 }
 
 .frisbee {
-  position: absolute;
-  width: auto;
-  cursor: pointer;
+  top: 80%;
+  left: 78%;
 }
 
 .bell {
-  position: absolute;
-  height: 10%;
-  width: auto;
-  cursor: pointer;
   top: 80%;
-  left: 68%;
+  left: 71%;
+}
+
+.mechanic:hover {
+  scale: 1.1;
 }
 
 .reward-windturbines {

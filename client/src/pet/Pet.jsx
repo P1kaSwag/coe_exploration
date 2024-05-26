@@ -7,6 +7,8 @@ import PetStatsDisplay from './PetStatsDisplay';
 import FrisbeeReward from './frisbee';
 import './pet_styles.css';
 
+import RewardNotification from '../explore/minigames/RewardNotificationComponent';
+
 
 const Pet = () => {
     const { accessToken } = useAuth();  // Get the access token from the AuthProvider to make authenticated requests
@@ -21,6 +23,9 @@ const Pet = () => {
     const [waiting, setWaiting] = useState(false);
     const [playModeFetch, setPlayModeFetch] = useState(false);
     const [playMode, setPlayMode] = useState(false);
+    const [playModeType, setPlayModeType] = useState(null);
+    const [showPaws, setShowPaws] = useState(false);
+    const [jumpToPosition, setJumpToPosition] = useState(false);
     const [activeRewards, setActiveRewards] = useState([{rewardID: 1, rewardName: 'Flower Bush', rewardType: 'cosmetic'}, 
                                                         {rewardID: 2, rewardName: 'Dog House', rewardType: 'cosmetic'},
                                                         {rewardID: 3, rewardName: 'Wind Turbines', rewardType: 'cosmetic'},
@@ -158,10 +163,23 @@ const Pet = () => {
 
                 // Stop walking animation when at target destination
                 if (reachedTarget) {
-                    setAnimationState('idle'); // Set the pet to idle
+                    setAnimationState('idle');
+                    if (playModeType === 'bell') {  // If the bell was rung, jump up on the screen
+                        setShowPaws(true);
+                        setPlayModeType(null);
+                        //setAnimationState('idle');
+                        setTimeout(() => {  // Wait for 6 seconds before jumping back down and resetting position
+                            setShowPaws(false);
+                            setAnimationState('walking');
+                            setPosition({ left: 30, top: 70, scale: 1, flip: 1 });  // Reset pet position
+                            setTargetPosition(pickRandomPoint());
+                        }, 6000); 
+                      return { ...prevPosition, scale: 3, left: 30, top: 50 };
+                    }
+                    //setAnimationState('idle');
                     setWaiting(true);
-                    return prevPosition; // Return current position to prevent state update
-                }
+                    return prevPosition;
+                  }
 
                 // Flip pet if it's moving to the right of its current position
                 const newFlip = targetPosition.left > prevPosition.left ? -1 : 1;
@@ -205,12 +223,7 @@ const Pet = () => {
                     newScale = targetPosition.scale;
                 }
 
-                return {
-                    left: newLeft,
-                    top: newTop,
-                    scale: newScale,
-                    flip: newFlip,
-                };
+                return {left: newLeft, top: newTop, scale: newScale, flip: newFlip};
             });
         };
 
@@ -348,13 +361,27 @@ const Pet = () => {
 
     const handleBell = () => {
         // Set new target position to front of the screen
+        setPlayModeType('bell');
         if (waiting) {
             setWaiting(false);
             setAnimationState('walking');
         }
-        setTargetPosition({left: 50, top: 60, scale: 1.1});
-
+        setTargetPosition({left: 40, top: 90, scale: 1});
     }
+
+    const makePetJump = () => {
+        setJumpToPosition({left: 20, top: 50, scale: 3, flip: 1});
+    };
+
+    useEffect(() => {
+        if (jumpToPosition) {
+          setPosition(jumpToPosition);
+          setJumpToPosition(null);
+          setShowPaws(true);
+          setWaiting(true);
+          console.log("jumping to position")
+        }
+      }, [jumpToPosition]);
 
     const handleCloseRewards = () => {
         setShowRewards(false);
@@ -370,6 +397,8 @@ const Pet = () => {
             <React.Fragment key={reward.rewardID}>
                 {reward.rewardType === 'cosmetic' && <img src={`src/assets/Decorations/${name}.png`} alt={reward.rewardName} className={`reward-${name} overlay`}/> }
                 {reward.rewardType === 'mechanic' && name === "bell" && <img src={`src/assets/Decorations/${name}.png`} alt={reward.rewardName} className={`${name} mechanic`} onClick={handleBell}/>}
+                {isBioengineeringRewardActive && <PetStatsDisplay petStats={petStats} />}
+                <FrisbeeReward onThrow={handleFrisbeeThrow} resetPosition={resetFrisbeePosition} />
             </React.Fragment>
         );
     };
@@ -430,15 +459,30 @@ const Pet = () => {
             console.error(`Error status: ${response.status}`);
         }
     };
-        
+
+
+    const checkReward = async () => {
+        const response = await fetch(`/api/pet/check-reward/1`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${accessToken}`,
+            },
+        });
+        if (response.ok) {
+            const data = await response.json();
+            setShowNotification(!data.hasReward);
+        } else {
+            console.error(`Error status: ${response.status}`);
+        }
+    };
+    
 
     return (
         <div className="backyard">
             <img src="src/assets/yard_fence.png" alt="fence" className="fence overlay" />
             {activeRewards.map(renderRewards)}
-
-            {isBioengineeringRewardActive && <PetStatsDisplay petStats={petStats} />}
-            <FrisbeeReward onThrow={handleFrisbeeThrow} resetPosition={resetFrisbeePosition} />
+            <RewardNotification rewardId={1} rewardName={'Bioengineering'} onClose={handleCloseRewards} />
 
             {/* DEBUG */}
             <button className="debug" onClick={debugAnimation} style={{
@@ -461,6 +505,17 @@ const Pet = () => {
                 left: '11.1%',
                 top: '36%',
             }}>run</button>
+            <button className="debug" onClick={makePetJump} style={{
+                position: 'absolute',
+                left: '11.1%',
+                top: '38%',
+            }}>Jump</button>
+            <button className="debug" onClick={checkReward} style={{
+                position: 'absolute',
+                left: '0%',
+                top: '80%',
+            }}>Check Reward</button>
+
 
             <button className="debug" onClick={debugRewards} style={{
                 position: 'absolute',
@@ -520,6 +575,17 @@ const Pet = () => {
                         pointerEvents: 'visible',
                     }}
                     />
+                    {showPaws && <div className='paws' style={{
+                        position: 'absolute',
+                        top: 0,
+                        left: 0,
+                        right: 0,
+                        bottom: 0,
+                        backgroundImage: `url('src/assets/paws.png')`,
+                        backgroundSize: 'cover',
+                        backgroundRepeat: 'no-repeat',
+                        pointerEvents: 'none',
+                    }} />}
 
                 </div>
 

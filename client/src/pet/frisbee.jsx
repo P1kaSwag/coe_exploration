@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import frisbee from '/src/assets/Decorations/frisbee.png';
 
 function FrisbeeReward({ onThrow, resetPosition }) {
-  const [position, setPosition] = useState({ left: 78, top: 78 });
+  const [position, setPosition] = useState({ left: 78, top: 80 });
   const [isThrown, setIsThrown] = useState(false);
 
   const handleThrow = () => {
