@@ -23,7 +23,7 @@ const ResultsComponent = ({ userAnswers }) => {
 
   return (
     <div className="results-container"> {/* Apply a wrapper container with additional styling */}
-      <h2 className="results-heading">Top Three Majors for (insert username here...)</h2>
+      <h2 className="results-heading">Your Top Three Majors</h2>
       <ul className="results-list">
         {topThreeMajors.map((major, index) => (
           <li key={index} className="result-item">

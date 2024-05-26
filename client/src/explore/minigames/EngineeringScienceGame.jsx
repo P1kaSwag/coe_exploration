@@ -16,27 +16,21 @@ const sentences = {
 
 const WordSearchGame = () => {
     const { majorId } = useParams(); // Retrieve majorId from URL parameters
-    const [words, setWords] = useState([]);
+    const [words, setWords] = useState([
+        'Interdisciplinary', 
+        'Research', 
+        'Analysis', 
+        'Modeling', 
+        'Simulation', 
+        'Optimization', 
+        'Theory', 
+        'Experimentation'
+    ]);
     const [puzzle, setPuzzle] = useState([]);
     const [selectedCells, setSelectedCells] = useState([]);
     const [isMouseDown, setIsMouseDown] = useState(false); // Track mouse down state
     const [startCell, setStartCell] = useState(null); // Track start cell of selection
     const [foundSentence, setFoundSentence] = useState('');
-
-    useEffect(() => {
-        const fetchWords = async () => {
-            try {
-                const response = await fetch(`http://localhost:8000/api/majors/10/words`);
-                const data = await response.json();
-                const wordsData = data.map(item => item.word);
-                setWords(wordsData);
-            } catch (error) {
-                console.error('Error fetching words: ', error);
-            }
-        };
-
-        fetchWords();
-    }, [majorId]);
 
     useEffect(() => {
         if (words.length > 0) {
@@ -46,15 +40,11 @@ const WordSearchGame = () => {
         }
     }, [words]);
 
-    
     const handleMouseDown = (event, rowIndex, columnIndex) => {
         event.preventDefault(); // Prevent default behavior to avoid selecting text
         setIsMouseDown(true);
         setStartCell({ row: rowIndex, column: columnIndex });
-        // Do not clear selectedCells state on mouse down
-        // setSelectedCells([]);
     };
-
 
     const handleMouseUp = () => {
         setIsMouseDown(false);
@@ -65,7 +55,6 @@ const WordSearchGame = () => {
         if (isMouseDown) {
             const endCell = { row: rowIndex, column: columnIndex };
             const cellsToSelect = getCellsBetween(startCell, endCell);
-            // Add newly selected cells to the existing list, ensuring no duplicates
             setSelectedCells(prevSelectedCells => Array.from(new Set([...prevSelectedCells, ...cellsToSelect])));
         }
     };
@@ -77,7 +66,6 @@ const WordSearchGame = () => {
         const { row: endRow, column: endColumn } = endCell;
         const cells = [];
 
-        // Check if cells are in the same row or column
         if (startRow === endRow) { // Horizontal selection
             for (let col = Math.min(startColumn, endColumn); col <= Math.max(startColumn, endColumn); col++) {
                 cells.push(`${startRow}-${col}`);
@@ -97,11 +85,9 @@ const WordSearchGame = () => {
         const wordSpan = document.querySelectorAll('.word-list span');
         wordSpan[index].style.textDecoration = 'line-through';
 
-        //display sentence
         const word = words[index];
         const sentence = sentences[word];
-        setFoundSentence(sentence)
-
+        setFoundSentence(sentence);
     };
 
     return (
@@ -109,9 +95,9 @@ const WordSearchGame = () => {
             <div className="word-list">
                 <h1>Engineering Science Wordsearch</h1>
                 <ul>
-                    <li>click and drag to highlight words from the list below</li>
-                    <li>When found click the 'X' button next to the word to mark it off</li>
-                    <li>Click 'play again' for a new game or use the Navigation to explore more!</li>
+                    <li>Click and drag to highlight words from the list below</li>
+                    <li>When found, click the 'X' button next to the word to mark it off</li>
+                    <li>Click 'Play Again' for a new game or use the Navigation to explore more!</li>
                 </ul>
                 <h2>Word List</h2>
                 <ul>
@@ -126,12 +112,11 @@ const WordSearchGame = () => {
                     {foundSentence && (
                         <div>
                             <p>{foundSentence}</p>
-                        </div>    
+                        </div>
                     )}
                 </div>
                 <br />
-                <button onClick={() => window.location.reload()}>Play Agian!</button>
-                
+                <button onClick={() => window.location.reload()}>Play Again!</button>
             </div>
             <div
                 className="word-search-grid"

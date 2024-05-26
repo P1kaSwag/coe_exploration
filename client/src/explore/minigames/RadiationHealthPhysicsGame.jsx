@@ -12,31 +12,25 @@ const sentences = {
     Medical: "Medical imaging, vital in radiation health physics, reveals health insights through radiation's lens.",
     Nuclear: "Nuclear medicine, merging physics and medicine, heals with radiation under safety's watchful eye.",
     Regulation: "Regulation anchors radiation health physics, ensuring safe and ethical radiation use across disciplines."
-  };
-  
+};
+
 const WordSearchGame = () => {
-    const { majorId } = useParams(); // Retrieve majorId from URL parameters
-    const [words, setWords] = useState([]);
+    const { majorId } = useParams(); // Retrieve majorId from URL parameters (not needed anymore but keeping it for future use)
+    const [words, setWords] = useState([
+        'Radiation',
+        'Health',
+        'Dosimetry',
+        'Protection',
+        'Radiobiology',
+        'Medical',
+        'Nuclear',
+        'Regulation'
+    ]);
     const [puzzle, setPuzzle] = useState([]);
     const [selectedCells, setSelectedCells] = useState([]);
     const [isMouseDown, setIsMouseDown] = useState(false); // Track mouse down state
     const [startCell, setStartCell] = useState(null); // Track start cell of selection
     const [foundSentence, setFoundSentence] = useState('');
-
-    useEffect(() => {
-        const fetchWords = async () => {
-            try {
-                const response = await fetch(`/api/majors/17/words`);
-                const data = await response.json();
-                const wordsData = data.map(item => item.word);
-                setWords(wordsData);
-            } catch (error) {
-                console.error('Error fetching words: ', error);
-            }
-        };
-
-        fetchWords();
-    }, [majorId]);
 
     useEffect(() => {
         if (words.length > 0) {
@@ -46,7 +40,6 @@ const WordSearchGame = () => {
         }
     }, [words]);
 
-    
     const handleMouseDown = (event, rowIndex, columnIndex) => {
         event.preventDefault(); // Prevent default behavior to avoid selecting text
         setIsMouseDown(true);
@@ -54,7 +47,6 @@ const WordSearchGame = () => {
         // Do not clear selectedCells state on mouse down
         // setSelectedCells([]);
     };
-
 
     const handleMouseUp = () => {
         setIsMouseDown(false);
@@ -97,11 +89,10 @@ const WordSearchGame = () => {
         const wordSpan = document.querySelectorAll('.word-list span');
         wordSpan[index].style.textDecoration = 'line-through';
 
-        //display sentence
+        // Display sentence
         const word = words[index];
         const sentence = sentences[word];
-        setFoundSentence(sentence)
-
+        setFoundSentence(sentence);
     };
 
     return (
@@ -109,8 +100,8 @@ const WordSearchGame = () => {
             <div className="word-list">
                 <h1>Radiation Health Physics Wordsearch</h1>
                 <ul>
-                    <li>click and drag to highlight words from the list below</li>
-                    <li>When found click the 'X' button next to the word to mark it off</li>
+                    <li>Click and drag to highlight words from the list below</li>
+                    <li>When found, click the 'X' button next to the word to mark it off</li>
                     <li>Click 'play again' for a new game or use the Navigation to explore more!</li>
                 </ul>
                 <h2>Word List</h2>
@@ -126,12 +117,11 @@ const WordSearchGame = () => {
                     {foundSentence && (
                         <div>
                             <p>{foundSentence}</p>
-                        </div>    
+                        </div>
                     )}
                 </div>
                 <br />
-                <button onClick={() => window.location.reload()}>Play Agian!</button>
-                
+                <button onClick={() => window.location.reload()}>Play Again!</button>
             </div>
             <div
                 className="word-search-grid"
