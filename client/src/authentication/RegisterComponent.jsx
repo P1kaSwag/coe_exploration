@@ -9,25 +9,35 @@ const RegisterComponent = () => {
 
   const handleRegister = async () => {
     // TODO: Change localhost to something else
-    const response = await fetch('/api/users/register', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        username,
-        email,
-        password,
-      }),
-    });
+    const hasUpperCase = /[A-Z]/.test(password);
+    const hasLowerCase = /[a-z]/.test(password);
+    const hasNumber = /[0-9]/.test(password);
+    const hasSymbol = /[!@#$%^&*(),.?":{}|<>]/.test(password);
+    const isLongEnough = password.length >= 8;
+    if (hasUpperCase && hasLowerCase && hasNumber && hasSymbol && isLongEnough) {
+      const response = await fetch('http://localhost:8000/api/users/register', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          username,
+          email,
+          password,
+        }),
+      });
 
-    const data = await response.json();
+      const data = await response.json();
 
-    if (data.message === 'User registered successfully') {
-      window.location.href = '/';
-    }
+      if (data.message === 'User registered successfully') {
+        window.location.href = '/';
+      }
+      else {
+        setErrorMessage(data.message);
+      }
+    } 
     else {
-      setErrorMessage(data.message);
+      setErrorMessage('Password must be at least 8 characters long and include at least 1 uppercase letter, 1 lowercase letter, 1 number, and 1 symbol.');
     }
   };
 

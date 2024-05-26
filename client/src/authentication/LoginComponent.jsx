@@ -10,7 +10,7 @@ const LoginComponent = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
-  const { user, login } = useAuth();  // FIXME: user is not used so we can probably remove it
+  const { user, login } = useAuth();
 
   const handleLogin = async () => {
     const response = await fetch('/api/users/login', {
@@ -35,6 +35,10 @@ const LoginComponent = () => {
     }
 
   };
+
+  if (user) {
+    window.location.href = '/quiz';
+  }
 
   return (
     <div style={{backgroundImage: `url(${LoginBackground})`, backgroundSize: 'cover', backgroundRepeat: 'no-repeat', backgroundAttachment: 'fixed'}}>
