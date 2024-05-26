@@ -100,7 +100,7 @@ const WordSearchGame = () => {
             <div className="word-list">
                 <h1>Radiation Health Physics Wordsearch</h1>
                 <ul>
-                    <li>Click and drag to highlight words from the list below</li>
+                    <li>Click and drag to highlight words from the list below.</li>
                     <li>When found, click the 'X' button next to the word to mark it off</li>
                     <li>Click 'play again' for a new game or use the Navigation to explore more!</li>
                 </ul>
