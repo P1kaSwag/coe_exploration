@@ -106,17 +106,17 @@ VALUES
     ('Chemical Engineering', 'As a chemical engineering student at Oregon State, you will learn to design and optimize processes for the production of chemicals, fuels, and materials.', 'Chemical Engineer, Process Engineer, Environmental Engineer'),
     ('Civil Engineering', 'As a civil engineering student at Oregon State, you will learn to design and maintain infrastructure that is essential to modern society, including roads, bridges, and water systems.', 'Civil Engineer, Structural Engineer, Transportation Engineer'),
     ('Computer Science', 'As a computer science student at Oregon State, you will learn to use algorithms to develop software and design solutions to real-world problems.', 'Software Engineer, Data Scientist, Web Developer'),
-    ('Construction Engineering Management', 'As a construction engineering management student at Oregon State, ...', 'career 1, career 2, career 3'),
+    ("Construction Engineering Management', 'As a construction engineering management student at Oregon State, you'll bring building projects to life, from homes to commercial buildings, roads to bridges and more. You'll be a versatile problem-solver, ensuring that projects are completed safely, on time, and within budget.", 'Construction Manager, Project Engineer, Field Engineer'),
     ('Ecological Engineering', 'As an ecological engineering student at Oregon State, you will learn to design and manage ecosystems that are sustainable and resilient to environmental change.', 'Ecological Engineer, Environmental Consultant, Water Resources Engineer'),
     ('Electrical and Computer Engineering', 'As an electrical and computer engineering student at Oregon State, you will learn to design, build, and support new technologies while refining existing systems, processes, and products.', 'Electrical Engineer, Systems Engineer, Hardware Design Engineer'),
     ('Energy Systems Engineering', 'As an energy systems engineering student at Oregon State, you will learn to design and optimize energy systems that are sustainable, efficient, and resilient to environmental change.', 'Energy Engineer, Renewable Energy Engineer, Energy Analyst'),
-    ('Engineering Science', 'As an engineering science student at Oregon State, you will learn to... ', 'career 1, career 2, career 3'),
+    ('Engineering Science', 'As an engineering science student at Oregon State, you will learn to get a strong foundation of engineering fundamentals. You can pick different courses from several different engineering disciplines.', 'Engineering Scientist, Research Scientist, Engineering Consultant'),
     ('Environmental Engineering', 'As an environmental engineering student at Oregon State, you will learn to design and implement solutions to environmental problems, such as pollution, waste management, and water quality.', 'Environmental Engineer, Water Resources Engineer, Environmental Consultant'),
     ('Industrial Engineering', 'As an industrial engineering student at Oregon State, you will learn to optimize complex systems and processes to improve efficiency, productivity, and quality.', 'Industrial Engineer, Quality Engineer, Operations Research Analyst'),
     ('Mechanical Engineering', 'As a mechanical engineering student at Oregon State, you will learn to design and build machines and systems that are essential to modern society, from cars to power plants.', 'Mechanical Engineer, Aerospace Engineer, Robotics Engineer'),
     ('Nuclear Engineering', 'As a nuclear engineering student at Oregon State, you will learn to design and operate nuclear systems that are safe, efficient, and sustainable.', 'Nuclear Engineer, Radiation Protection Engineer, Nuclear Safety Engineer'),
     ('Outdoor Products', 'As an outdoor products student at Oregon State, you will learn to design and manufacture outdoor products that are innovative, sustainable, and functional.', 'Product Designer, Product Developer, Product Manager'),
-    ('Radiation Health Physics', 'As a radiation health physics student at Oregon State, you will learn to...', 'career 1, career 2, career 3');
+    ('Radiation Health Physics', 'As a radiation health physics student at Oregon State, you will learn to protect from potential dangers of exposure to radiation.', 'Physisist, Health Physicist, Radiation Safety Officer');
 
 INSERT INTO MajorInformation (majorid, topProfessor1, topProfessor2, topProfessor3, studentQuote1, studentQuote2, careers, minors, skills, interests) 
 VALUES 
@@ -204,7 +204,7 @@ INSERT INTO Words (major_id, word) VALUES
     (6, 'Contract'), (6, 'Quality'), (6, 'Safety'), (6, 'Risk'),
     -- Ecological Engineering
     (7, 'Ecosystem'), (7, 'Biodiversity'), (7, 'Sustainability'), (7, 'Restoration'),
-    (7, 'Climate'), (7, 'Conservation'), (7, 'Natural resources'), (7, 'Ecology'),
+    (7, 'Climate'), (7, 'Conservation'), (7, 'Natural'), (7, 'Ecology'),
     -- Electrical and Computer Engineering
     (8, 'Circuits'), (8, 'Signals'), (8, 'Electronics'), (8, 'Control'),
     (8, 'Power'), (8, 'Digital'), (8, 'Embedded'), (8, 'Communications'),
@@ -215,11 +215,12 @@ INSERT INTO Words (major_id, word) VALUES
     (10, 'Interdisciplinary'), (10, 'Research'), (10, 'Analysis'), (10, 'Modeling'),
     (10, 'Simulation'), (10, 'Optimization'), (10, 'Theory'), (10, 'Experimentation'),
     -- Environmental Engineering
-    (11, 'Pollution'), (11, 'Waste'), (11, 'Remediation'), (11, 'Air quality'),
-    (11, 'Water treatment'), (11, 'Environmental impact'), (11, 'Regulation'), (11, 'Health'),
+    (11, 'Pollution'), (11, 'Waste'), (11, 'Remediation'), (11, 'Air'),
+    (11, 'Water'), (11, 'Environmental'), (11, 'Regulation'), (11, 'Health'),
     -- Industrial Engineering
-    (12, 'Optimization'), (12, 'Productivity'), (12, 'Lean'), (12, 'Six sigma'),
-    (12, 'Supply chain'), (12, 'Logistics'), (12, 'Process improvement'), (12, 'Quality control'),
+    (12, 'Optimization'), (12, 'Productivity'), (12, 'Lean'), (12, 'Six'),
+    (12, 'Supply'), (12, 'Logistics'), (12, 'Process'), (12, 'Quality'),
+    -- Manufacturing Engineering
     -- Mechanical Engineering
     (13, 'Thermodynamics'), (13, 'Fluid'), (13, 'Heat transfer'), (13, 'Mechanics'),
     (13, 'Dynamics'), (13, 'Design'), (13, 'Materials'), (13, 'Robotics'),

@@ -1,7 +1,21 @@
 
-/* .word-list span{
-    text-decoration: line-through;
-} */
+.word-search-container {
+    display: flex;
+    justify-content: space-between; /* Distribute items evenly along the main axis */
+}
+
+.word-list {
+    flex: 0 0 45%; /* Set the width of the word list container */
+    padding: 1rem;
+    margin-top: 1rem;
+}
+
+.word-search-grid {
+    flex: 0 0 45%; /* Set the width of the word search grid container */
+    /* Other styles as needed */
+    padding: 1rem;
+    margin-top: 1rem;
+}
 
 .word-list li.highlighted {
     background-color: rgb(214, 136, 9); /* Highlight color for completely found words */
@@ -38,4 +52,11 @@
 
 .found {
     text-decoration: line-through;
+}
+
+.button {
+    padding-left: 5px;
+    margin-left: 1rem;
+    /* background-color: rgb(202, 133, 6);
+    color: black */
 }
