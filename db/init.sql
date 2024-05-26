@@ -106,17 +106,17 @@ VALUES
     ('Chemical Engineering', 'As a chemical engineering student at Oregon State, you will learn to design and optimize processes for the production of chemicals, fuels, and materials.', 'Chemical Engineer, Process Engineer, Environmental Engineer'),
     ('Civil Engineering', 'As a civil engineering student at Oregon State, you will learn to design and maintain infrastructure that is essential to modern society, including roads, bridges, and water systems.', 'Civil Engineer, Structural Engineer, Transportation Engineer'),
     ('Computer Science', 'As a computer science student at Oregon State, you will learn to use algorithms to develop software and design solutions to real-world problems.', 'Software Engineer, Data Scientist, Web Developer'),
-    ('Construction Engineering Management', 'As a construction engineering management student at Oregon State, ...', 'career 1, career 2, career 3'),
+    ('Construction Engineering Management', 'As a construction engineering management student at Oregon State, you''ll bring building projects to life, from homes to commercial buildings, roads to bridges and more. You''ll be a versatile problem-solver, ensuring that projects are completed safely, on time, and within budget.', 'Construction Manager, Project Engineer, Field Engineer'),
     ('Ecological Engineering', 'As an ecological engineering student at Oregon State, you will learn to design and manage ecosystems that are sustainable and resilient to environmental change.', 'Ecological Engineer, Environmental Consultant, Water Resources Engineer'),
     ('Electrical and Computer Engineering', 'As an electrical and computer engineering student at Oregon State, you will learn to design, build, and support new technologies while refining existing systems, processes, and products.', 'Electrical Engineer, Systems Engineer, Hardware Design Engineer'),
     ('Energy Systems Engineering', 'As an energy systems engineering student at Oregon State, you will learn to design and optimize energy systems that are sustainable, efficient, and resilient to environmental change.', 'Energy Engineer, Renewable Energy Engineer, Energy Analyst'),
-    ('Engineering Science', 'As an engineering science student at Oregon State, you will learn to... ', 'career 1, career 2, career 3'),
+    ('Engineering Science', 'As an engineering science student at Oregon State, you will learn to get a strong foundation of engineering fundamentals. You can pick different courses from several different engineering disciplines.', 'Engineering Scientist, Research Scientist, Engineering Consultant'),
     ('Environmental Engineering', 'As an environmental engineering student at Oregon State, you will learn to design and implement solutions to environmental problems, such as pollution, waste management, and water quality.', 'Environmental Engineer, Water Resources Engineer, Environmental Consultant'),
     ('Industrial Engineering', 'As an industrial engineering student at Oregon State, you will learn to optimize complex systems and processes to improve efficiency, productivity, and quality.', 'Industrial Engineer, Quality Engineer, Operations Research Analyst'),
     ('Mechanical Engineering', 'As a mechanical engineering student at Oregon State, you will learn to design and build machines and systems that are essential to modern society, from cars to power plants.', 'Mechanical Engineer, Aerospace Engineer, Robotics Engineer'),
     ('Nuclear Engineering', 'As a nuclear engineering student at Oregon State, you will learn to design and operate nuclear systems that are safe, efficient, and sustainable.', 'Nuclear Engineer, Radiation Protection Engineer, Nuclear Safety Engineer'),
     ('Outdoor Products', 'As an outdoor products student at Oregon State, you will learn to design and manufacture outdoor products that are innovative, sustainable, and functional.', 'Product Designer, Product Developer, Product Manager'),
-    ('Radiation Health Physics', 'As a radiation health physics student at Oregon State, you will learn to...', 'career 1, career 2, career 3');
+    ('Radiation Health Physics', 'As a radiation health physics student at Oregon State, you will learn to protect from potential dangers of exposure to radiation.', 'Physisist, Health Physicist, Radiation Safety Officer');
 
 INSERT INTO MajorInformation (majorid, topProfessor1, topProfessor2, topProfessor3, studentQuote1, studentQuote2, careers, minors, skills, interests) 
 VALUES 
@@ -175,21 +175,18 @@ VALUES
     (12, 'Professor 1', 'https://engineering.oregonstate.edu/sites/engineering.oregonstate.edu/files/styles/profile_image/public/default_images/profile_preview.png?itok=5RN_oJyY'),
     (12, 'Professor 2', 'https://engineering.oregonstate.edu/sites/engineering.oregonstate.edu/files/styles/profile_image/public/default_images/profile_preview.png?itok=5RN_oJyY'),
     (12, 'Professor 3', 'https://engineering.oregonstate.edu/sites/engineering.oregonstate.edu/files/styles/profile_image/public/default_images/profile_preview.png?itok=5RN_oJyY'), 
-    (13, 'Professor 1', 'https://engineering.oregonstate.edu/sites/engineering.oregonstate.edu/files/styles/profile_image/public/default_images/profile_preview.png?itok=5RN_oJyY'),
-    (13, 'Professor 2', 'https://engineering.oregonstate.edu/sites/engineering.oregonstate.edu/files/styles/profile_image/public/default_images/profile_preview.png?itok=5RN_oJyY'),
-    (13, 'Professor 3', 'https://engineering.oregonstate.edu/sites/engineering.oregonstate.edu/files/styles/profile_image/public/default_images/profile_preview.png?itok=5RN_oJyY'),
-    (14, 'Mark McGuire', 'https://engineering.oregonstate.edu/sites/engineering.oregonstate.edu/files/styles/profile_image/public/2023-03/Mark2-Samantha-Shaver.png?itok=pHJeEzH7'),
-    (14, 'Deborah Pence', 'https://engineering.oregonstate.edu/sites/engineering.oregonstate.edu/files/styles/profile_image/public/2023-02/profile-Deb-Pence.jpg?itok=tRP7Twjh'),
-    (14, 'Anthony Nix', 'https://engineering.oregonstate.edu/sites/engineering.oregonstate.edu/files/styles/profile_image/public/default_images/profile_preview.png?itok=5RN_oJyY'),
+    (13, 'Mark McGuire', 'https://engineering.oregonstate.edu/sites/engineering.oregonstate.edu/files/styles/profile_image/public/2023-03/Mark2-Samantha-Shaver.png?itok=pHJeEzH7'),
+    (13, 'Deborah Pence', 'https://engineering.oregonstate.edu/sites/engineering.oregonstate.edu/files/styles/profile_image/public/2023-02/profile-Deb-Pence.jpg?itok=tRP7Twjh'),
+    (13, 'Anthony Nix', 'https://engineering.oregonstate.edu/sites/engineering.oregonstate.edu/files/styles/profile_image/public/default_images/profile_preview.png?itok=5RN_oJyY'),
+    (14, 'Professor 1', 'https://engineering.oregonstate.edu/sites/engineering.oregonstate.edu/files/styles/profile_image/public/default_images/profile_preview.png?itok=5RN_oJyY'),
+    (14, 'Professor 2', 'https://engineering.oregonstate.edu/sites/engineering.oregonstate.edu/files/styles/profile_image/public/default_images/profile_preview.png?itok=5RN_oJyY'),
+    (14, 'Professor 3', 'https://engineering.oregonstate.edu/sites/engineering.oregonstate.edu/files/styles/profile_image/public/default_images/profile_preview.png?itok=5RN_oJyY'),
     (15, 'Professor 1', 'https://engineering.oregonstate.edu/sites/engineering.oregonstate.edu/files/styles/profile_image/public/default_images/profile_preview.png?itok=5RN_oJyY'),
     (15, 'Professor 2', 'https://engineering.oregonstate.edu/sites/engineering.oregonstate.edu/files/styles/profile_image/public/default_images/profile_preview.png?itok=5RN_oJyY'),
     (15, 'Professor 3', 'https://engineering.oregonstate.edu/sites/engineering.oregonstate.edu/files/styles/profile_image/public/default_images/profile_preview.png?itok=5RN_oJyY'),
     (16, 'Professor 1', 'https://engineering.oregonstate.edu/sites/engineering.oregonstate.edu/files/styles/profile_image/public/default_images/profile_preview.png?itok=5RN_oJyY'),
     (16, 'Professor 2', 'https://engineering.oregonstate.edu/sites/engineering.oregonstate.edu/files/styles/profile_image/public/default_images/profile_preview.png?itok=5RN_oJyY'),
-    (16, 'Professor 3', 'https://engineering.oregonstate.edu/sites/engineering.oregonstate.edu/files/styles/profile_image/public/default_images/profile_preview.png?itok=5RN_oJyY'),
-    (17, 'Professor 1', 'https://engineering.oregonstate.edu/sites/engineering.oregonstate.edu/files/styles/profile_image/public/default_images/profile_preview.png?itok=5RN_oJyY'),
-    (17, 'Professor 2', 'https://engineering.oregonstate.edu/sites/engineering.oregonstate.edu/files/styles/profile_image/public/default_images/profile_preview.png?itok=5RN_oJyY'),
-    (17, 'Professor 3', 'https://engineering.oregonstate.edu/sites/engineering.oregonstate.edu/files/styles/profile_image/public/default_images/profile_preview.png?itok=5RN_oJyY');
+    (16, 'Professor 3', 'https://engineering.oregonstate.edu/sites/engineering.oregonstate.edu/files/styles/profile_image/public/default_images/profile_preview.png?itok=5RN_oJyY');
 
 
 INSERT INTO Words (major_id, word) VALUES
@@ -224,36 +221,34 @@ INSERT INTO Words (major_id, word) VALUES
     (12, 'Optimization'), (12, 'Productivity'), (12, 'Lean'), (12, 'Six'),
     (12, 'Supply'), (12, 'Logistics'), (12, 'Process'), (12, 'Quality'),
     -- Manufacturing Engineering
-    (13, 'Automation'), (13, 'Machining'), (13, 'Additive'), (13, 'Assembly'),
-    (13, 'Manufacturability'), (13, 'Tooling'), (13, 'Process'), (13, 'Production'),
     -- Mechanical Engineering
-    (14, 'Thermodynamics'), (14, 'Fluid'), (14, 'Heat'), (14, 'Mechanics'),
-    (14, 'Dynamics'), (14, 'Design'), (14, 'Materials'), (14, 'Robotics'),
+    (13, 'Thermodynamics'), (13, 'Fluid'), (13, 'Heat transfer'), (13, 'Mechanics'),
+    (13, 'Dynamics'), (13, 'Design'), (13, 'Materials'), (13, 'Robotics'),
     -- Nuclear Engineering
-    (15, 'Nuclear'), (15, 'Reactors'), (15, 'Radiation'), (15, 'Safety'),
-    (15, 'Security'), (15, 'Waste'), (15, 'Fusion'), (15, 'Fission'),
+    (14, 'Nuclear'), (14, 'Reactors'), (14, 'Radiation'), (14, 'Safety'),
+    (14, 'Security'), (14, 'Waste'), (14, 'Fusion'), (14, 'Fission'),
     -- Outdoor Products
-    (16, 'Gear'), (16, 'Apparel'), (16, 'Equipment'), (16, 'Textiles'),
-    (16, 'Materials'), (16, 'Design'), (16, 'Functionality'), (16, 'Sustainability'),
+    (15, 'Gear'), (15, 'Apparel'), (15, 'Equipment'), (15, 'Textiles'),
+    (15, 'Materials'), (15, 'Design'), (15, 'Functionality'), (15, 'Sustainability'),
     -- Radiation Health Physics
-    (17, 'Radiation'), (17, 'Health'), (17, 'Dosimetry'), (17, 'Protection'),
-    (17, 'Radiobiology'), (17, 'Medical'), (17, 'Nuclear'), (17, 'Regulation');
+    (16, 'Radiation'), (16, 'Health'), (16, 'Dosimetry'), (16, 'Protection'),
+    (16, 'Radiobiology'), (16, 'Medical imaging'), (16, 'Nuclear medicine'), (16, 'Regulation');
 
 INSERT INTO Rewards (majorID, rewardName, rewardDescription, rewardType)
 VALUES
-    (1, 'Architectural Engineering', 'A new home for your pet!', 'cosmetic'),
-    (2, 'Bioengineering', 'Now you can see a live report of how your pet is feeling!', 'mechanic'),
-    (3, 'Chemical Engineering', 'A new outfit for your pet!', 'outfit'),
-    (4, 'Civil Engineering', 'A new outfit for your pet!', 'outfit'),
-    (5, 'Computer Science', 'A new outfit for your pet!', 'outfit'),
-    (6, 'Construction Engineering Management', 'A new outfit for your pet!', 'outfit'),
-    (7, 'Ecological Engineering', 'Add some flowers to your yard!', 'cosmetic'),
-    (8, 'Electrical and Computer Engineering', 'Light up your yard!', 'cosmetic'),
-    (9, 'Energy Systems Engineering', 'Add a view of some wind turbines to your yard!', 'cosmetic'),
-    (10, 'Engineering Science', 'A new outfit for your pet!', 'outfit'),
-    (11, 'Environmental Engineering', 'A new way to see your yard! (Best used with the Electrical and Computer Engineering reward)', 'mechanic'),
-    (12, 'Industrial Engineering', 'A new outfit for your pet!', 'outfit'),
-    (14, 'Mechanical Engineering', 'A new outfit for your pet!', 'outfit'),
-    (15, 'Nuclear Engineering', 'A new outfit for your pet!', 'outfit'),
-    (16, 'Outdoor Products', 'A new way to play with your pet!', 'mechanic'),
-    (17, 'Radiation Health Physics', 'A new outfit for your pet!', 'outfit');
+    (1, 'Dog House',  'A sturdy and stylish dog house, symbolizing the principles of design and construction that are key to Architectural Engineering.', 'cosmetic'),
+    (2, 'Bioengineering', 'Ability to check pet''s stats and mood: Bioengineering principles applied to monitor and analyze your pet''s health and emotions.', 'mechanic'),
+    (3, 'Chemical Engineering', 'Equip your pet with protective eye gear, representing the safety measures essential in Chemical Engineering laboratories.', 'outfit'),
+    (4, 'Civil Engineering',  'A sturdy hard hat to keep your pet safe on all construction sites, symbolizing civil engineering safety standards.', 'outfit'),
+    (5, 'Computer Science', 'A cutting-edge VR headset, representing the advancements in virtual reality technology driven by computer science.', 'outfit'),
+    (6, 'Construction Engineering Management', 'A fun traffic cone hat, highlighting the role of construction management in ensuring site safety and organization.', 'outfit'),
+    (7, 'Flower Bush', 'Beautiful flowers that emphasize the focus on environmental harmony in ecological engineering.', 'cosmetic'),
+    (8, 'Lights', 'Illuminate the surroundings with lights and control the night setting, representing the innovative electrical solutions in Electrical and Computer Engineering.', 'cosmetic'),
+    (9, 'Wind Turbines', 'Small wind turbines in the background, illustrating the sustainable energy solutions developed in energy systems engineering.', 'cosmetic'),
+    (10, 'Bell', 'A bell for your pet. Ring it to bring them front and center', 'mechanic'),
+    (11, 'Environmental Engineering', 'A paper bag mask for your pet, highlighting the efforts to address environmental issues and pollution in Environmental Engineering.', 'outfit'),
+    (12, 'Industrial Engineering', 'Stylish nerdy glasses that symbolize the analytical and optimization skills crucial in industrial engineering.', 'outfit'),
+    (13, 'Mechanical Engineering', 'Protective earmuffs to safeguard your pet from loud noises.', 'outfit'),
+    (14, 'Nuclear Engineering', 'A superhero mask! Please do not expose yourself to large amounts of nuclear radiation', 'outfit'),
+    (15, 'Frisbee', 'A fun and durable frisbee designed for outdoor play, showcasing the innovation in outdoor product engineering.', 'mechanic'),
+    (16, 'Radiation Health Physics', 'Dress your pet in a lab coat, representing the research and safety practices in Radiation Health Physics.', 'outfit');

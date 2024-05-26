@@ -33,6 +33,24 @@ const WordSearchGame = () => {
     const [foundSentence, setFoundSentence] = useState('');
 
     useEffect(() => {
+<<<<<<< HEAD
+=======
+        const fetchWords = async () => {
+            try {
+                const response = await fetch(`/api/majors/16/words`);
+                const data = await response.json();
+                const wordsData = data.map(item => item.word);
+                setWords(wordsData);
+            } catch (error) {
+                console.error('Error fetching words: ', error);
+            }
+        };
+
+        fetchWords();
+    }, [majorId]);
+
+    useEffect(() => {
+>>>>>>> main
         if (words.length > 0) {
             const puzzleGrid = wordsearch.createPuzzle(20, 20, 'en', words);
             const hiddenGrid = wordsearch.hideWords(puzzleGrid, 'en'); // Hide the words
