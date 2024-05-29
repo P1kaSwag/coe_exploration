@@ -481,7 +481,23 @@ const Pet = () => {
 
 
     const checkReward = async () => {
-        const response = await fetch(`/api/pet/check-reward/15`, {
+        const response = await fetch(`/api/pet/check-reward/3`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${accessToken}`,
+            },
+        });
+        if (response.ok) {
+            const data = await response.json();
+            setShowNotification(!data.hasReward);
+        } else {
+            console.error(`Error status: ${response.status}`);
+        }
+    };
+
+    const checkReward1 = async () => {
+        const response = await fetch(`/api/pet/check-reward/2`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -530,15 +546,15 @@ const Pet = () => {
             }}>Jump</button>
             <button className="debug" onClick={checkReward} style={{
                 position: 'absolute',
-                left: '0%',
-                top: '80%',
-            }}>Check Reward</button>
-
-
-            <button className="debug" onClick={debugRewards} style={{
+                left: '11.1%',
+                top: '40%',
+            }}>Reward1</button>
+            <button className="debug" onClick={checkReward1} style={{
                 position: 'absolute',
-                left: '0%',
-                top: '85%'}}>Unlock Rewards</button>
+                left: '11.1%',
+                top: '42%',
+            }}>Check Reward2</button>
+
             {/* DEBUG */}
             
                 <div    // Pet base image

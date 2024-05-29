@@ -15,7 +15,7 @@ const RegisterComponent = () => {
     const hasSymbol = /[!@#$%^&*(),.?":{}|<>]/.test(password);
     const isLongEnough = password.length >= 8;
     if (hasUpperCase && hasLowerCase && hasNumber && hasSymbol && isLongEnough) {
-      const response = await fetch('http://localhost:8000/api/users/register', {
+      const response = await fetch('/api/users/register', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
