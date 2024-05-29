@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { NavLink, useSearchParams, useParams } from "react-router-dom";
+import MajorRequirements from './MajorRequirements';
 
 import './explore.css'
 import Background from '../assets/majorsbg.png'
@@ -34,72 +35,83 @@ const Explore = () => {
 export default Explore;
 
 export function MajorInfo() {
-  const [majorInfo, setMajorInfo] = useState([]);
-  const [serachParams] = useSearchParams();
+  const [majorInfo, setMajorInfo] = useState({
+    topProfessors: [],
+    studentQuotes: [],
+    careerProspects: '',
+    minors: [],
+    skills: [],
+    interests: []
+  });
+  const [searchParams] = useSearchParams();
   const { majorName } = useParams();
-  const majorID = serachParams.get('majorID');
+  const majorID = searchParams.get('majorID');
 
   useEffect(() => {
     const fetchMajorInfo = async () => {
-    // Send a request to the server to get the major information
-    const response = await fetch(`/api/majors/majorinformation/${majorID}`);
+      const response = await fetch(`/api/majors/majorinformation/${majorID}`);
 
-    // Check if the request was successful (response code 200-299)
-    if (response.ok) {
+      if (response.ok) {
         const data = await response.json();
         console.log(data);
         setMajorInfo(data.majorInfo);
-    } else {
-      console.error(`Error status: ${response.status}`);
-    }
+      } else {
+        console.error(`Error status: ${response.status}`);
+      }
     };
     fetchMajorInfo();
   }, [majorID]);
-  
+
+  if (!majorInfo) {
+    return <div>Loading...</div>;
+  }
+
   return (
-    <>
-      <div style={{backgroundImage: `url(${MajorBackground})`, backgroundSize: 'cover', backgroundRepeat: 'no-repeat', backgroundAttachment: 'fixed'}}>
-        <h1>{majorName} Information</h1>
-        <div className="majorInfo">
-          <h3>Top Professors</h3> 
-            <div className="center">
-              <div className="professorCard"> <img src="https://engineering.oregonstate.edu/sites/engineering.oregonstate.edu/files/styles/profile_image/public/default_images/profile_preview.png?itok=5RN_oJyY" className="professorImage"></img>{majorInfo.topProfessor1} </div>
-              <div className="professorCard"> <img src="https://engineering.oregonstate.edu/sites/engineering.oregonstate.edu/files/styles/profile_image/public/default_images/profile_preview.png?itok=5RN_oJyY" className="professorImage"></img> {majorInfo.topProfessor2} </div>
-              <div className="professorCard"> <img src="https://engineering.oregonstate.edu/sites/engineering.oregonstate.edu/files/styles/profile_image/public/default_images/profile_preview.png?itok=5RN_oJyY" className="professorImage"></img> {majorInfo.topProfessor3} </div>
+    <div style={{ backgroundImage: `url(${MajorBackground})`, backgroundSize: 'cover', backgroundRepeat: 'no-repeat', backgroundAttachment: 'fixed' }}>
+      <h1>{majorName} Information</h1>
+      <div className="majorInfo professors">
+        <h3>Top Professors</h3>
+        <div className="center">
+          {majorInfo.topProfessors.map((prof, index) => (
+            <div className="professorCard" key={index}>
+              <img src={prof.professorURL} className="professorImage" alt={prof.name} />
+              {prof.professorName}
             </div>
-          {/*<p>{majorInfo.topProfessors}</p>*/}
+          ))}
         </div>
-
-        <div className="majorInfo"> 
-          <h3>Student Quotes</h3> 
-          <ul className="leftText">
-            <li>{majorInfo.studentQuote1}</li>
-            <li>{majorInfo.studentQuote2}</li>
-          </ul>
-        </div>
-
-        <div className="majorInfo">
-          <h3>Careers </h3>
-          <p>{majorInfo.careers}</p>
-        </div>
-
-        <div className="majorInfo">
-          <h3>Potential Minors</h3>
-          <p>{majorInfo.minors}</p>
-        </div>
-
-        <div className="majorInfo">
-          <h3>Skills Current Students Recommend to be Successful in {majorName} </h3>
-          <p>{majorInfo.skills}</p>
-        </div>
-
-        <div className="majorInfo">
-          <h3>Interests that led Current Students to {majorName}</h3> 
-          <p>{majorInfo.interests}</p>
-        </div>
-
-        <div className="playButton"><NavLink to={`/explore/${majorName}/minigame`} style={{ textDecoration: 'none', color: 'black' }}>Play the {majorName} Game</NavLink></div>
       </div>
-    </>
+      <div className="majorInfo quotes">
+        <h3>Student Quotes</h3>
+        <ul className="leftText">
+          {majorInfo.studentQuotes.map((quote, index) => (
+            <li key={index}>{quote}</li>
+          ))}
+        </ul>
+      </div>
+      <div className="majorInfo careers">
+        <h3>Careers</h3>
+        <p>{majorInfo.careerProspects}</p>
+      </div>
+      <div className="majorInfo minors">
+        <h3>Potential Minors</h3>
+        <p>{majorInfo.minors && majorInfo.minors.join(', ')}</p>
+      </div>
+      <div className="majorInfo skills">
+        <h3>Skills Current Students Recommend to be Successful in {majorName}</h3>
+        <p>{majorInfo.skills.join(', ')}</p>
+      </div>
+      <div className="majorInfo interests">
+        <h3>Interests that led Current Students to {majorName}</h3>
+        <p>{majorInfo.interests.join(', ')}</p>
+      </div>
+      <div className="majorRequirementsSection">
+        <MajorRequirements major={majorName} />
+      </div>
+      <div className="playButton">
+        <NavLink to={`/explore/${majorName}/minigame`} style={{ textDecoration: 'none', color: 'black' }}>
+          Play the {majorName} Game
+        </NavLink>
+      </div>
+    </div>
   );
 }
