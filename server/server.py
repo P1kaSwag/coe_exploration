@@ -112,6 +112,23 @@ class MajorInformation(db.Model):
             'interests': self.interests
        }
     
+class StudentQuotes(db.Model):
+    __tablename__ = 'StudentQuotes'
+    quoteID = db.Column(db.Integer, primary_key=True)
+    majorid = db.Column(db.Integer, db.ForeignKey('Majors.majorID'), nullable=False)
+    quote = db.Column(db.Text, nullable=False)
+
+class Skills(db.Model):
+    __tablename__ = 'Skills'
+    skillID = db.Column(db.Integer, primary_key=True)
+    majorid = db.Column(db.Integer, db.ForeignKey('Majors.majorID'), nullable=False)
+    skill = db.Column(db.String(255), nullable=False)
+
+class Interests(db.Model):
+    __tablename__ = 'Interests'
+    interestID = db.Column(db.Integer, primary_key=True)
+    majorid = db.Column(db.Integer, db.ForeignKey('Majors.majorID'), nullable=False)
+    interest = db.Column(db.String(255), nullable=False)
 
 class TopProfessors(db.Model):
     __tablename__ = 'TopProfessors'
@@ -481,16 +498,51 @@ def get_professors():
     professors = TopProfessors.query.all()
     return jsonify([professor.to_dict() for professor in professors])
 
+#@app.route('/api/majors/majorinformation/<int:majorID>', methods=['GET'])
+#def get_majorInfo(majorID):
+#    majorInfo = MajorInformation.query.filter_by(majorID=majorID).first()
+#
+#    if not majorInfo:
+#        return jsonify({'message': 'Major not found'}), 404
+#    
+#    majorInfo = majorInfo.to_dict()
+#
+#    return jsonify({'message': 'Major information received successfully', 'majorInfo': majorInfo}), 200
+
 @app.route('/api/majors/majorinformation/<int:majorID>', methods=['GET'])
 def get_majorInfo(majorID):
-    majorInfo = MajorInformation.query.filter_by(majorID=majorID).first()
+    major = Majors.query.get(majorID)
 
-    if not majorInfo:
+    if not major:
         return jsonify({'message': 'Major not found'}), 404
     
-    majorInfo = majorInfo.to_dict()
+    # Get professors
+    top_professors = TopProfessors.query.filter_by(majorID=majorID).all()
 
-    return jsonify({'message': 'Major information received successfully', 'majorInfo': majorInfo}), 200
+    # Get student quotes
+    student_quotes = StudentQuotes.query.filter_by(majorid=majorID).all()
+
+    # Get skills
+    skills = Skills.query.filter_by(majorid=majorID).all()
+
+    # Get interests
+    interests = Interests.query.filter_by(majorid=majorID).all()
+
+    major_info = {
+        'majorName': major.majorName,
+        'majorDescription': major.majorDescription,
+        'careerProspects': major.careerProspects,
+        'topProfessors': [professor.to_dict() for professor in top_professors],
+        'studentQuotes': [quote.quote for quote in student_quotes],
+        'skills': [skill.skill for skill in skills],
+        'interests': [interest.interest for interest in interests]
+    }
+
+    return jsonify({'message': 'Major information received successfully', 'majorInfo': major_info}), 200
+
+
+
+
 
 @app.route('/api/majors/<int:major_id>/words', methods=['GET'])
 def get_major_words(major_id):
@@ -499,6 +551,8 @@ def get_major_words(major_id):
     word_dicts = [word.to_dict() for word in words]
 
     return jsonify(word_dicts)
+
+
 
 
 # Degrade the pet's stats every hour

@@ -33,7 +33,7 @@ padding: 20px;
 .professorCard {
 padding: 10px;
 margin: 20px;
-height: 250px;
+height: auto;
 width: 200px;
 border-radius: 10px;
 border: 2px solid #ccc;
@@ -42,6 +42,14 @@ display: inline-block;
 text-align: center;
 background-color: white;
 }
+
+.professors {
+  display: flex;
+  margin: auto;
+  flex-direction: column;
+  justify-content: center;
+}
+
 
 .professorImage {
 max-width: 100%;
