@@ -5,6 +5,7 @@ import outfitMappings from './outfitConfig';
 import RewardManager from './RewardManagerComponent';
 import PetStatsDisplay from './PetStatsDisplay';
 import FrisbeeReward from './frisbee';
+import TooltipComponent from './TooltipComponent';
 import './pet_styles.css';
 
 const Pet = () => {
@@ -18,7 +19,6 @@ const Pet = () => {
     const [dirtOverlay, setDirtOverlay] = useState('none'); // ['none', 'light', 'heavy']
     const [loadedImages, setLoadedImages] = useState([]);
     const [waiting, setWaiting] = useState(false);
-    const [playModeFetch, setPlayModeFetch] = useState(false);
     const [playMode, setPlayMode] = useState(false);
     const [playModeType, setPlayModeType] = useState(null);
     const [showPaws, setShowPaws] = useState(false);
@@ -29,7 +29,20 @@ const Pet = () => {
     //                                                    {rewardID: 5, rewardName: 'Lights', rewardType: 'cosmetic'},
     //                                                    {rewardID: 6, rewardName: 'Bioengineering', rewardType: 'mechanic'},
     //                                                    {rewardID: 7, rewardName: 'Bell', rewardType: 'mechanic'},]);
+    const [rewards, setRewards] = useState([]);
     const [activeRewards, setActiveRewards] = useState([]);
+    const [showTooltips, setShowTooltips] = useState(false);
+    const [tooltipStep, setTooltipStep] = useState(0);
+    const [rewardId, setRewardId] = useState(''); // DEBUG ######################################
+
+    const tooltips = [
+        { message: "This is your pet. You can open the pet interaction menu by clicking on them.", nextStep: () => {setTooltipStep(1); setShowRewards(true);} },
+        { message: "This is the reward manager. Here you can change your pet's outfit and display other rewards. You can come back here by clicking on the Style button in the interaction menu", nextStep: () => setTooltipStep(2) },
+        { message: "You can name or rename your pet at the bottom of this window.", nextStep: () => setTooltipStep(3) },
+        { message: "Each major in the Explore Page has an outfit, cosmetic, or new game mechanic that you can earn by winning that major's minigame.", nextStep: () => setTooltipStep(4) },
+        { message: "Your pet has needs and a mood which you can influence by interacting with them and playing games. These will be hidden from you until you unlock the reward to see them.", nextStep: () => setTooltipStep(5) },
+        { message: "Hint: Beat the Outdoor Products minigame to get a new way to interact with your pet.", nextStep: () => setTooltipStep(6), isLast: true }
+    ];
 
     const points = [
         { left: 70, top: 50, scale: 1 },
@@ -61,7 +74,7 @@ const Pet = () => {
 
     // Set the style for the body page of the pet component then reset it when the component unmounts
     useEffect(() => {
-        document.body.style.backgroundColor = 'rgb(0, 0, 0)' // Code for grass color: 'rgb(83, 172, 15)' 
+        document.body.style.backgroundColor = 'rgb(53, 164, 0)'
         document.body.style.overflow = 'hidden' // Prevent scrolling on the page
         
         return () => {
@@ -93,6 +106,8 @@ const Pet = () => {
                     console.log(petStatsData.petStats);
                     setPetStats(petStatsData.petStats);
                     setOutfit(petStatsData.petStats.outfit.replace(/\s/g, ''));
+                    setDirtOverlay(getDirtLevel(petStatsData.petStats.cleanliness));
+                    setShowTooltips(petStatsData.petStats.showTooltips)
                 } else {
                     console.error(`Error fetching pet stats: ${petStatsResponse.status}`);
                 }
@@ -108,8 +123,9 @@ const Pet = () => {
 
                 if (rewardsResponse.ok) {
                     const rewardsData = await rewardsResponse.json();
-                    console.log(rewardsData.rewards);
-                    setActiveRewards(rewardsData.rewards);
+                    console.log("Active rewards: ", rewardsData.activeRewards, "Cosmetics: ", rewardsData.activeCosmetics);
+                    setRewards(rewardsData.rewards);
+                    setActiveRewards(rewardsData.activeRewards);
                 } else {
                     console.error(`Error fetching rewards: ${rewardsResponse.status}`);
                 }
@@ -120,6 +136,31 @@ const Pet = () => {
 
         fetchPetStatsAndRewards();
     }, [accessToken]);
+
+    const handleNextTooltip = () => {
+        if (tooltipStep < tooltips.length - 1) {
+            tooltips[tooltipStep].nextStep();
+        } else {
+            setShowTooltips(false);
+            setTooltipStep(0);
+            // Update the database to indicate that tooltips have been shown
+            updateTooltipsShown();
+        }
+    };
+
+    const updateTooltipsShown = async () => {
+        const response = await fetch('/api/pet/toggle-tooltips', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${accessToken}`,
+            },
+        });
+
+        if (!response.ok) {
+            console.error(`Error status: ${response.status}`);
+        }
+    };
 
     // Preload the pet's images to prevent flickering when transitioning between animations
     const preloadImages = () => {
@@ -147,7 +188,7 @@ const Pet = () => {
             const dirtStates = ['walking', 'eating', 'idle', 'petting'];
             dirtStates.forEach(state => {
                 const img = new Image();
-                img.src = `src/assets/dirt/${dirtOverlay}_${outfitMappings[dirtOverlay][state]}.png`; // outfitMappings[dirtOverlay][state]
+                img.src = `src/assets/dirt/${dirtOverlay}_${outfitMappings[dirtOverlay][state]}.png`;
                 images.push(img);
             });
         }
@@ -286,7 +327,7 @@ const Pet = () => {
         }
     };
 
-    const handleOptionSelected = async (interactionType) => {
+    const handleOptionSelected = (interactionType) => {
         console.log(`Selected option: ${interactionType}`);
         setShowMenu(false);
 
@@ -296,9 +337,6 @@ const Pet = () => {
             setAnimationState('washing');
         } else if (interactionType === 'pet') {
             setAnimationState('petting');
-        } else if (interactionType === 'play') {
-            //setPlayModeFetch(true);
-            setPlayMode(true);
         } else if (interactionType === 'style') {
             setShowRewards(true);
             return;
@@ -311,6 +349,36 @@ const Pet = () => {
             setAnimationState('walking');
         }, 2200);
 
+        //if (!accessToken) {
+        //    console.error('User token not found');
+        //    return;
+        //}
+
+        sendInteraction(interactionType);
+
+        // Send a request to the server to interact with the pet
+        //const response = await fetch('/api/pet/interact', {
+        //    method: 'POST',
+        //    headers: {
+        //        'Content-Type': 'application/json',
+        //        'Authorization': `Bearer ${accessToken}`, // Send the access token in the header
+        //    },
+        //    body: JSON.stringify({ interactionType }),
+        //});
+
+        //// Check if the request was successful (response code 200-299), then update the pet's stats
+        //if (response.ok) {
+        //    const data = await response.json();
+        //    console.log(data.message, data.pet);
+        //    setPetStats(data.pet);
+        //    setDirtOverlay(getDirtLevel(data.pet.cleanliness));
+        //} else {
+        //    console.error(`Error status: ${response.status}`);
+        //}
+
+    };
+
+    const sendInteraction = async (interactionType) => {
         if (!accessToken) {
             console.error('User token not found');
             return;
@@ -335,7 +403,6 @@ const Pet = () => {
         } else {
             console.error(`Error status: ${response.status}`);
         }
-
     };
 
     // Some outfits share overlay images for certain states, so we need to check the mappings to get the correct images
@@ -372,11 +439,6 @@ const Pet = () => {
         setTargetPosition({left: newTarget.left, top: petPosition.top, scale: petPosition.scale});
         setAnimationState('walking');
     }
-    
-    const resetFrisbeePosition = () => {
-        console.log('Resetting frisbee position');
-        //setTargetPosition(pickRandomPoint());
-    }
 
     const handleBell = () => {
         // Set new target position to front of the screen
@@ -385,20 +447,21 @@ const Pet = () => {
             setWaiting(false);
             setAnimationState('walking');
         }
-        setTargetPosition({left: 40, top: 90, scale: 1});
+        setTargetPosition({left: 40, top: 90, scale: 1});   // Pet will move to the front of the screen
     }
 
     const makePetJump = () => {
+        // This makes the pet teleport to a new position so it can pop up on the screen
         setJumpToPosition({left: 20, top: 50, scale: 3, flip: 1});
     };
 
     useEffect(() => {
+        // Part of the Bell interaction to make sure the pet jumps up on the screen 
         if (jumpToPosition) {
           setPosition(jumpToPosition);
           setJumpToPosition(null);
           setShowPaws(true);
           setWaiting(true);
-          console.log("jumping to position")
         }
       }, [jumpToPosition]);
 
@@ -409,23 +472,19 @@ const Pet = () => {
     };
 
     // Render the rewards the pet has unlocked
-    const renderRewards = (reward) => {
+    const renderRewards = React.useCallback((reward) => {
         //const rewardClass = 'reward-${reward.rewardName.replace(/\s/g, "")-overlay}';
+        console.log("Reward: ", reward);
         const name = reward.rewardName.replace(/\s+/g, '').toLowerCase();
         return (
             <React.Fragment key={reward.rewardID}>
                 {reward.rewardType === 'cosmetic' && <img src={`src/assets/Decorations/${name}.png`} alt={reward.rewardName} className={`reward-${name} overlay`}/> }
                 {reward.rewardType === 'mechanic' && name === "bell" && <img src={`src/assets/Decorations/${name}.png`} alt={reward.rewardName} className={`${name} mechanic`} onClick={handleBell}/>}
                 {reward.rewardType === 'mechanic' && name === "bioengineering" && <PetStatsDisplay petStats={petStats} />}
-                {reward.rewardType === 'mechanic' && name === "frisbee" && <FrisbeeReward onThrow={handleFrisbeeThrow} resetPosition={resetFrisbeePosition} />}
+                {reward.rewardType === 'mechanic' && name === "frisbee" && <FrisbeeReward onThrow={handleFrisbeeThrow} />}
             </React.Fragment>
         );
-    };
-
-    //const isBioengineeringRewardActive = activeRewards.some(
-    //    (reward) => reward.rewardName === 'Bioengineering'
-    //);
-
+    }, [activeRewards]);
 
     const debugAnimation = () => {
         if (outfit === 'default') {
@@ -480,8 +539,8 @@ const Pet = () => {
     };
 
 
-    const checkReward = async () => {
-        const response = await fetch(`/api/pet/check-reward/3`, {
+    const checkReward = async (rewardId) => {
+        const response = await fetch(`/api/pet/check-reward/${rewardId}`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -495,23 +554,6 @@ const Pet = () => {
             console.error(`Error status: ${response.status}`);
         }
     };
-
-    const checkReward1 = async () => {
-        const response = await fetch(`/api/pet/check-reward/2`, {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${accessToken}`,
-            },
-        });
-        if (response.ok) {
-            const data = await response.json();
-            setShowNotification(!data.hasReward);
-        } else {
-            console.error(`Error status: ${response.status}`);
-        }
-    };
-    
 
     return (
         <div className="backyard">
@@ -519,42 +561,55 @@ const Pet = () => {
             {activeRewards.map(renderRewards)}
 
             {/* DEBUG */}
-            <button className="debug" onClick={debugAnimation} style={{
-                position: 'absolute',
-                left: '11.1%',
-                top: '30%',
-                }}>{outfit}</button>
-            <button className="debug" onClick={debugAnimation2} style={{
-                position: 'absolute',
-                left: '11.1%',
-                top: '32%',
-                }}>Idle</button>
-            <button className="debug" onClick={() => [petStats.cleanliness -= 20, setDirtOverlay(getDirtLevel(petStats.cleanliness))]} style={{
-                position: 'absolute',
-                left: '11.1%',
-                top: '34%',
-                }}>Add dirt</button>
-            <button className='debug' onClick={debugAnimation3} style={{
-                position: 'absolute',
-                left: '11.1%',
-                top: '36%',
-            }}>run</button>
-            <button className="debug" onClick={makePetJump} style={{
-                position: 'absolute',
-                left: '11.1%',
-                top: '38%',
-            }}>Jump</button>
-            <button className="debug" onClick={checkReward} style={{
-                position: 'absolute',
-                left: '11.1%',
-                top: '40%',
-            }}>Reward1</button>
-            <button className="debug" onClick={checkReward1} style={{
-                position: 'absolute',
-                left: '11.1%',
-                top: '42%',
-            }}>Check Reward2</button>
-
+            <div>
+                <button className="debug" onClick={debugAnimation} style={{
+                    position: 'absolute',
+                    left: '11.1%',
+                    top: '30%',
+                    }}>{outfit}</button>
+                <button className="debug" onClick={debugAnimation2} style={{
+                    position: 'absolute',
+                    left: '11.1%',
+                    top: '32%',
+                    }}>Idle</button>
+                <button className="debug" onClick={() => [petStats.cleanliness -= 20, setDirtOverlay(getDirtLevel(petStats.cleanliness))]} style={{
+                    position: 'absolute',
+                    left: '11.1%',
+                    top: '34%',
+                    }}>Add dirt</button>
+                <button className='debug' onClick={debugAnimation3} style={{
+                    position: 'absolute',
+                    left: '11.1%',
+                    top: '36%',
+                }}>run</button>
+                <button className="debug" onClick={makePetJump} style={{
+                    position: 'absolute',
+                    left: '11.1%',
+                    top: '38%',
+                }}>Jump</button>
+                <button className="debug" onClick={debugRewards} style={{
+                    position: 'absolute',
+                    left: '11.1%',
+                    top: '40%',
+                }}>Unlock Rewards</button>
+                <div className="reward-input" style={{
+                    position: 'absolute',
+                    left: '11.1%',
+                    top: '26%',
+                    zIndex: 100,
+                }}>
+                    <input
+                        type="number"
+                        value={rewardId}
+                        onChange={(e) => setRewardId(e.target.value)}
+                        placeholder="Enter Reward ID"
+                    />
+                    <button
+                        className="debug"
+                        onClick={() => checkReward(rewardId)}
+                    >Unlock Reward</button>
+                </div>
+            </div>
             {/* DEBUG */}
             
                 <div    // Pet base image
@@ -625,6 +680,14 @@ const Pet = () => {
 
             {showMenu && <PetMenu x={menuPosition.x} y={menuPosition.y} onOptionSelected={handleOptionSelected} />}
             {showRewards && <RewardManager onClose={handleCloseRewards} />}
+            {showTooltips && (
+                <TooltipComponent
+                    message={tooltips[tooltipStep].message}
+                    onNext={handleNextTooltip}
+                    onClose={handleNextTooltip}
+                    isLast={tooltips[tooltipStep].isLast}
+                />
+            )}
             <div className="resize-message">
                 <p>Please enlarge your screen or rotate your device for the best experience.</p>
             </div>

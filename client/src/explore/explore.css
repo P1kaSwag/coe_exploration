@@ -82,3 +82,46 @@ text-align: left;
 .center {
 margin: auto; 
 }
+
+/* Major Requirements */
+.major-requirements {
+  max-height: 400px;
+  overflow-y: auto;
+  padding: 20px;
+  background-color: rgba(255, 255, 255, 0.9);
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin: 20px 0;
+}
+
+.major-requirements h1 {
+  font-size: 1.5em;
+  margin-bottom: 20px;
+}
+
+.requirements-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 20px;
+}
+
+.requirements-table th,
+.requirements-table td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: left;
+}
+
+.requirements-table th {
+  background-color: #f2f2f2;
+  font-weight: bold;
+}
+
+.requirements-table tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+.requirements-table tr:hover {
+  background-color: #ddd;
+}
+

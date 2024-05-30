@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useAuth } from '../authentication/AuthComponent';
+import Tooltip from './TooltipComponent';
 import './reward_manager_styles.css';
 
 const RewardManager = ({ onClose }) => {
@@ -7,6 +8,9 @@ const RewardManager = ({ onClose }) => {
     const [rewards, setRewards] = useState([]);
     const [activeOutfit, setActiveOutfit] = useState(null);
     const [activeCosmetics, setActiveCosmetics] = useState([]);
+    const [petName, setPetName] = useState('O\'malley');
+    const [newPetName, setNewPetName] = useState('');
+    const [error, setError] = useState('');
 
     useEffect(() => {
         const fetchRewards = async () => {
@@ -19,6 +23,7 @@ const RewardManager = ({ onClose }) => {
             });
             if (response.ok) {
                 const data = await response.json();
+                setPetName(data.petName);
                 setRewards(data.rewards);
                 setActiveOutfit(data.activeOutfit);
                 setActiveCosmetics(data.activeCosmetics || []);
@@ -61,6 +66,7 @@ const RewardManager = ({ onClose }) => {
                     ? [...prev, rewardId]
                     : prev.filter((id) => id !== rewardId)
             );
+            console.log('Active cosmetics:', activeCosmetics);
         } else {
             console.error(`Error status: ${response.status}`);
         }
@@ -83,9 +89,35 @@ const RewardManager = ({ onClose }) => {
         }
     };
 
+    const handlePetNameChange = async () => {
+        if (newPetName.length === 0 || newPetName.length > 20) {
+            setError('Pet name must be between 1 and 20 characters.');
+            return;
+        }
+
+        const response = await fetch('/api/pet/change-name', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${accessToken}`,
+            },
+            body: JSON.stringify({ newName: newPetName }),
+        });
+        if (response.ok) {
+            setPetName(newPetName);
+            setNewPetName('');
+            setError('');
+        } else {
+            console.error(`Error status: ${response.status}`);
+        }
+
+        // Move back to the pet page
+        onClose();
+    };
+
     return (
         <div className="reward-popup">
-            <h2>Style Your Pet</h2>
+            <h2>{petName}'s Outfits and Decorations</h2>
             <button className="close-button" onClick={onClose}>×</button>
             <h3>Outfits</h3>
             <div className="reward-list">
@@ -135,6 +167,17 @@ const RewardManager = ({ onClose }) => {
                             </button>
                         </div>
                     ))}
+            </div>
+            <h3>Name Your Pet</h3>
+            <div className='change-pet-name'>
+                <input
+                    type='text'
+                    value={newPetName}
+                    onChange={(e) => setNewPetName(e.target.value)}
+                    placeholder='Enter a new name'
+                />
+                <button onClick={handlePetNameChange}>Change Name</button>
+                {error && <p className="error-message">{error}</p>}
             </div>
         </div>
     );

@@ -4,7 +4,7 @@ import './pet_styles.css'; // Import the CSS for styling
 const PetMenu = ({ x, y, onOptionSelected }) => {
     const options = [
         { label: 'Pet', action: 'pet' },
-        { label: 'Play', action: 'play' },
+        //{ label: 'Play', action: 'play' },    // No play animation, playing can be done by using the bell or frisbee though
         { label: 'Feed', action: 'feed' },
         { label: 'Wash', action: 'wash' },
         { label: 'Style', action: 'style' }
