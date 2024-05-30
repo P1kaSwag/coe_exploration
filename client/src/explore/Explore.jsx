@@ -94,7 +94,13 @@ export function MajorInfo() {
       </div>
       <div className="majorInfo minors">
         <h3>Potential Minors</h3>
-        <p>{majorInfo.minors && majorInfo.minors.join(', ')}</p>
+        <ul className="leftText">
+          {majorInfo.minors.map((minor, index) => (
+            <li key={index}>
+              <strong>{minor.name}</strong>: {minor.message}
+            </li>
+          ))}
+        </ul>
       </div>
       <div className="majorInfo skills">
         <h3>Skills Current Students Recommend to be Successful in {majorName}</h3>
@@ -104,7 +110,7 @@ export function MajorInfo() {
         <h3>Interests that led Current Students to {majorName}</h3>
         <p>{majorInfo.interests.join(', ')}</p>
       </div>
-      <div className="majorRequirementsSection">
+      <div className="majorInfo majorRequirementsSection">
         <MajorRequirements major={majorName} />
       </div>
       <div className="playButton">

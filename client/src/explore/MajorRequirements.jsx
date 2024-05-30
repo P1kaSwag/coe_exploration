@@ -26,27 +26,48 @@ const MajorRequirements = ({ major }) => {
     }
   
     return (
-      <div>
-        <h1>{major} - Class Lists</h1>
-        <ul>
-          {Object.entries(data.classes).map(([key, value]) => (
-            <li key={key}>
-              <strong>{key}</strong>: {value.title} ({value.credits} credits)
-            </li>
-          ))}
-        </ul>
-  
-        <h1>{major} - Other Requirements</h1>
-        <ul>
-          {Object.entries(data.other_requirements).map(([key, value]) => (
-            <li key={key}>
-              <strong>{key}</strong> {value.title} ({value.credits} credits)
-            </li>
-          ))}
-        </ul>
-      </div>
-    );
-  };
-  
-  export default MajorRequirements;
+        <div className="major-requirements">
+          <h1>{major} - Class Lists</h1>
+          <table className="requirements-table">
+            <thead>
+              <tr>
+                <th>Code</th>
+                <th>Title</th>
+                <th>Credits</th>
+              </tr>
+            </thead>
+            <tbody>
+              {Object.entries(data.classes).map(([key, value]) => (
+                <tr key={key}>
+                  <td>{key}</td>
+                  <td>{value.title}</td>
+                  <td>{value.credits}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+    
+          <h1>{major} - Other Requirements</h1>
+          <table className="requirements-table">
+            <thead>
+              <tr>
+                <th>Requirement</th>
+                <th>Credits</th>
+              </tr>
+            </thead>
+            <tbody>
+              {Object.entries(data.other_requirements).map(([key, value]) => (
+                <tr key={key}>
+                  <td>{key}</td>
+                  <td>{value.credits}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      );
+    };
+    
+    export default MajorRequirements;
+    
   

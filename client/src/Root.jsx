@@ -47,11 +47,6 @@ export function Root(props) {
           <li>
             <NavLink to="/pet">Pet</NavLink>
           </li>
-          {user && ( // Conditionally render the button if user is logged in
-            <li>
-              <NavLink to="/profile">Profile</NavLink>
-            </li>
-          )}
         </ul>
         <div className="logout-container">
           <button className="logout-btn" onClick={handleLogout}>

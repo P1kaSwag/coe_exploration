@@ -32,6 +32,7 @@ CREATE TABLE Pets (
     petID INT PRIMARY KEY AUTO_INCREMENT,
     userid INT NOT NULL,
     outfitID INT DEFAULT NULL,
+    showTooltips BOOLEAN DEFAULT TRUE,
     pet_name VARCHAR(255) NOT NULL,
     mood ENUM('happy', 'sad', 'angry', 'neutral', 'excited', 'tired', 'curious') DEFAULT 'neutral',
     love INT DEFAULT 50,
@@ -57,6 +58,7 @@ CREATE TABLE PetRewards (
     petID INT,
     rewardID INT,
     isActive BOOLEAN DEFAULT FALSE,
+    timeReceived TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (petID) REFERENCES Pets(petID),
     FOREIGN KEY (rewardID) REFERENCES Rewards(rewardID),
     CONSTRAINT unique_reward UNIQUE (petID, rewardID)
@@ -91,7 +93,6 @@ CREATE TABLE Skills (
     FOREIGN KEY (majorid) REFERENCES Majors(majorid)
 );
 
-
 CREATE TABLE Interests (
     interestID INT PRIMARY KEY AUTO_INCREMENT,
     majorid INT NOT NULL,
@@ -104,6 +105,14 @@ CREATE TABLE TopProfessors (
     majorid INT,
     professorName VARCHAR(255),
     professorURL VARCHAR(255),
+    FOREIGN KEY (majorid) REFERENCES Majors(majorid)
+);
+
+CREATE TABLE Minors (
+    minorID INT PRIMARY KEY AUTO_INCREMENT,
+    majorid INT,
+    minorName VARCHAR(255),
+    message TEXT,
     FOREIGN KEY (majorid) REFERENCES Majors(majorid)
 );
 
@@ -509,3 +518,53 @@ VALUES
     (16, 'It will be tough as RHP and NukE are different and it will feel like NukE people will be more successful, but its just the reactor physics focus'),
     (16, 'Learning about nuclear physics, radiation biology, and radioecology'),
     (16, 'It is a fairly niche major, so know that you want a specific career out of it');
+
+INSERT INTO Minors (majorid, minorName, message) VALUES
+    (1, 'Geography and Geospatial Science', 'Understanding spatial data is crucial for design and planning.'),
+    (1, 'Business Administration', 'Project management and business skills are important for architects working on large projects.'),
+    (1, 'Environmental Engineering', 'Sustainable building practices are becoming increasingly important.'),
+    (2, 'Biological and Ecological Engineering', 'Directly related to bioengineering principles.'),
+    (2, 'Chemistry', 'Essential for understanding biochemical processes.'),
+    (2, 'Statistics', 'Vital for data analysis in bioengineering research.'),
+    (3, 'Chemistry', 'Deepens the understanding of chemical processes.'),
+    (3, 'Materials Science', 'Important for the development of new materials.'),
+    (3, 'Environmental Engineering', 'Key for managing chemical processes and waste.'),
+    (4, 'Geology', 'Important for understanding soil and rock properties.'),
+    (4, 'Environmental Engineering', 'Vital for sustainable infrastructure.'),
+    (4, 'Business Administration', 'Useful for project management and leadership roles.'),
+    (5, 'Artificial Intelligence', 'A natural extension of computer science skills.'),
+    (5, 'Statistics', 'Essential for data analysis and machine learning.'),
+    (5, 'Business Administration', 'Useful for tech entrepreneurship and management roles.'),
+    (6, 'Business Administration', 'Critical for project management and leadership.'),
+    (6, 'Civil Engineering', 'Enhances understanding of infrastructure projects.'),
+    (6, 'Environmental Engineering', 'Important for sustainable construction practices.'),
+    (7, 'Environmental Sciences', 'Directly related to ecological engineering.'),
+    (7, 'Botany and Plant Pathology', 'Useful for managing plant-related ecological projects.'),
+    (7, 'Water Resources Science', 'Critical for projects involving water management.'),
+    (8, 'Robotics', 'Relevant for automation and control systems.'),
+    (8, 'Computer Science', 'Expands software development skills.'),
+    (8, 'Physics', 'Deepens understanding of electrical principles.'),
+    (9, 'Environmental Engineering', 'Important for sustainable energy solutions.'),
+    (9, 'Renewable Energy Systems', 'Directly applicable to energy systems engineering.'),
+    (9, 'Statistics', 'Vital for analyzing energy data and performance.'),
+    (10, 'Mathematics', 'Provides a strong foundation for various engineering disciplines.'),
+    (10, 'Physics', 'Essential for understanding fundamental principles.'),
+    (10, 'Materials Science', 'Useful for a broad understanding of engineering materials.'),
+    (11, 'Environmental Sciences', 'Expands knowledge of environmental systems.'),
+    (11, 'Biological and Ecological Engineering', 'Directly related to environmental projects.'),
+    (11, 'Water Resources Engineering', 'Crucial for managing water-related environmental issues.'),
+    (12, 'Business Administration', 'Important for management and optimization roles.'),
+    (12, 'Statistics', 'Essential for process improvement and quality control.'),
+    (12, 'Ergonomics', 'Important for designing efficient and safe work environments.'),
+    (13, 'Robotics', 'Relevant for automation and mechanical design.'),
+    (13, 'Materials Science', 'Important for developing and testing materials.'),
+    (13, 'Aerospace Engineering', 'Useful for those interested in aviation and space industries.'),
+    (14, 'Physics', 'Deepens understanding of nuclear principles.'),
+    (14, 'Radiation Health Physics', 'Directly applicable to managing radiation safety.'),
+    (14, 'Environmental Engineering', 'Important for managing nuclear waste and environmental impact.'),
+    (15, 'Business Administration', 'Important for entrepreneurship and product management.'),
+    (15, 'Sustainability', 'Key for developing environmentally friendly products.'),
+    (15, 'Material Science', 'Useful for developing durable and innovative outdoor products.'),
+    (16, 'Health Physics', 'Directly applicable to radiation safety and protection.'),
+    (16, 'Nuclear Engineering', 'Expands knowledge of nuclear systems.'),
+    (16, 'Environmental Sciences', 'Important for understanding the environmental impact of radiation.');

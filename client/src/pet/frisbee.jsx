@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import frisbee from '/src/assets/Decorations/frisbee.png';
 
-function FrisbeeReward({ onThrow, resetPosition }) {
+function FrisbeeReward({ onThrow }) {
   const [position, setPosition] = useState({ left: 78, top: 80 });
   const [isThrown, setIsThrown] = useState(false);
 
@@ -17,9 +17,8 @@ function FrisbeeReward({ onThrow, resetPosition }) {
     // Reset position after 3 seconds
     setTimeout(() => {
       setIsThrown(false);
-      setPosition({ left: 75 , top: 90});
-      resetPosition();
-    }, 3000);
+      setPosition({ left: 78 , top: 80});
+    }, 10000);
   };
 
   return (
