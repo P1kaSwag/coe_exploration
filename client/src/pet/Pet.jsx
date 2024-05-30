@@ -474,7 +474,7 @@ const Pet = () => {
     // Render the rewards the pet has unlocked
     const renderRewards = React.useCallback((reward) => {
         //const rewardClass = 'reward-${reward.rewardName.replace(/\s/g, "")-overlay}';
-        console.log("Reward: ", reward);
+        //console.log("Reward: ", reward);
         const name = reward.rewardName.replace(/\s+/g, '').toLowerCase();
         return (
             <React.Fragment key={reward.rewardID}>
