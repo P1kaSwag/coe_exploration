@@ -4,33 +4,40 @@ import { useParams } from 'react-router-dom'; // Import useParams hook
 import './Wordsearch.css'; // Import CSS file for styling
 
 const sentences = {
-    Gear: "Gear is the backbone of adventure, providing essential tools and enhancing every journey.",
-    Apparel: "Apparel marries fashion with function, creating garments that protect, comfort, and express individuality.",
-    Equipment: "Equipment is crucial across industries, boosting productivity and ensuring tasks are completed with precision.",
-    Textiles: "Textiles are the threads of innovation, interweaving technology and tradition to create versatile fabrics.",
-    Materials: "Materials science transforms raw substances into indispensable components, driving progress across sectors.",
-    Design: "Design synthesizes creativity and practicality, crafting solutions that are both beautiful and effective.",
-    Functionality: "Functionality is at the core of innovation, ensuring that every product serves its purpose with excellence.",
-    Sustainability: "Sustainability guides the future of production, promoting practices that protect our planet and resources."
+    GEAR: "Gear is the backbone of adventure, providing essential tools and enhancing every journey.",
+    APPAREL: "Apparel marries fashion with function, creating garments that protect, comfort, and express individuality.",
+    EQUIPMENT: "Equipment is crucial across industries, boosting productivity and ensuring tasks are completed with precision.",
+    TEXTILES: "Textiles are the threads of innovation, interweaving technology and tradition to create versatile fabrics.",
+    MATERIALS: "Materials science transforms raw substances into indispensable components, driving progress across sectors.",
+    DESIGN: "Design synthesizes creativity and practicality, crafting solutions that are both beautiful and effective.",
+    FUNCTIONALITY: "Functionality is at the core of innovation, ensuring that every product serves its purpose with excellence.",
+    SUSTAINABILTY: "Sustainability guides the future of production, promoting practices that protect our planet and resources."
 };
 
 const WordSearchGame = () => {
     const { majorId } = useParams(); // Retrieve majorId from URL parameters
-    const [words, setWords] = useState([
-        'Gear', 
-        'Apparel', 
-        'Equipment', 
-        'Textiles', 
-        'Materials', 
-        'Design', 
-        'Functionality', 
-        'Sustainability'
-    ]);
+    const [words, setWords] = useState([]);
     const [puzzle, setPuzzle] = useState([]);
     const [selectedCells, setSelectedCells] = useState([]);
+    const [foundWords, setFoundWords] = useState([]); // Track found words
     const [isMouseDown, setIsMouseDown] = useState(false); // Track mouse down state
     const [startCell, setStartCell] = useState(null); // Track start cell of selection
     const [foundSentence, setFoundSentence] = useState('');
+
+    useEffect(() => {
+        const fetchWords = async () => {
+            try {
+                const response = await fetch(`/api/majors/15/words`);
+                const data = await response.json();
+                const wordsData = data.map(item => item.word.toUpperCase());
+                setWords(wordsData);
+            } catch (error) {
+                console.error('Error fetching words: ', error);
+            }
+        };
+
+        fetchWords();
+    }, [majorId]);
 
     useEffect(() => {
         if (words.length > 0) {
@@ -44,11 +51,19 @@ const WordSearchGame = () => {
         event.preventDefault(); // Prevent default behavior to avoid selecting text
         setIsMouseDown(true);
         setStartCell({ row: rowIndex, column: columnIndex });
-        // Do not clear selectedCells state on mouse down
-        // setSelectedCells([]);
+        setSelectedCells([]); // Clear selection when starting a new selection
     };
 
     const handleMouseUp = () => {
+        const validWord = checkSelectedWord();
+        if (validWord) {
+            console.log("Selected word is valid!", selectedCells);
+            highlightFoundWord();
+            console.log("Found words list after highlighting: ", foundWords);
+        } else {
+            console.log("Selected word is not valid!: ", selectedCells);
+            setSelectedCells([]); // Clear selection if the word is not valid
+        }
         setIsMouseDown(false);
         setStartCell(null);
     };
@@ -57,8 +72,7 @@ const WordSearchGame = () => {
         if (isMouseDown) {
             const endCell = { row: rowIndex, column: columnIndex };
             const cellsToSelect = getCellsBetween(startCell, endCell);
-            // Add newly selected cells to the existing list, ensuring no duplicates
-            setSelectedCells(prevSelectedCells => Array.from(new Set([...prevSelectedCells, ...cellsToSelect])));
+            setSelectedCells(cellsToSelect); // Update selection
         }
     };
 
@@ -78,9 +92,42 @@ const WordSearchGame = () => {
             for (let row = Math.min(startRow, endRow); row <= Math.max(startRow, endRow); row++) {
                 cells.push(`${row}-${startColumn}`);
             }
+        } else if (Math.abs(startRow - endRow) === Math.abs(startColumn - endColumn)) { // Diagonal selection
+            const rowStep = startRow < endRow ? 1 : -1;
+            const colStep = startColumn < endColumn ? 1 : -1;
+            let row = startRow;
+            let col = startColumn;
+            while (row !== endRow + rowStep && col !== endColumn + colStep) {
+                cells.push(`${row}-${col}`);
+                row += rowStep;
+                col += colStep;
+            }
         }
 
         return cells;
+    };
+
+    const checkSelectedWord = () => {
+        const selectedWord = selectedCells.map(cell => {
+            const [row, col] = cell.split('-').map(Number);
+            return puzzle[row][col];
+        }).join('');
+
+        const reversedSelectedWord = selectedWord.split('').reverse().join('');
+
+        console.log("Selected word:", selectedWord);
+        console.log("Reversed selected word:", reversedSelectedWord);
+
+        return words.includes(selectedWord) || words.includes(reversedSelectedWord);
+    };
+
+    const highlightFoundWord = () => {
+        console.log("Highlighting found word cells:", selectedCells);
+        setFoundWords(prevFoundWords => {
+            const newFoundWords = [...prevFoundWords, ...selectedCells];
+            console.log("Highlighting found word cells:", newFoundWords);
+            return newFoundWords;
+        });
     };
 
     const handleWordFound = (index) => {
@@ -89,10 +136,10 @@ const WordSearchGame = () => {
         const wordSpan = document.querySelectorAll('.word-list span');
         wordSpan[index].style.textDecoration = 'line-through';
 
-        //display sentence
+        // Display sentence
         const word = words[index];
         const sentence = sentences[word];
-        setFoundSentence(sentence)
+        setFoundSentence(sentence);
     };
 
     return (
@@ -101,8 +148,8 @@ const WordSearchGame = () => {
                 <h1>Outdoor Products Wordsearch</h1>
                 <ul>
                     <li>Click and drag to highlight words from the list below</li>
-                    <li>When found, click the 'X' button next to the word to mark it off</li>
-                    <li>Click 'Play Again' for a new game or use the Navigation to explore more!</li>
+                    <li>When found click the 'X' button next to the word to mark it off</li>
+                    <li>Click 'play again' for a new game or use the Navigation to explore more!</li>
                 </ul>
                 <h2>Word List</h2>
                 <ul>
@@ -132,7 +179,7 @@ const WordSearchGame = () => {
                     <div className="word-search-row" key={rowIndex}>
                         {row.map((letter, columnIndex) => (
                             <div
-                                className={`word-search-cell ${selectedCells.includes(`${rowIndex}-${columnIndex}`) ? 'selected' : ''}`}
+                                className={`word-search-cell ${selectedCells.includes(`${rowIndex}-${columnIndex}`) ? 'selected' : ''} ${foundWords.includes(`${rowIndex}-${columnIndex}`) ? 'found' : ''}`}
                                 key={`${rowIndex}-${columnIndex}`}
                                 onMouseDown={(event) => handleMouseDown(event, rowIndex, columnIndex)}
                                 onMouseEnter={() => handleMouseEnter(rowIndex, columnIndex)}

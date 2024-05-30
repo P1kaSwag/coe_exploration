@@ -45,7 +45,7 @@
     background-color: rgb(224, 171, 105);
 }
 
-.found-word {
+.word-search-cell.found {
     background-color: #4caf50; /* Green background color for found word */
     color: white; /* White text color for better visibility */
 }
@@ -57,6 +57,4 @@
 .button {
     padding-left: 5px;
     margin-left: 1rem;
-    /* background-color: rgb(202, 133, 6);
-    color: black */
 }
