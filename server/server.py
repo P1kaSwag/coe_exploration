@@ -559,7 +559,6 @@ def login():
 @app.route('/api/majors', methods=['GET'])
 def get_majors():
     majors = Majors.query.all()
-    print(majors)
     return jsonify([major.to_dict() for major in majors])
 
 # TODO: Add a route to get professor information for a specific major
@@ -567,17 +566,6 @@ def get_majors():
 def get_professors():
     professors = TopProfessors.query.all()
     return jsonify([professor.to_dict() for professor in professors])
-
-#@app.route('/api/majors/majorinformation/<int:majorID>', methods=['GET'])
-#def get_majorInfo(majorID):
-#    majorInfo = MajorInformation.query.filter_by(majorID=majorID).first()
-#
-#    if not majorInfo:
-#        return jsonify({'message': 'Major not found'}), 404
-#    
-#    majorInfo = majorInfo.to_dict()
-#
-#    return jsonify({'message': 'Major information received successfully', 'majorInfo': majorInfo}), 200
 
 @app.route('/api/majors/majorinformation/<int:majorID>', methods=['GET'])
 def get_majorInfo(majorID):
