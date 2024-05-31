@@ -1,6 +1,6 @@
 import '../assets/home.css'
 import { NavLink, Outlet } from "react-router-dom"
-import Background from '../assets/homebg.jpg'
+import Background from '../assets/homebg.png'
 import Quiz from '../assets/hiring.png'
 import Explore from '../assets/mortarboard.png'
 import Reward from '../assets/safety.png'

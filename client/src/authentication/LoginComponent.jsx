@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { NavLink } from "react-router-dom";
 import { useAuth } from './AuthComponent';
 
-import LoginBackground from '../assets/loginbg.png';
+import LoginBackground from '../assets/loginbg.jpg';
 
 import './login.css';
 
