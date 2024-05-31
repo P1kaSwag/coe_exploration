@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState, useRef, useMemo } from 'react';
 import { useAuth } from '../authentication/AuthComponent';
 import PetMenu from './PetMenu';
 import outfitMappings from './outfitConfig';
@@ -349,33 +349,7 @@ const Pet = () => {
             setAnimationState('walking');
         }, 2200);
 
-        //if (!accessToken) {
-        //    console.error('User token not found');
-        //    return;
-        //}
-
         sendInteraction(interactionType);
-
-        // Send a request to the server to interact with the pet
-        //const response = await fetch('/api/pet/interact', {
-        //    method: 'POST',
-        //    headers: {
-        //        'Content-Type': 'application/json',
-        //        'Authorization': `Bearer ${accessToken}`, // Send the access token in the header
-        //    },
-        //    body: JSON.stringify({ interactionType }),
-        //});
-
-        //// Check if the request was successful (response code 200-299), then update the pet's stats
-        //if (response.ok) {
-        //    const data = await response.json();
-        //    console.log(data.message, data.pet);
-        //    setPetStats(data.pet);
-        //    setDirtOverlay(getDirtLevel(data.pet.cleanliness));
-        //} else {
-        //    console.error(`Error status: ${response.status}`);
-        //}
-
     };
 
     const sendInteraction = async (interactionType) => {
@@ -443,10 +417,12 @@ const Pet = () => {
     const handleBell = () => {
         // Set new target position to front of the screen
         setPlayModeType('bell');
+        console.log("waiting: ", waiting)
         if (waiting) {
             setWaiting(false);
             setAnimationState('walking');
         }
+        console.log("Setting target position")
         setTargetPosition({left: 40, top: 90, scale: 1});   // Pet will move to the front of the screen
     }
 
@@ -471,20 +447,25 @@ const Pet = () => {
         window.location.reload(); // Reload the page
     };
 
-    // Render the rewards the pet has unlocked
-    const renderRewards = React.useCallback((reward) => {
-        //const rewardClass = 'reward-${reward.rewardName.replace(/\s/g, "")-overlay}';
-        console.log("Reward: ", reward);
-        const name = reward.rewardName.replace(/\s+/g, '').toLowerCase();
-        return (
-            <React.Fragment key={reward.rewardID}>
-                {reward.rewardType === 'cosmetic' && <img src={`src/assets/Decorations/${name}.png`} alt={reward.rewardName} className={`reward-${name} overlay`}/> }
-                {reward.rewardType === 'mechanic' && name === "bell" && <img src={`src/assets/Decorations/${name}.png`} alt={reward.rewardName} className={`${name} mechanic`} onClick={handleBell}/>}
-                {reward.rewardType === 'mechanic' && name === "bioengineering" && <PetStatsDisplay petStats={petStats} />}
-                {reward.rewardType === 'mechanic' && name === "frisbee" && <FrisbeeReward onThrow={handleFrisbeeThrow} />}
-            </React.Fragment>
-        );
-    }, [activeRewards]);
+    // Memoize the rendered rewards
+    const renderedRewards = useMemo(() => {
+        return activeRewards.map((reward) => {
+            console.log("Reward: ", reward);
+            const name = reward.rewardName.replace(/\s+/g, '').toLowerCase();
+            return (
+                <React.Fragment key={reward.rewardID}>
+                    {reward.rewardType === 'cosmetic' && <img src={`src/assets/Decorations/${name}.png`} alt={reward.rewardName} className={`reward-${name} overlay`} />}
+                    {reward.rewardType === 'mechanic' && name === "bell" && <img src={`src/assets/Decorations/${name}.png`} alt={reward.rewardName} className={`${name} mechanic`} onClick={handleBell} />}
+                    {reward.rewardType === 'mechanic' && name === "bioengineering" && <PetStatsDisplay petStats={petStats} />}
+                    {reward.rewardType === 'mechanic' && name === "frisbee" && <FrisbeeReward onThrow={handleFrisbeeThrow} />}
+                </React.Fragment>
+            );
+        });
+    }, [activeRewards, petStats]);
+
+    // Memoize rewards to prevent unnecessary re-renders
+    //const memoizedRewards = useMemo(() => activeRewards.map(renderRewards), [activeRewards, renderRewards]);
+
 
     const debugAnimation = () => {
         if (outfit === 'default') {
@@ -558,7 +539,9 @@ const Pet = () => {
     return (
         <div className="backyard">
             <img src="src/assets/yard_fence.png" alt="fence" className="fence overlay" />
-            {activeRewards.map(renderRewards)}
+            {/* {activeRewards.map(renderRewards)} */}
+            {/* {memoizedRewards} */}
+            {renderedRewards}
 
             {/* DEBUG */}
             <div>
