@@ -2,7 +2,7 @@
     border: 2px solid #ccc; /* Add a border around the entire quiz */
     padding: 50px; /* Add some padding inside the container */
     margin: 0 auto; /* Center the container horizontally */
-    max-width: 600px; /* Limit the width of the container */
+    max-width: 650px; /* Limit the width of the container */
     margin-top: 20px;
     margin-bottom: 20px;
     border-radius: 10px;  
@@ -10,15 +10,11 @@
     background-color: white;
   }
   
-  .question {
-    /* Add any additional styling for the individual questions here */
-  }
-  
   .results-container {
     border: 2px solid #ccc; /* Add a border around the results container */
     padding: 20px; /* Add some padding inside the container */
     margin: 20px auto; /* Center the container horizontally with some space around it */
-    max-width: 600px; /* Limit the width of the container */
+    max-width: 650px; /* Limit the width of the container */
     border-radius: 10px;  
     box-shadow: 3px 3px 10px grey;
     background-color: white;

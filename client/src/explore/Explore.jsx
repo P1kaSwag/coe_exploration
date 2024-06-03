@@ -3,8 +3,8 @@ import { NavLink, useSearchParams, useParams } from "react-router-dom";
 import MajorRequirements from './MajorRequirements';
 
 import './explore.css'
-import Background from '../assets/majorsbg.png'
-import MajorBackground from '../assets/exploremajorbg.png'
+import Background from '../assets/majorsbg.jpg'
+import MajorBackground from '../assets/exploremajorsbg.jpg'
 
 const Explore = () => {
   const [majors, setMajors] = useState([]);

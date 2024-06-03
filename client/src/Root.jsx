@@ -45,7 +45,9 @@ export function Root(props) {
             </NavLink>
           </li>
           <li>
-            <NavLink to="/pet">Pet</NavLink>
+            <NavLink to="/pet" className="nav-link">
+              Pet
+            </NavLink>
           </li>
         </ul>
         <div className="logout-container">

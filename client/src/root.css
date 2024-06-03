@@ -17,11 +17,12 @@ body {
 }
 
 .nav {
-  background-color: #333;
+  background-color: #e9e5e4;
   padding: 10px 0;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  color: #423e3c;
 }
 
 .nav ul {
@@ -33,16 +34,21 @@ body {
 .nav li {
   display: inline;
   margin: 0 10px;
+  color: #423e3c;
 }
 
 .nav a {
-  color: white;
+  color: #423e3c;
   text-decoration: none;
   padding: 10px;
 }
 
 .nav a:hover {
-  background-color: #555;
+  background-color: #FFFFFF;
+}
+
+.nav-link {
+  color: #423e3c;
 }
 
 .logout-btn {
@@ -52,8 +58,9 @@ body {
   padding: 10px 20px;
   cursor: pointer;
   margin-right: 1rem; /* Adjust as needed */
+  border-radius: 5px;
+  border: 1px solid black;
 }
-
 
 .logout-btn:hover {
   background-color: #ff784f;
