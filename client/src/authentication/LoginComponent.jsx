@@ -41,7 +41,15 @@ const LoginComponent = () => {
   }
 
   return (
-    <div style={{backgroundImage: `url(${LoginBackground})`, backgroundSize: 'cover', backgroundRepeat: 'no-repeat', backgroundAttachment: 'fixed'}}>
+    <body style={{
+      backgroundImage: `url(${LoginBackground})`,
+      backgroundSize: 'cover',
+      backgroundRepeat: 'no-repeat',
+      backgroundAttachment: 'fixed',
+      margin: 0, // Reset default body margin
+      padding: 0, // Reset default body padding
+      height: '100vh'
+    }}>
       <div className='login'>
         <h1>Login Page</h1>
         <div className="login_container">
@@ -77,7 +85,7 @@ const LoginComponent = () => {
             </NavLink>
         </div>
       </div>
-    </div>
+    </body>
   );
 };
 
