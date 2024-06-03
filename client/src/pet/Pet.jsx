@@ -18,17 +18,8 @@ const Pet = () => {
     const [outfit, setOutfit] = useState('default');
     const [dirtOverlay, setDirtOverlay] = useState('none'); // ['none', 'light', 'heavy']
     const [loadedImages, setLoadedImages] = useState([]);
-    const [waiting, setWaiting] = useState(false);
-    const [playMode, setPlayMode] = useState(false);
-    const [playModeType, setPlayModeType] = useState(null);
+    const [playModeType, setPlayModeType] = useState(null); // ['bell', 'frisbee']
     const [showPaws, setShowPaws] = useState(false);
-    const [jumpToPosition, setJumpToPosition] = useState(false);
-    //const [activeRewards, setActiveRewards] = useState([{rewardID: 1, rewardName: 'Flower Bush', rewardType: 'cosmetic'}, 
-    //                                                    {rewardID: 2, rewardName: 'Dog House', rewardType: 'cosmetic'},
-    //                                                    {rewardID: 3, rewardName: 'Wind Turbines', rewardType: 'cosmetic'},
-    //                                                    {rewardID: 5, rewardName: 'Lights', rewardType: 'cosmetic'},
-    //                                                    {rewardID: 6, rewardName: 'Bioengineering', rewardType: 'mechanic'},
-    //                                                    {rewardID: 7, rewardName: 'Bell', rewardType: 'mechanic'},]);
     const [rewards, setRewards] = useState([]);
     const [activeRewards, setActiveRewards] = useState([]);
     const [showTooltips, setShowTooltips] = useState(false);
@@ -69,7 +60,6 @@ const Pet = () => {
     };
 
     const [position, setPosition] = useState({...pickRandomPoint(), flip: 1});
-
     const [targetPosition, setTargetPosition] = useState(pickRandomPoint());
 
     // Set the style for the body page of the pet component then reset it when the component unmounts
@@ -226,18 +216,15 @@ const Pet = () => {
                     setAnimationState('idle');
                     if (playModeType === 'bell') {  // If the bell was rung, jump up on the screen
                         setShowPaws(true);
-                        setPlayModeType(null);
-                        //setAnimationState('idle');
                         setTimeout(() => {  // Wait for 6 seconds before jumping back down and resetting position
                             setShowPaws(false);
+                            setPlayModeType(null);
                             setAnimationState('walking');
                             setPosition({ left: 30, top: 70, scale: 1, flip: 1 });  // Reset pet position
                             setTargetPosition(pickRandomPoint());
                         }, 6000); 
-                      return { ...prevPosition, scale: 3, left: 30, top: 50 };
+                        return { ...prevPosition, scale: 3, left: 30, top: 50 };
                     }
-                    //setAnimationState('idle');
-                    setWaiting(true);
                     return prevPosition;
                   }
 
@@ -298,21 +285,22 @@ const Pet = () => {
                 clearInterval(intervalId);
             }  
         };
-    }, [targetPosition, animationState, showMenu, waiting]);
+    }, [targetPosition, animationState, showMenu]);
 
     // Set the pet to wait for a few seconds before walking again
     useEffect(() => {
+        const time = 4000; // Time to wait in milliseconds
         if (showMenu) return
-        if (waiting) {
+        if (playModeType === 'bell') return // The bell has its own rules for waiting
+        if (animationState === 'idle') {
             const waitTimer = setTimeout(() => {
-                setWaiting(false);
                 setAnimationState('walking');
                 setTargetPosition(pickRandomPoint());  // Pick new target after waiting
-            }, 4000);  // Wait for 4 seconds
+            }, time);
 
             return () => clearTimeout(waitTimer);
         }
-    }, [waiting, showMenu]);  // Effect runs only when waiting state changes
+    }, [animationState]);  // Effect runs only when waiting state changes
 
 
     const handlePetClick = (event) => {
@@ -406,10 +394,10 @@ const Pet = () => {
         }
     }
 
-    const handleFrisbeeThrow = (newTargetPosition) => {
-        const newTarget = newTargetPosition;
+    const handleFrisbeeThrow = (frisbeePosition) => {
+        const newTarget = frisbeePosition;
         const petPosition = position;
-        // We just want the pet to move left
+        // We just want the pet to move left towards the frisbee
         setTargetPosition({left: newTarget.left, top: petPosition.top, scale: petPosition.scale});
         setAnimationState('walking');
     }
@@ -417,29 +405,17 @@ const Pet = () => {
     const handleBell = () => {
         // Set new target position to front of the screen
         setPlayModeType('bell');
-        console.log("waiting: ", waiting)
-        if (waiting) {
-            setWaiting(false);
+        if (animationState === 'idle') {
             setAnimationState('walking');
         }
-        console.log("Setting target position")
         setTargetPosition({left: 40, top: 90, scale: 1});   // Pet will move to the front of the screen
     }
 
-    const makePetJump = () => {
-        // This makes the pet teleport to a new position so it can pop up on the screen
-        setJumpToPosition({left: 20, top: 50, scale: 3, flip: 1});
-    };
-
-    useEffect(() => {
-        // Part of the Bell interaction to make sure the pet jumps up on the screen 
-        if (jumpToPosition) {
-          setPosition(jumpToPosition);
-          setJumpToPosition(null);
-          setShowPaws(true);
-          setWaiting(true);
+    useEffect(() => {                                                   // TESTING ############################################################################################################
+        if (playModeType !== null) {
+            sendInteraction('playing');
         }
-      }, [jumpToPosition]);
+    }, [playModeType]);
 
     const handleCloseRewards = () => {
         setShowRewards(false);
@@ -462,10 +438,6 @@ const Pet = () => {
             );
         });
     }, [activeRewards, petStats]);
-
-    // Memoize rewards to prevent unnecessary re-renders
-    //const memoizedRewards = useMemo(() => activeRewards.map(renderRewards), [activeRewards, renderRewards]);
-
 
     const debugAnimation = () => {
         if (outfit === 'default') {
@@ -519,7 +491,6 @@ const Pet = () => {
         }
     };
 
-
     const checkReward = async (rewardId) => {
         const response = await fetch(`/api/pet/check-reward/${rewardId}`, {
             method: 'GET',
@@ -539,9 +510,10 @@ const Pet = () => {
     return (
         <div className="backyard">
             <img src="src/assets/yard_fence.png" alt="fence" className="fence overlay" />
-            {/* {activeRewards.map(renderRewards)} */}
-            {/* {memoizedRewards} */}
+            <img src={`src/assets/Decorations/bell.png`} alt={'bell'} className={`bell mechanic`} onClick={handleBell} />
+            <FrisbeeReward onThrow={handleFrisbeeThrow} />
             {renderedRewards}
+        
 
             {/* DEBUG */}
             <div>
@@ -565,7 +537,7 @@ const Pet = () => {
                     left: '11.1%',
                     top: '36%',
                 }}>run</button>
-                <button className="debug" onClick={makePetJump} style={{
+                <button className="debug" style={{
                     position: 'absolute',
                     left: '11.1%',
                     top: '38%',
