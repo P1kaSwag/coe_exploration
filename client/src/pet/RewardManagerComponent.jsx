@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { useAuth } from '../authentication/AuthComponent';
-import Tooltip from './TooltipComponent';
 import './reward_manager_styles.css';
 
 const RewardManager = ({ onClose }) => {
@@ -61,11 +60,7 @@ const RewardManager = ({ onClose }) => {
             body: JSON.stringify({ rewardId, isActive }),
         });
         if (response.ok) {
-            setActiveCosmetics((prev) =>
-                isActive
-                    ? [...prev, rewardId]
-                    : prev.filter((id) => id !== rewardId)
-            );
+            setActiveCosmetics((prev) => isActive ? [...prev, rewardId] : prev.filter((id) => id !== rewardId));
             console.log('Active cosmetics:', activeCosmetics);
         } else {
             console.error(`Error status: ${response.status}`);
@@ -148,19 +143,13 @@ const RewardManager = ({ onClose }) => {
             </div>
             <h3>Cosmetic Items</h3>
             <div className="reward-list">
-                {rewards
-                    .filter((reward) => reward.rewardType === 'cosmetic')
+                {rewards.filter((reward) => reward.rewardType === 'cosmetic')
                     .map((reward) => (
                         <div key={reward.rewardID} className="reward-item">
                             <h3>{reward.rewardName}</h3>
                             <p>{reward.rewardDescription}</p>
                             <button
-                                onClick={() =>
-                                    handleCosmeticToggle(
-                                        reward.rewardID,
-                                        !activeCosmetics.includes(reward.rewardID)
-                                    )
-                                }
+                                onClick={() => handleCosmeticToggle(reward.rewardID, !activeCosmetics.includes(reward.rewardID))}
                                 className={activeCosmetics.includes(reward.rewardID) ? 'active' : ''}
                             >
                                 {activeCosmetics.includes(reward.rewardID) ? 'Active' : 'Activate'}

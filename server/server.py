@@ -408,7 +408,7 @@ def toggle_cosmetic():
     current_user_id = get_jwt_identity()
     data = request.get_json()
     reward_id = data.get('rewardId')
-    is_active = data.get('isActive')
+    is_active = data.get('isActive')    # What we want to set the isActive field to
     pet = Pets.query.filter_by(userID=current_user_id).first()
     
     if not pet:
@@ -419,6 +419,9 @@ def toggle_cosmetic():
         return jsonify({'message': 'Reward not found for this pet'}), 404
     
     pet_reward.isActive = is_active
+
+    print(f"Reward ID: {reward_id}, is active: {is_active}")
+
     db.session.commit()
     
     return jsonify({'message': 'Cosmetic item toggled successfully'}), 200
@@ -438,9 +441,9 @@ def get_pet_rewards():
                    .filter(PetRewards.petID == pet.petID)
                    .all())
 
-    rewards_list = []
-    active_reward_list = []
-    active_cosmetic_list = []
+    rewards_list = []           # List of all rewards this pet currently has
+    active_reward_list = []     # List of all active rewards this pet currently has
+    active_cosmetic_list = []   # List of all active cosmetic rewards this pet currently has
     for pet_reward, reward in pet_rewards:
         reward_data = reward.to_dict()
         reward_data['isActive'] = pet_reward.isActive
