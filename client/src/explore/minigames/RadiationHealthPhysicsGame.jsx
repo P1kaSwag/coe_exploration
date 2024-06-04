@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import wordsearch from 'wordsearch-generator';
 import { useParams } from 'react-router-dom';
 import './Wordsearch.css';
+import RewardNotification from './RewardNotificationComponent'; // Import the RewardNotification component
 
 const sentences = {
     RADIATION: "Radiation shapes health and physics, guiding our understanding with its invisible force.",
@@ -23,6 +24,7 @@ const WordSearchGame = () => {
     const [isMouseDown, setIsMouseDown] = useState(false); // Track mouse down state
     const [startCell, setStartCell] = useState(null); // Track start cell of selection
     const [foundSentence, setFoundSentence] = useState('');
+    const [showReward, setShowReward] = useState(false); // State variable for reward notification
 
     useEffect(() => {
         const fetchWords = async () => {
@@ -140,6 +142,20 @@ const WordSearchGame = () => {
         const word = words[index];
         const sentence = sentences[word];
         setFoundSentence(sentence);
+
+        // Check if all words are found
+        if (foundWords.length === words.length - 1) {
+            handleGameWin(); // Call handleGameWin when the game is won
+        }
+    };
+
+    const handleGameWin = () => {
+        // Logic to handle game win
+        setShowReward(true);
+    };
+
+    const handleCloseNotification = () => {
+        setShowReward(false);
     };
 
     return (
@@ -169,6 +185,7 @@ const WordSearchGame = () => {
                 </div>
                 <br />
                 <button onClick={() => window.location.reload()}>Play Again!</button>
+                <button onClick={handleGameWin}>Collect Reward</button> {/* Button to collect reward */}
             </div>
             <div
                 className="word-search-grid"
@@ -190,6 +207,13 @@ const WordSearchGame = () => {
                     </div>
                 ))}
             </div>
+            {showReward && (
+                <RewardNotification
+                    rewardId={16}
+                    rewardName="Radiation Health Physics Reward"
+                    onClose={handleCloseNotification}
+                />
+            )}
         </div>
     );
 };

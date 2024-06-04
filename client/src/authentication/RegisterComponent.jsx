@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import './login.css';
 
+import RegBackground from '../assets/loginbg.jpg';
+
 const RegisterComponent = () => {
     const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -42,44 +44,54 @@ const RegisterComponent = () => {
   };
 
   return (
-    <div className='register'>
-      <h1>Registration Page</h1>
-      <div className="register_container">
-        <label id="userlabel"> Username </label>
-        <input 
-          type="text" 
-          placeholder="Enter Username" 
-          name="username"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
-        />
-        <label id='emaillabel'> Email </label>
-        <input 
-          type="email" 
-          placeholder="Enter Email" 
-          name="email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-        />
-        <label id='passlabel'> Password </label>
-        <input 
-          type="password" 
-          placeholder="Enter Password" 
-          name="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
-        {errorMessage && <p className="error-message">{errorMessage}</p>}
-        <button 
-          type="submit" 
-          id="registerButton" 
-          className="login-button"
-          onClick={handleRegister}
-        > 
-          Register 
-        </button>
+    <body style={{
+      backgroundImage: `url(${RegBackground})`,
+      backgroundSize: 'cover',
+      backgroundRepeat: 'no-repeat',
+      backgroundAttachment: 'fixed',
+      margin: 0, // Reset default body margin
+      padding: 0, // Reset default body padding
+      height: '100vh'
+    }}>
+      <div className='register'>
+        <h1>Registration Page</h1>
+        <div className="register_container">
+          <label id="userlabel"> Username </label>
+          <input 
+            type="text" 
+            placeholder="Enter Username" 
+            name="username"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+          />
+          <label id='emaillabel'> Email </label>
+          <input 
+            type="email" 
+            placeholder="Enter Email" 
+            name="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
+          <label id='passlabel'> Password </label>
+          <input 
+            type="password" 
+            placeholder="Enter Password" 
+            name="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
+          {errorMessage && <p className="error-message">{errorMessage}</p>}
+          <button 
+            type="submit" 
+            id="registerButton" 
+            className="login-button"
+            onClick={handleRegister}
+          > 
+            Register 
+          </button>
+        </div>
       </div>
-    </div>
+    </body>
   );
 };
 

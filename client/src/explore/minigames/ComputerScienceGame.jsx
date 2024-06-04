@@ -1,25 +1,37 @@
 import React, { useState } from 'react';
 import './ComputerScienceGame.css';
 import { Question1, Question2, Question3, Reward} from "./CodeBlocks";
+import RewardNotification from './RewardNotificationComponent';
 
-
-const ComputerScienceGame = () => {
+const ComputerScienceGame = ( rewardID, rewardName ) => {
   const [popupVisible, setPopupVisible] = useState(false);
   const [code, setClickedWord] = useState('');
   const [currentQuestion, setCurrentQuestion] = useState(1);
+  const [showReward, setShowReward] = useState(false);
 
   const handleWordClick = (word) => {
     setClickedWord(word);
     setPopupVisible(true);
   };
 
-  const closePopup = () => {
-    setCurrentQuestion(currentQuestion + 1);
-    setPopupVisible(false);
+  const turnOffReward = () => {
+    setShowReward(false);
   };
 
+
+  const closePopup = () => {
+    setCurrentQuestion(currentQuestion + 1);
+    
+    if(currentQuestion === 3){
+      setShowReward(true);
+    }
+    setPopupVisible(false);
+    
+  };
+
+  
   return (
-    <div class="box">
+    <div className="box">
       <h1>Find the error in the code.</h1>
       <p> Click on the error in the code.</p>
 
@@ -41,17 +53,14 @@ const ComputerScienceGame = () => {
         />
       )}
 
-      {currentQuestion === 4 && (
-        <Reward
-        />
-      )}
-
+      { showReward && <RewardNotification rewardId={rewardID} rewardName={rewardName} onClose={turnOffReward} />}
+  
       {popupVisible && (
         <div>
           <div className="popup-background"></div>
           <div className="popup">
             <p>Correct! The correct code is: {code}</p>
-            <button onClick={() => closePopup()}>Close</button>
+            <button className='CSButton' onClick={() => closePopup()}>Close</button>
           </div>
         </div>
       )}
