@@ -45,13 +45,10 @@ export function Root(props) {
             </NavLink>
           </li>
           <li>
-            <NavLink to="/pet">Pet</NavLink>
+            <NavLink to="/pet" className="nav-link">
+              Pet
+            </NavLink>
           </li>
-          {user && ( // Conditionally render the button if user is logged in
-            <li>
-              <NavLink to="/profile">Profile</NavLink>
-            </li>
-          )}
         </ul>
         <div className="logout-container">
           <button className="logout-btn" onClick={handleLogout}>

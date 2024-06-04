@@ -112,6 +112,23 @@ class MajorInformation(db.Model):
             'interests': self.interests
        }
     
+class StudentQuotes(db.Model):
+    __tablename__ = 'StudentQuotes'
+    quoteID = db.Column(db.Integer, primary_key=True)
+    majorid = db.Column(db.Integer, db.ForeignKey('Majors.majorID'), nullable=False)
+    quote = db.Column(db.Text, nullable=False)
+
+class Skills(db.Model):
+    __tablename__ = 'Skills'
+    skillID = db.Column(db.Integer, primary_key=True)
+    majorid = db.Column(db.Integer, db.ForeignKey('Majors.majorID'), nullable=False)
+    skill = db.Column(db.String(255), nullable=False)
+
+class Interests(db.Model):
+    __tablename__ = 'Interests'
+    interestID = db.Column(db.Integer, primary_key=True)
+    majorid = db.Column(db.Integer, db.ForeignKey('Majors.majorID'), nullable=False)
+    interest = db.Column(db.String(255), nullable=False)
 
 class TopProfessors(db.Model):
     __tablename__ = 'TopProfessors'
@@ -127,6 +144,13 @@ class TopProfessors(db.Model):
             'professorName': self.professorName,
             'professorURL': self.professorURL
         }
+
+class Minors(db.Model):
+    __tablename__ = 'Minors'
+    minorID = db.Column(db.Integer, primary_key=True)
+    majorid = db.Column(db.Integer, db.ForeignKey('Majors.majorID'), nullable=False)
+    minorName = db.Column(db.String(255), nullable=False)
+    message = db.Column(db.Text, nullable=False)
     
 class Pets(db.Model):
     __tablename__ = 'Pets'
@@ -139,6 +163,7 @@ class Pets(db.Model):
     hunger = db.Column(db.Integer, default=30)
     cleanliness = db.Column(db.Integer, default=100)
     outfitID = db.Column(db.Integer, db.ForeignKey('Rewards.rewardID'), nullable=True)
+    showTooltips = db.Column(db.Boolean, default=True)
 
     def to_dict(self):
         return {
@@ -182,6 +207,7 @@ class PetRewards(db.Model):
     petID = db.Column(db.Integer, db.ForeignKey('Pets.petID'), nullable=False)
     rewardID = db.Column(db.Integer, db.ForeignKey('Rewards.rewardID'), nullable=False)
     isActive = db.Column(db.Boolean, default=False)
+    timeReceived = db.Column(db.TIMESTAMP, server_default=db.func.current_timestamp())
 
 class Words(db.Model):
     __tablename__ = 'Words'
@@ -230,24 +256,24 @@ def interact_with_pet():
     # Execute the interaction
     match interaction_type:
         case 'pet':
-            pet.love = min(pet.love + 1, 100)   # Clamp the values between 0 and 100
+            pet.love = min(pet.love + 2, 100)   # Clamp the values between 0 and 100
         case 'play':
             pet.recreation = min(pet.recreation + 10, 100)
-            pet.love = min(pet.love + 15, 100)
-            pet.cleanliness = max(pet.cleanliness - 10, 100)
+            pet.love = min(pet.love + 3, 100)
+            pet.cleanliness = max(pet.cleanliness - 30, 100)
         case 'feed':
-            pet.hunger = max(pet.hunger - 1, 0)
-            pet.cleanliness = max(pet.cleanliness - 5, 100)
+            pet.hunger = max(pet.hunger - 40, 0)
+            pet.cleanliness = max(pet.cleanliness - 10, 100)
         case 'wash':
-            pet.cleanliness = min(pet.cleanliness + 70, 100)
+            pet.cleanliness = 100
         case _: # Check if the interaction type is valid
             return jsonify({'message': 'Invalid interaction type'}), 404
     
-    # Update the pet's mood based on the new stats
-    pet.mood = update_pet_mood(pet)
-    
     # Create a new interaction record
     new_interaction = PetInteractions(petID=pet.petID, userID=current_user_id, interactionType=interaction_type)
+
+    # Update the pet's mood based on the new stats
+    pet.mood = update_pet_mood(pet)
     
     # Save the changes to the database (don't need to add the pet to the session since it's already there)
     db.session.add(new_interaction)
@@ -262,7 +288,23 @@ def update_pet_mood(pet: Pets):
         return 'happy'
     if pet.love < 20 and pet.recreation < 20 and pet.hunger > 80 and pet.cleanliness < 20: # TODO: Could also add a condition for if the pet hasn't been interacted with in a while
         return 'sad'
-    # TODO: Need conditions for angry, excited, tired, and curious moods
+    
+    # Angry mood: triggered when a user hasn't interacted with their pet in a while and their pet's stats are low
+    if pet.love < 20 and pet.recreation < 20 and pet.hunger > 80 and pet.cleanliness < 50:
+        last_interaction = PetInteractions.query.filter_by(petID=pet.petID).order_by(PetInteractions.interactionTime.desc()).first()
+        print(f"Last interaction: {last_interaction}")
+        if last_interaction:
+            time_since_last_interaction = datetime.now() - last_interaction.interactionTime
+            if time_since_last_interaction.total_seconds() > 48 * 3600:  # 48 hours
+                return 'angry'
+            
+    # Excited mood: triggered when a user unlocks a reward from a major
+    recent_reward = PetRewards.query.filter_by(petID=pet.petID).order_by(PetRewards.timeReceived.desc()).first()
+    print(f"Recent reward: {recent_reward}")
+    if recent_reward:
+        time_since_reward = datetime.now() - recent_reward.timeReceived
+        if time_since_reward.total_seconds() < 24 * 3600:  # 24 hours
+            return 'excited'
 
     # Some ideas:
     # Angry mood is triggered when a user hasn't interacted with their pet in a while and their pet's stats are low
@@ -290,10 +332,45 @@ def get_pet_stats():
     outfit_name = outfit.rewardName if outfit else 'default'
     pet_stats['outfitID'] = pet.outfitID
     pet_stats['outfit'] = outfit_name
+    pet_stats['showTooltips'] = pet.showTooltips
     print(pet_stats)
     
     return jsonify({'message': 'Pet stats retrieved successfully', 'petStats': pet_stats}), 200
 
+@app.route('/api/pet/toggle-tooltips', methods=['POST'])
+@jwt_required()
+def toggle_tooltips():
+    """Toggle the tooltip visibility for the current user's pet."""
+    current_user_id = get_jwt_identity()
+    pet = Pets.query.filter_by(userID=current_user_id).first()
+
+    if not pet:
+        return jsonify({'message': 'Pet not found'}), 404
+
+    pet.showTooltips = not pet.showTooltips
+    db.session.commit()
+
+    return jsonify({'showTooltips': pet.showTooltips}), 200
+
+@app.route('/api/pet/change-name', methods=['POST'])
+@jwt_required()
+def change_pet_name():
+    """Change the name of the current user's pet."""
+    current_user_id = get_jwt_identity()
+    data = request.json
+    new_name = data.get('newName')
+
+    if not new_name:
+        return jsonify({'message': 'New name is required'}), 400
+
+    pet = Pets.query.filter_by(userID=current_user_id).first()
+    if not pet:
+        return jsonify({'message': 'Pet not found'}), 404
+
+    pet.pet_name = new_name
+    db.session.commit()
+
+    return jsonify({'message': 'Pet name changed successfully'}), 200
 
 @app.route('/api/pet/equip-outfit', methods=['POST'])
 @jwt_required()
@@ -331,7 +408,7 @@ def toggle_cosmetic():
     current_user_id = get_jwt_identity()
     data = request.get_json()
     reward_id = data.get('rewardId')
-    is_active = data.get('isActive')
+    is_active = data.get('isActive')    # What we want to set the isActive field to
     pet = Pets.query.filter_by(userID=current_user_id).first()
     
     if not pet:
@@ -342,6 +419,9 @@ def toggle_cosmetic():
         return jsonify({'message': 'Reward not found for this pet'}), 404
     
     pet_reward.isActive = is_active
+
+    print(f"Reward ID: {reward_id}, is active: {is_active}")
+
     db.session.commit()
     
     return jsonify({'message': 'Cosmetic item toggled successfully'}), 200
@@ -361,19 +441,28 @@ def get_pet_rewards():
                    .filter(PetRewards.petID == pet.petID)
                    .all())
 
-    rewards_list = []
+    rewards_list = []           # List of all rewards this pet currently has
+    active_reward_list = []     # List of all active rewards this pet currently has
+    active_cosmetic_list = []   # List of all active cosmetic rewards this pet currently has
     for pet_reward, reward in pet_rewards:
         reward_data = reward.to_dict()
         reward_data['isActive'] = pet_reward.isActive
         rewards_list.append(reward_data)
+        if pet_reward.isActive:
+            active_reward_list.append(reward_data)
+            if reward.rewardType == 'cosmetic':
+                active_cosmetic_list.append(reward_data)
 
     # Identify active outfit
     active_outfit = pet.outfitID
 
     return jsonify({
         'message': 'Rewards retrieved successfully',
+        'petName': pet.pet_name,
         'rewards': rewards_list,
-        'activeOutfit': active_outfit
+        'activeOutfit': active_outfit,
+        'activeRewards': active_reward_list,
+        'activeCosmetics': active_cosmetic_list
     }), 200
 
 @app.route('/api/pet/check-reward/<int:reward_id>', methods=['GET'])
@@ -483,14 +572,42 @@ def get_professors():
 
 @app.route('/api/majors/majorinformation/<int:majorID>', methods=['GET'])
 def get_majorInfo(majorID):
-    majorInfo = MajorInformation.query.filter_by(majorID=majorID).first()
+    major = Majors.query.get(majorID)
 
-    if not majorInfo:
+    if not major:
         return jsonify({'message': 'Major not found'}), 404
     
-    majorInfo = majorInfo.to_dict()
+    # Get professors
+    top_professors = TopProfessors.query.filter_by(majorID=majorID).all()
 
-    return jsonify({'message': 'Major information received successfully', 'majorInfo': majorInfo}), 200
+    # Get student quotes
+    student_quotes = StudentQuotes.query.filter_by(majorid=majorID).all()
+
+    # Get skills
+    skills = Skills.query.filter_by(majorid=majorID).all()
+
+    # Get interests
+    interests = Interests.query.filter_by(majorid=majorID).all()
+
+    # Get minors
+    minors = Minors.query.filter_by(majorid=majorID).all()
+
+    major_info = {
+        'majorName': major.majorName,
+        'majorDescription': major.majorDescription,
+        'careerProspects': major.careerProspects,
+        'topProfessors': [professor.to_dict() for professor in top_professors],
+        'minors': [{'name': minor.minorName, 'message': minor.message} for minor in minors],
+        'studentQuotes': [quote.quote for quote in student_quotes],
+        'skills': [skill.skill for skill in skills],
+        'interests': [interest.interest for interest in interests]
+    }
+
+    return jsonify({'message': 'Major information received successfully', 'majorInfo': major_info}), 200
+
+
+
+
 
 @app.route('/api/majors/<int:major_id>/words', methods=['GET'])
 def get_major_words(major_id):
@@ -499,6 +616,8 @@ def get_major_words(major_id):
     word_dicts = [word.to_dict() for word in words]
 
     return jsonify(word_dicts)
+
+
 
 
 # Degrade the pet's stats every hour
