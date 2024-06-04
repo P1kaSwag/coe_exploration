@@ -136,7 +136,7 @@ body {
   z-index: 1001;
 }
 
-.header {
+.ChemEHeader {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -144,13 +144,19 @@ body {
   height: 100px;
 }
 
-.header h1,
-.header h2,
-.header p {
+.ChemEHeader h1,
+.ChemEHeader h2,
+.ChemEHeader p {
   text-align: center;
+  margin-top: 0;
+  margin-bottom: 10px;
 }
 
-button {
+.ChemEHeader h1 {
+  margin-top: 100px;
+}
+
+.ChemEButton {
   background-color: #535bf2;
   color: white;
   padding: 10px 16px;
@@ -159,7 +165,6 @@ button {
   width: calc(10% -4px); 
   margin: 20px 4px; 
 }
-
 
 @media (min-width: 992px) {
   .periodic {

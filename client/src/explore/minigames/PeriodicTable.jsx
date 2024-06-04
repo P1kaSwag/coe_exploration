@@ -1,39 +1,40 @@
 import React from "react"
+import RewardNotification from './RewardNotificationComponent';
 
 const row1 = [
   { atomicNumber: 1, symbol: 'H', name: 'Hydrogen', atomicMass: '1.008' },
-  { atomicNumber: 0, symbol: ' ', name: '', atomicMass: ''},
-  { atomicNumber: 0, symbol: ' ', name: '', atomicMass: ''},
-  { atomicNumber: 0, symbol: ' ', name: '', atomicMass: ''},
-  { atomicNumber: 0, symbol: ' ', name: '', atomicMass: ''},
-  { atomicNumber: 0, symbol: ' ', name: '', atomicMass: ''},
-  { atomicNumber: 0, symbol: ' ', name: '', atomicMass: ''},
-  { atomicNumber: 0, symbol: ' ', name: '', atomicMass: ''},
-  { atomicNumber: 0, symbol: ' ', name: '', atomicMass: ''},
-  { atomicNumber: 0, symbol: ' ', name: '', atomicMass: ''},
-  { atomicNumber: 0, symbol: ' ', name: '', atomicMass: ''},
-  { atomicNumber: 0, symbol: ' ', name: '', atomicMass: ''},
-  { atomicNumber: 0, symbol: ' ', name: '', atomicMass: ''},
-  { atomicNumber: 0, symbol: ' ', name: '', atomicMass: ''},
-  { atomicNumber: 0, symbol: ' ', name: '', atomicMass: ''},
-  { atomicNumber: 0, symbol: ' ', name: '', atomicMass: ''},
-  { atomicNumber: 0, symbol: ' ', name: '', atomicMass: ''},
+  { atomicNumber: 200, symbol: ' ', name: '', atomicMass: ''},
+  { atomicNumber: 201, symbol: ' ', name: '', atomicMass: ''},
+  { atomicNumber: 202, symbol: ' ', name: '', atomicMass: ''},
+  { atomicNumber: 203, symbol: ' ', name: '', atomicMass: ''},
+  { atomicNumber: 204, symbol: ' ', name: '', atomicMass: ''},
+  { atomicNumber: 205, symbol: ' ', name: '', atomicMass: ''},
+  { atomicNumber: 206, symbol: ' ', name: '', atomicMass: ''},
+  { atomicNumber: 207, symbol: ' ', name: '', atomicMass: ''},
+  { atomicNumber: 208, symbol: ' ', name: '', atomicMass: ''},
+  { atomicNumber: 209, symbol: ' ', name: '', atomicMass: ''},
+  { atomicNumber: 210, symbol: ' ', name: '', atomicMass: ''},
+  { atomicNumber: 211, symbol: ' ', name: '', atomicMass: ''},
+  { atomicNumber: 212, symbol: ' ', name: '', atomicMass: ''},
+  { atomicNumber: 213, symbol: ' ', name: '', atomicMass: ''},
+  { atomicNumber: 214, symbol: ' ', name: '', atomicMass: ''},
+  { atomicNumber: 215, symbol: ' ', name: '', atomicMass: ''},
   { atomicNumber: 2, symbol: 'He', name: 'Helium', atomicMass: '4.0026' },
 ];
 
 const row2 = [
   { atomicNumber: 3, symbol: 'Li', name: 'Lithium', atomicMass: '6.94' },
   { atomicNumber: 4, symbol: 'Be', name: 'Beryllium', atomicMass: '9.0122'},
-  { atomicNumber: 0, symbol: ' ', name: '', atomicMass: ''},
-  { atomicNumber: 0, symbol: ' ', name: '', atomicMass: ''},
-  { atomicNumber: 0, symbol: ' ', name: '', atomicMass: ''},
-  { atomicNumber: 0, symbol: ' ', name: '', atomicMass: ''},
-  { atomicNumber: 0, symbol: ' ', name: '', atomicMass: ''},
-  { atomicNumber: 0, symbol: ' ', name: '', atomicMass: ''},
-  { atomicNumber: 0, symbol: ' ', name: '', atomicMass: ''},
-  { atomicNumber: 0, symbol: ' ', name: '', atomicMass: ''},
-  { atomicNumber: 0, symbol: ' ', name: '', atomicMass: ''},
-  { atomicNumber: 0, symbol: ' ', name: '', atomicMass: ''},
+  { atomicNumber: 216, symbol: ' ', name: '', atomicMass: ''},
+  { atomicNumber: 217, symbol: ' ', name: '', atomicMass: ''},
+  { atomicNumber: 218, symbol: ' ', name: '', atomicMass: ''},
+  { atomicNumber: 219, symbol: ' ', name: '', atomicMass: ''},
+  { atomicNumber: 220, symbol: ' ', name: '', atomicMass: ''},
+  { atomicNumber: 221, symbol: ' ', name: '', atomicMass: ''},
+  { atomicNumber: 222, symbol: ' ', name: '', atomicMass: ''},
+  { atomicNumber: 223, symbol: ' ', name: '', atomicMass: ''},
+  { atomicNumber: 224, symbol: ' ', name: '', atomicMass: ''},
+  { atomicNumber: 225, symbol: ' ', name: '', atomicMass: ''},
   { atomicNumber: 5, symbol: 'B', name: 'Boron', atomicMass: '10.81'},
   { atomicNumber: 6, symbol: 'C', name: 'Carbon', atomicMass: '12.011'},
   { atomicNumber: 7, symbol: 'N', name: 'Nitrogen', atomicMass: '14.077'},
@@ -45,16 +46,16 @@ const row2 = [
 const row3 = [
   { atomicNumber: 11, symbol: 'Na', name: 'Sodium', atomicMass: '22.990' },
   { atomicNumber: 12, symbol: 'Mg', name: 'Magnesium', atomicMass: '24.305'},
-  { atomicNumber: 0, symbol: ' ', name: '', atomicMass: ''},
-  { atomicNumber: 0, symbol: ' ', name: '', atomicMass: ''},
-  { atomicNumber: 0, symbol: ' ', name: '', atomicMass: ''},
-  { atomicNumber: 0, symbol: ' ', name: '', atomicMass: ''},
-  { atomicNumber: 0, symbol: ' ', name: '', atomicMass: ''},
-  { atomicNumber: 0, symbol: ' ', name: '', atomicMass: ''},
-  { atomicNumber: 0, symbol: ' ', name: '', atomicMass: ''},
-  { atomicNumber: 0, symbol: ' ', name: '', atomicMass: ''},
-  { atomicNumber: 0, symbol: ' ', name: '', atomicMass: ''},
-  { atomicNumber: 0, symbol: ' ', name: '', atomicMass: ''},
+  { atomicNumber: 226, symbol: ' ', name: '', atomicMass: ''},
+  { atomicNumber: 227, symbol: ' ', name: '', atomicMass: ''},
+  { atomicNumber: 228, symbol: ' ', name: '', atomicMass: ''},
+  { atomicNumber: 229, symbol: ' ', name: '', atomicMass: ''},
+  { atomicNumber: 230, symbol: ' ', name: '', atomicMass: ''},
+  { atomicNumber: 231, symbol: ' ', name: '', atomicMass: ''},
+  { atomicNumber: 232, symbol: ' ', name: '', atomicMass: ''},
+  { atomicNumber: 233, symbol: ' ', name: '', atomicMass: ''},
+  { atomicNumber: 234, symbol: ' ', name: '', atomicMass: ''},
+  { atomicNumber: 235, symbol: ' ', name: '', atomicMass: ''},
   { atomicNumber: 13, symbol: 'Al', name: 'Aluminum', atomicMass: '26.982'},
   { atomicNumber: 14, symbol: 'Si', name: 'Silicon', atomicMass: '28.085'},
   { atomicNumber: 15, symbol: 'P', name: 'Phosphorus', atomicMass: '30.974'},
@@ -108,7 +109,7 @@ const row5 = [
 const row6 = [
   { atomicNumber: 55, symbol: 'Cs', name: 'Cesium', atomicMass: '132.91' },
   { atomicNumber: 56, symbol: 'Ba', name: 'Barium', atomicMass: '137.33'},
-  { atomicNumber: 0, symbol: '', name: '', atomicMass: ''},
+  { atomicNumber: 236, symbol: '', name: '', atomicMass: ''},
   { atomicNumber: 72, symbol: 'Hf', name: 'Hafnium', atomicMass: '178.49'},
   { atomicNumber: 73, symbol: 'Ta', name: 'Tantalum', atomicMass: '180.95'},
   { atomicNumber: 74, symbol: 'W', name: 'Tungsten', atomicMass: '183.84'},
@@ -129,7 +130,7 @@ const row6 = [
 const row7 = [
   { atomicNumber: 87, symbol: 'Fr', name: 'Francium', atomicMass: '223.02' },
   { atomicNumber: 88, symbol: 'Ra', name: 'Radium', atomicMass: '226.03'},
-  { atomicNumber: 0, symbol: '', name: '', atomicMass: ''},
+  { atomicNumber: 237, symbol: '', name: '', atomicMass: ''},
   { atomicNumber: 104, symbol: 'Rf', name: 'Rutherfordium', atomicMass: '265.12'},
   { atomicNumber: 105, symbol: 'Db', name: 'Dubnium', atomicMass: '268.13'},
   { atomicNumber: 106, symbol: 'Sg', name: 'Seaborgium', atomicMass: '271.13'},
@@ -148,9 +149,9 @@ const row7 = [
 ];
 
 const row8 = [
-  { atomicNumber: 0, symbol: '', name: '', atomicMass: '' },
-  { atomicNumber: 0, symbol: '', name: '', atomicMass: ''},
-  { atomicNumber: 0, symbol: '', name: '', atomicMass: ''},
+  { atomicNumber: 238, symbol: '', name: '', atomicMass: '' },
+  { atomicNumber: 239, symbol: '', name: '', atomicMass: ''},
+  { atomicNumber: 240, symbol: '', name: '', atomicMass: ''},
   { atomicNumber: 57, symbol: 'La', name: 'Lanthanum', atomicMass: '138.91'},
   { atomicNumber: 58, symbol: 'Ce', name: 'Cerium', atomicMass: '140.12'},
   { atomicNumber: 59, symbol: 'Pr', name: 'Praseodymium', atomicMass: '140.91'},
@@ -169,9 +170,9 @@ const row8 = [
 ];
 
 const row9 = [
-  { atomicNumber: 0, symbol: '', name: '', atomicMass: ''},
-  { atomicNumber: 0, symbol: '', name: '', atomicMass: ''},
-  { atomicNumber: 0, symbol: '', name: '', atomicMass: '' },
+  { atomicNumber: 241, symbol: '', name: '', atomicMass: ''},
+  { atomicNumber: 242, symbol: '', name: '', atomicMass: ''},
+  { atomicNumber: 243, symbol: '', name: '', atomicMass: '' },
   { atomicNumber: 89, symbol: 'Ac', name: 'Actinium', atomicMass: '227.03' },
   { atomicNumber: 90, symbol: 'Th', name: 'Thorium', atomicMass: '232.04'},
   { atomicNumber: 91, symbol: 'Pa', name: 'Protactinium', atomicMass: '231.04'},
@@ -190,32 +191,24 @@ const row9 = [
 ];
 
 const empty = [
-  { atomicNumber: 0, symbol: '', name: '', atomicMass: '' },
-  { atomicNumber: 0, symbol: '', name: '', atomicMass: ''},
-  { atomicNumber: 0, symbol: '', name: '', atomicMass: ''},
-  { atomicNumber: 0, symbol: '', name: '', atomicMass: ''},
-  { atomicNumber: 0, symbol: '', name: '', atomicMass: ''},
-  { atomicNumber: 0, symbol: '', name: '', atomicMass: ''},
-  { atomicNumber: 0, symbol: '', name: '', atomicMass: ''},
-  { atomicNumber: 0, symbol: '', name: '', atomicMass: ''},
-  { atomicNumber: 0, symbol: '', name: '', atomicMass: ''},
-  { atomicNumber: 0, symbol: '', name: '', atomicMass: ''},
-  { atomicNumber: 0, symbol: '', name: '', atomicMass: ''},
-  { atomicNumber: 0, symbol: '', name: '', atomicMass: ''},
-  { atomicNumber: 0, symbol: '', name: '', atomicMass: ''},
-  { atomicNumber: 0, symbol: '', name: '', atomicMass: ''},
-  { atomicNumber: 0, symbol: '', name: '', atomicMass: ''},
-  { atomicNumber: 0, symbol: '', name: '', atomicMass: ''},
-  { atomicNumber: 0, symbol: '', name: '', atomicMass: ''},
-  { atomicNumber: 0, symbol: '', name: '', atomicMass: '' },
+  { atomicNumber: 244, symbol: '', name: '', atomicMass: '' },
+  { atomicNumber: 245, symbol: '', name: '', atomicMass: ''},
+  { atomicNumber: 246, symbol: '', name: '', atomicMass: ''},
+  { atomicNumber: 247, symbol: '', name: '', atomicMass: ''},
+  { atomicNumber: 248, symbol: '', name: '', atomicMass: ''},
+  { atomicNumber: 249, symbol: '', name: '', atomicMass: ''},
+  { atomicNumber: 250, symbol: '', name: '', atomicMass: ''},
+  { atomicNumber: 251, symbol: '', name: '', atomicMass: ''},
+  { atomicNumber: 252, symbol: '', name: '', atomicMass: ''},
+  { atomicNumber: 253, symbol: '', name: '', atomicMass: ''},
+  { atomicNumber: 254, symbol: '', name: '', atomicMass: ''},
+  { atomicNumber: 255, symbol: '', name: '', atomicMass: ''},
+  { atomicNumber: 256, symbol: '', name: '', atomicMass: ''},
+  { atomicNumber: 257, symbol: '', name: '', atomicMass: ''},
+  { atomicNumber: 258, symbol: '', name: '', atomicMass: ''},
+  { atomicNumber: 259, symbol: '', name: '', atomicMass: ''},
+  { atomicNumber: 260, symbol: '', name: '', atomicMass: ''},
+  { atomicNumber: 261, symbol: '', name: '', atomicMass: '' },
 ];
 
-const Reward = () => (
-  <div>
-      You win!
-      <button onClick={() => window.location.reload()}>Play again?</button>
-
-  </div>
-);
-
-export { row1, row2, row3, row4, row5, row6, row7, row8, row9, empty, Reward}
+export { row1, row2, row3, row4, row5, row6, row7, row8, row9, empty }

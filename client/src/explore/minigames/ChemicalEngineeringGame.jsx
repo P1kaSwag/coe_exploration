@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import './ChemicalEngineeringGame.css';
-import { row1, row2, row3, row4, row5, row6, row7, row8, row9, empty, Reward } from './PeriodicTable';
+import { row1, row2, row3, row4, row5, row6, row7, row8, row9, empty } from './PeriodicTable';
+import RewardNotification from './RewardNotificationComponent';
+
 // Periodic Table adapted from:
 // https://codepen.io/kevinmarks/pen/qjqXxG
 
-const ChemicalEngineeringGame = () => {
+const ChemicalEngineeringGame = ( rewardID, rewardName ) => {
   const [inputValue, setInputValue] = useState('');
   const [removedElement, setRemovedElement] = useState(null);
   const [rowIndex, setRowIndex] = useState(null);
@@ -13,6 +15,8 @@ const ChemicalEngineeringGame = () => {
   const [counter, setCounter] = useState(0);
   const [popupVisible, setPopupVisible] = useState(false);
   const [gameEnd, setGameEnd] = useState(false);
+  const [showReward, setShowReward] = useState(false);
+
   const [periodicTable, setPeriodicTable] = useState({
     row1: row1,
     row2: row2,
@@ -32,18 +36,19 @@ const ChemicalEngineeringGame = () => {
   };
 
   const removeRandomElement = () => {
-    var element = { atomicNumber: 0, symbol: '', name: '', atomicMass: '' };
-    while (element.atomicNumber === 0) {
+    var element = { atomicNumber: 300, symbol: '', name: '', atomicMass: '' };
+    while (element.atomicNumber >= 200) {
       const randomRow = Math.floor(Math.random() * 9) + 1;
       const row = periodicTable['row' + randomRow];
       const randomElementIndex = Math.floor(Math.random() * row.length);
       element = row[randomElementIndex];
 
-      if (element.atomicNumber !== 0) {
+      if (element.atomicNumber < 200) {
         row[randomElementIndex] = { ...element, symbol: '?', name: '?' };
         setRowIndex(randomRow);
         setRemovedIndex(randomElementIndex);
         setRemovedElement(element);
+        break;
       }
     }
     setShowButton(true);
@@ -54,9 +59,12 @@ const ChemicalEngineeringGame = () => {
   };
 
   const getNewElement = () => {
-    const updatedTable = { ...periodicTable };
-    const indexedRow = updatedTable['row' + rowIndex];
-    indexedRow[removedIndex] = removedElement;
+    var updatedTable = { ...periodicTable };
+    if (removedElement != null){
+      updatedTable = { ...periodicTable };
+      const indexedRow = updatedTable['row' + rowIndex];
+      indexedRow[removedIndex] = removedElement;
+    }
     removeRandomElement();
     setPeriodicTable(updatedTable);
   }
@@ -81,10 +89,22 @@ const ChemicalEngineeringGame = () => {
   };
 
   const endGame = () => {
-    // For Tanner - add rewards in this function
     setGameEnd(true);
+    setShowReward(true);
   }
 
+  const turnOffReward = () => {
+    setShowReward(false);
+  };
+
+  const Reward = () => (
+    <div>
+        { showReward && <RewardNotification rewardId={rewardID} rewardName={rewardName} onClose={turnOffReward} />}
+        You win!
+        <button className='ChemEButton' onClick={() => window.location.reload()}>Play again?</button>
+  
+    </div>
+  );
   const giveHint = () => {
     const updatedTable = { ...periodicTable };
     const indexedRow = updatedTable['row' + rowIndex];
@@ -98,7 +118,7 @@ const ChemicalEngineeringGame = () => {
       <div className="periodic-row">
         {elements.map(element => (
           <div className="cell" key={element.atomicNumber}>
-            {element.atomicNumber === 0 ? null : (
+            {element.atomicNumber >= 200 ? null : (
               <div className="element" style={styleElement(element)}>
                 <div className="atomic_num">{element.atomicNumber}</div>
                 <div className="symbol">{element.symbol}</div>
@@ -149,12 +169,7 @@ const ChemicalEngineeringGame = () => {
     return style;
   };
 
-  useEffect(() => {
-    removeRandomElement();
-  }, []);
-
   return (
-    
     <div className="periodic">
       {gameEnd && (
         <Reward/>
@@ -165,28 +180,29 @@ const ChemicalEngineeringGame = () => {
           <div className="popup-background"></div>
           <div className="popup">
             <p>Correct! The missing element was: {removedElement.name}</p>
-            <button onClick={() => closePopup()}>Close</button>
+            <button className='ChemEButton' onClick={() => closePopup()}>Close</button>
           </div>
         </div>
       )}
 
       {gameEnd ? null : (
       <>
-        <div className="header">
+        <div className="ChemEHeader">
           <h1>What's the missing element?</h1>
           <h2>You need to get 3 correct!</h2>
           <p>You have {counter}/3 </p>
         </div>
-        <button onClick={getNewElement}>Get a new element</button>
+        <button className='ChemEButton' onClick={getNewElement}>Get a new element</button>
         <input
+          id='ChemEText'
           type="text"
           value={inputValue}
           onChange={handleChange}
           placeholder="What's the element?"
         />
-        <button onClick={elementAnswer}>Confirm</button>
+        <button className='ChemEButton' onClick={elementAnswer}>Confirm</button>
 
-        {showButton ? (<button onClick={giveHint}>Hint</button>) : null }
+        {showButton ? (<button className='ChemEButton' onClick={giveHint}>Hint</button>) : null }
 
         {Object.keys(periodicTable).map(rowKey => (
           <React.Fragment key={rowKey}>
