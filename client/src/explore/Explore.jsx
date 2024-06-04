@@ -70,7 +70,7 @@ export function MajorInfo() {
     <div style={{ backgroundImage: `url(${MajorBackground})`, backgroundSize: 'cover', backgroundRepeat: 'no-repeat', backgroundAttachment: 'fixed' }}>
       <h1>{majorName} Information</h1>
       <div className="majorInfo professors">
-        <h3>Top Professors</h3>
+        <h3 className="centerText">Top Professors</h3>
         <div className="center">
           {majorInfo.topProfessors.map((prof, index) => (
             <div className="professorCard" key={index}>
@@ -82,7 +82,7 @@ export function MajorInfo() {
       </div>
       <div className="majorInfo quotes">
         <h3>Student Quotes</h3>
-        <ul className="leftText">
+        <ul className="leftText info">
           {majorInfo.studentQuotes.map((quote, index) => (
             <li key={index}>{quote}</li>
           ))}
@@ -90,11 +90,11 @@ export function MajorInfo() {
       </div>
       <div className="majorInfo careers">
         <h3>Careers</h3>
-        <p>{majorInfo.careerProspects}</p>
+        <p className="infoSmall">{majorInfo.careerProspects}</p>
       </div>
       <div className="majorInfo minors">
         <h3>Potential Minors</h3>
-        <ul className="leftText">
+        <ul className="leftText info">
           {majorInfo.minors.map((minor, index) => (
             <li key={index}>
               <strong>{minor.name}</strong>: {minor.message}
@@ -104,11 +104,11 @@ export function MajorInfo() {
       </div>
       <div className="majorInfo skills">
         <h3>Skills Current Students Recommend to be Successful in {majorName}</h3>
-        <p>{majorInfo.skills.join(', ')}</p>
+        <p className="infoSmall">{majorInfo.skills.join(', ')}</p>
       </div>
       <div className="majorInfo interests">
         <h3>Interests that led Current Students to {majorName}</h3>
-        <p>{majorInfo.interests.join(', ')}</p>
+        <p className="infoSmall">{majorInfo.interests.join(', ')}</p>
       </div>
       <div className="majorInfo majorRequirementsSection">
         <MajorRequirements major={majorName} />
