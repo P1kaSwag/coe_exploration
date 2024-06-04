@@ -284,6 +284,16 @@ def interact_with_pet():
 
 def update_pet_mood(pet: Pets):
     """Updates the mood of the pet based on its stats and events (last exploration time, etc.)."""
+
+    # Excited mood: triggered when a user unlocks a reward from a major
+    recent_reward = PetRewards.query.filter_by(petID=pet.petID).order_by(PetRewards.timeReceived.desc()).first()
+    print(f"Recent reward: {recent_reward}")
+    if recent_reward:
+        time_since_reward = datetime.now() - recent_reward.timeReceived
+        if time_since_reward.total_seconds() < 24 * 3600:  # 24 hours
+            return 'excited'
+        # TODO: Add a condition for if a user hasn't unlocked a reward in a while and doesn't have all the rewards
+        
     if pet.love > 80 and pet.recreation > 80 and pet.hunger < 20 and pet.cleanliness > 80:
         return 'happy'
     if pet.love < 20 and pet.recreation < 20 and pet.hunger > 80 and pet.cleanliness < 20: # TODO: Could also add a condition for if the pet hasn't been interacted with in a while
@@ -297,14 +307,6 @@ def update_pet_mood(pet: Pets):
             time_since_last_interaction = datetime.now() - last_interaction.interactionTime
             if time_since_last_interaction.total_seconds() > 48 * 3600:  # 48 hours
                 return 'angry'
-            
-    # Excited mood: triggered when a user unlocks a reward from a major
-    recent_reward = PetRewards.query.filter_by(petID=pet.petID).order_by(PetRewards.timeReceived.desc()).first()
-    print(f"Recent reward: {recent_reward}")
-    if recent_reward:
-        time_since_reward = datetime.now() - recent_reward.timeReceived
-        if time_since_reward.total_seconds() < 24 * 3600:  # 24 hours
-            return 'excited'
 
     # Some ideas:
     # Angry mood is triggered when a user hasn't interacted with their pet in a while and their pet's stats are low
@@ -327,6 +329,10 @@ def get_pet_stats():
     if not pet:
         return jsonify({'message': 'Pet not found'}), 404
     
+    # Update the pet's mood before fetching stats
+    pet.mood = update_pet_mood(pet)
+    db.session.commit()
+
     pet_stats = pet.to_dict()
     outfit = Rewards.query.filter_by(rewardID=pet.outfitID).first()
     outfit_name = outfit.rewardName if outfit else 'default'
@@ -443,7 +449,7 @@ def get_pet_rewards():
 
     rewards_list = []           # List of all rewards this pet currently has
     active_reward_list = []     # List of all active rewards this pet currently has
-    active_cosmetic_list = []   # List of all active cosmetic rewards this pet currently has
+    active_cosmetic_list = []   # List of all active cosmetic rewards IDs this pet currently has
     for pet_reward, reward in pet_rewards:
         reward_data = reward.to_dict()
         reward_data['isActive'] = pet_reward.isActive
@@ -451,7 +457,7 @@ def get_pet_rewards():
         if pet_reward.isActive:
             active_reward_list.append(reward_data)
             if reward.rewardType == 'cosmetic':
-                active_cosmetic_list.append(reward_data)
+                active_cosmetic_list.append(reward_data.get('rewardID'))
 
     # Identify active outfit
     active_outfit = pet.outfitID
@@ -502,7 +508,6 @@ def degrade_pet_stats():
     with app.app_context(): # Need to create a new app context to access the database outside of a request from the frontend
         pets = Pets.query.all()
         for pet in pets:
-            print(pet.to_dict())                    # TODO: Remove this line later
             pet.love = max(pet.love - 1, 0)
             pet.recreation = max(pet.recreation - 1, 0)
             pet.hunger = min(pet.hunger + 5, 100)

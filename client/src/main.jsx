@@ -7,12 +7,9 @@ import Quiz from './quiz/Quiz';
 import RegisterComponent from './authentication/RegisterComponent';
 import Explore, { MajorInfo } from './explore/Explore';
 import { AuthProvider } from './authentication/AuthComponent';
-import Profile from './ProfileComponent';
-//import Pet from './Pet'
 import Pet from './pet/Pet';
 import MinigameLoader from './explore/minigames/MinigameLoader';
 import Home from './home/Home'
-// import WordSearchGame from './explore/minigames/RadiationHealthPhysicsGame';
 import HowTo from './home/HowTo';
 
 import './index.css';
@@ -25,7 +22,7 @@ const router = createBrowserRouter([
     children: [
       { index: true, element: <Home /> }, // Set Home component as index
       {
-        path: "login", // Changed path from "/" to "login"
+        path: "login",
         element: <LoginComponent />,
       },
       {
@@ -51,10 +48,6 @@ const router = createBrowserRouter([
       {
         path: "explore/:majorName/minigame",
         element: <MinigameLoader />,
-      },
-      {
-        path: "profile",
-        element: <Profile />,
       },
       {
         path: "pet",

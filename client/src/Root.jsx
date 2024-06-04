@@ -3,7 +3,6 @@ import { NavLink, Outlet } from "react-router-dom";
 import { useAuth } from "./authentication/AuthComponent";
 import './root.css'
 
-// Add imports from Mo's branch
 import {
   Link,
   useParams,
@@ -30,51 +29,40 @@ export function Root(props) {
       <nav className={`nav ${isPetPage ? 'nav-pet' : ''}`}>
         <ul>
           <li>
-            <NavLink to="/" className="nav-link">
-              Home
-            </NavLink>
+            <NavLink to="/" className="nav-link">Home</NavLink>
           </li>
+          {user && (
+            <>
+              <li>
+                <NavLink to="/quiz" className="nav-link">Quiz</NavLink>
+              </li>
+              <li>
+                <NavLink to="/explore" className="nav-link">Explore</NavLink>
+              </li>
+              <li>
+                <NavLink to="/pet">Pet</NavLink>
+              </li>
+            </>
+          )}
           <li>
-            <NavLink to="/quiz" className="nav-link">
-              Quiz
-            </NavLink>
-          </li>
-          <li>
-            <NavLink to="/explore" className="nav-link">
-              Explore
-            </NavLink>
-          </li>
-          <li>
-            <NavLink to="/pet">Pet</NavLink>
+            <NavLink to="/howto">How To</NavLink>
           </li>
         </ul>
-        <div className="logout-container">
-          <button className="logout-btn" onClick={handleLogout}>
-            Logout
-          </button>
-        </div>
+        {user && (
+          <div className="logout-container">
+            <button className="logout-btn" onClick={handleLogout}>
+              Logout
+            </button>
+          </div>
+        )}
       </nav>
       <main>{children || <Outlet />}</main>
-      {/*{!isPetPage && <Footer/>} {/*The pet page has no visable overflow so this would never be shown on screen there anyway*/}
     </>
   );
 }
-
-/*
-function Footer() {
-  return (
-    <>
-    <hr></hr>
-    <footer style={{ backgroundColor: 'white', padding: '20px', textAlign: 'center' }}>
-      <div> A simple web application made for a senior capstone class.</div>
-    </footer>
-    </>
-  );
-}
-*/
 
 export function ErrorPage() {
-  const error = useRouteError(); // Assuming you're using React Router for navigation
+  const error = useRouteError();
   console.error(error);
   return (
     <>
