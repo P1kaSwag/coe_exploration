@@ -1,101 +1,117 @@
-/* MechanicalEngineeringGame.css */
-.game-container {
-    text-align: center;
-    margin: 20px;
-    padding-bottom: 20px;
+.me-game-container {
+  text-align: center;
+  margin: 20px;
+  padding-bottom: 20px;
+}
+
+.me-game-header {
+  margin-bottom: 20px;
+}
+
+.me-scoreboard {
+  font-size: 20px;
+  margin-top: 10px;
+}
+
+.me-scoreboard-final {
+  font-size: 24px;
+  margin-top: 20px;
+  font-weight: bold;
+}
+
+.me-gear-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+  justify-items: center;
+}
+
+.me-gear-container {
+  position: relative;
+}
+
+.me-gear-container img {
+  width: 80px;
+  height: 80px;
+  transition: transform 0.3s ease;
+}
+
+.me-gear-container:hover img {
+  transform: scale(1.1);
+  cursor: pointer;
+  border: 2px solid #555;
+  border-radius: 50%;
+}
+
+.me-feedback-message {
+  position: fixed;
+  top: 20%;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: rgba(0, 0, 0, 0.8);
+  color: #fff;
+  padding: 10px 20px; /* Increase padding for larger messages */
+  border-radius: 10px; /* Increase border-radius for a more prominent look */
+  font-size: 1.2em; /* Increase the font size for better readability */
+  z-index: 1000;
+  visibility: visible;
+  opacity: 1;
+  animation: fadeInOut 1.5s ease-in-out;
+}
+
+.me-feedback-message img {
+  width: 100px; /* Adjust the width of the checkmark and crossmark images */
+  height: 100px; /* Adjust the height of the checkmark and crossmark images */
+  margin-right: 10px; /* Add some spacing between the image and the text */
+}
+
+.me-start-again-button {
+  padding: 10px 20px;
+  font-size: 16px;
+  font-weight: bold;
+  background-color: #FF5733;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-top: 10px; /* Add margin above the button */
+  transition: background-color 0.3s ease;
+}
+
+.me-start-again-button:hover {
+  background-color: #FF4500;
+}
+
+@keyframes fadeInOut {
+  0%, 100% {
+    opacity: 0;
+    visibility: hidden;
   }
-  
-  .game-header {
-    margin-bottom: 20px;
-  }
-  
-  .scoreboard {
-    font-size: 20px;
-    margin-top: 10px;
-  }
-  
-  .scoreboard-final {
-    font-size: 24px;
-    margin-top: 20px;
-    font-weight: bold;
-  }
-  
-  .gear-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 20px;
-    justify-items: center;
-  }
-  
-  .gear-container {
-    position: relative;
-  }
-  
-  .gear-container img {
-    width: 80px;
-    height: 80px;
-    transition: transform 0.3s ease;
-  }
-  
-  .gear-container:hover img {
-    transform: scale(1.1);
-    cursor: pointer;
-    border: 2px solid #555;
-    border-radius: 50%;
-  }
-  
-  .feedback-message {
-    position: fixed;
-    top: 20%;
-    left: 50%;
-    transform: translateX(-50%);
-    background-color: rgba(0, 0, 0, 0.8);
-    color: #fff;
-    padding: 5px 10px; /* Reduce the padding for smaller messages */
-    border-radius: 5px; /* Reduce the border-radius for a more compact look */
-    font-size: 0.8em; /* Reduce the font size for smaller messages */
-    z-index: 1000;
-    visibility: visible;
+  10%, 90% {
     opacity: 1;
-    animation: fadeInOut 1.5s ease-in-out;
+    visibility: visible;
   }
-  
-  .feedback-message img {
-    width: 150px; /* Adjust the width of the checkmark and crossmark images */
-    height: 150px; /* Adjust the height of the checkmark and crossmark images */
-    margin-right: 5px; /* Add some spacing between the image and the text */
-  }
-  
-  @keyframes fadeInOut {
-    0%, 100% {
-      opacity: 0;
-      visibility: hidden;
-    }
-    10%, 90% {
-      opacity: 1;
-      visibility: visible;
-    }
-  }
-  
-  .scoreboard-container {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-top: 20px;
-  }
-  
-  .restart-button {
-    padding: 10px 20px;
-    font-size: 16px;
-    font-weight: bold;
-    background-color: #4CAF50;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-  }
-  
-  .restart-button:hover {
-    background-color: #45a049;
-  }
+}
+
+.me-scoreboard-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+.me-restart-button {
+  padding: 10px 20px;
+  font-size: 16px;
+  font-weight: bold;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.me-restart-button:hover {
+  background-color: #45a049;
+}
