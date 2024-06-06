@@ -46,6 +46,7 @@ export function MajorInfo() {
   const [searchParams] = useSearchParams();
   const { majorName } = useParams();
   const majorID = searchParams.get('majorID');
+  const capitalizedMajorName = majorName.charAt(0).toUpperCase() + majorName.slice(1);
 
   useEffect(() => {
     const fetchMajorInfo = async () => {
@@ -68,7 +69,7 @@ export function MajorInfo() {
 
   return (
     <div style={{ backgroundImage: `url(${MajorBackground})`, backgroundSize: 'cover', backgroundRepeat: 'no-repeat', backgroundAttachment: 'fixed' }}>
-      <h1>{majorName} Information</h1>
+      <h1>{capitalizedMajorName} Information</h1>
       <div className="majorInfo professors">
         <h3 className="centerText">Top Professors</h3>
         <div className="center">
@@ -114,8 +115,8 @@ export function MajorInfo() {
         <MajorRequirements major={majorName} />
       </div>
       <div className="playButton">
-        <NavLink to={`/explore/${majorName}/minigame`} style={{ textDecoration: 'none', color: 'black' }}>
-          Play the {majorName} Game
+        <NavLink to={`/explore/${majorName}/minigame`} style={{ textDecoration: 'none', fontSize: '1.5em', fontWeight: 'bolder' }}>
+          Play the {capitalizedMajorName} Minigame
         </NavLink>
       </div>
     </div>

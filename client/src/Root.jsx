@@ -1,51 +1,47 @@
 import React from "react";
 import { NavLink, Outlet } from "react-router-dom";
 import { useAuth } from "./authentication/AuthComponent";
-import './root.css'
-
-import {
-  Link,
-  useParams,
-  useSearchParams,
-  useRouteError,
-  useLocation,
-} from "react-router-dom";
+import { useLocation } from "react-router-dom";
+import pet_head_grad from "./assets/pet_head_grad.png";
+import './root.css'; // Ensure this is imported for styles
 
 export function Root(props) {
-  const location = useLocation(); // Get the current page location
+  const location = useLocation();
   const { children } = props;
   const { user, logout } = useAuth();
 
   function handleLogout() {
     logout();
-    window.location.href = '/ ';
+    window.location.href = '/';
   }
 
-  // Determine if the navigation should have the specific style
   const isPetPage = location.pathname === "/pet"; 
 
   return (
     <>
       <nav className={`nav ${isPetPage ? 'nav-pet' : ''}`}>
-        <ul>
-          <li>
+        <ul className="nav-list">
+          <li className="nav-item logo-item">
+            <img src={pet_head_grad} alt="Pet Head" className="pet-head" />
+          </li>
+          <li className="nav-item">
             <NavLink to="/" className="nav-link">Home</NavLink>
           </li>
           {user && (
             <>
-              <li>
+              <li className="nav-item">
                 <NavLink to="/quiz" className="nav-link">Quiz</NavLink>
               </li>
-              <li>
+              <li className="nav-item">
                 <NavLink to="/explore" className="nav-link">Explore</NavLink>
               </li>
-              <li>
-                <NavLink to="/pet">Pet</NavLink>
+              <li className="nav-item">
+                <NavLink to="/pet" className="nav-link">Pet</NavLink>
               </li>
             </>
           )}
-          <li>
-            <NavLink to="/howto">How To</NavLink>
+          <li className="nav-item">
+            <NavLink to="/howto" className="nav-link">How To</NavLink>
           </li>
         </ul>
         {user && (

@@ -40,8 +40,6 @@ const QuestionComponent = ({ onNext }) => {
 
   return (
     <div className="question-container">
-      {" "}
-      {/* Apply a wrapper container with additional styling */}
       <div className="question">
         {currentQuestion === 1 && (
           <Question1
@@ -91,7 +89,7 @@ const QuestionComponent = ({ onNext }) => {
           />
         )}
 
-        <button onClick={() => handleNext(currentQuestion + 1)}>
+        <button className="next-button" onClick={() => handleNext(currentQuestion + 1)}>
           {currentQuestion === 6 ? "Submit" : "Next"}
         </button>
       </div>

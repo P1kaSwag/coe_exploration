@@ -7,9 +7,16 @@
     overflow: hidden;
 }
 
+.home-background .home-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 85%;
+}
 
 .howto-container {
-    border: 2px solid #ccc; /* Add a border around the entire quiz */
+    border: 2px solid #ccc; 
     padding: 50px; /* Add some padding inside the container */
     margin: 0 auto; /* Center the container horizontally */
     max-width: 600px; /* Limit the width of the container */
@@ -46,12 +53,21 @@
 .link-button {
     background-color: #ff5733;
     color: white;
+    font-size: 16px;
+    font-weight: bolder;
     padding: 10px 16px;
     border: 1px solid black;
     border-radius: 5px;
     cursor: pointer;
     width: calc(25% - 4px); 
     margin: 20px 4px;
+}
+
+.link-button:hover {
+    color: black;
+    border-radius: 5px;
+    transform: scale(1.01);
+    transition: color 0.3s;
 }
 
 .icon-small {

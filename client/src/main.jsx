@@ -11,6 +11,7 @@ import Pet from './pet/Pet';
 import MinigameLoader from './explore/minigames/MinigameLoader';
 import Home from './home/Home'
 import HowTo from './home/HowTo';
+import PrivateRoute from './PrivateRoute';
 
 import './index.css';
 
@@ -31,7 +32,10 @@ const router = createBrowserRouter([
       },
       {
         path: "quiz",
-        element: <Quiz />,
+        element: <PrivateRoute />, // Protect this route
+        children: [
+          { index: true, element: <Quiz /> },
+        ],
       },
       {
         path: "register",
@@ -39,19 +43,25 @@ const router = createBrowserRouter([
       },
       {
         path: "explore",
-        element: <Explore />,
-      },
-      {
-        path: "explore/:majorName",
-        element: <MajorInfo />,
-      },
-      {
-        path: "explore/:majorName/minigame",
-        element: <MinigameLoader />,
+        element: <PrivateRoute />, // Protect this route
+        children: [
+          { index: true, element: <Explore /> },
+          {
+            path: ":majorName",
+            element: <MajorInfo />,
+          },
+          {
+            path: ":majorName/minigame",
+            element: <MinigameLoader />,
+          },
+        ],
       },
       {
         path: "pet",
-        element: <Pet />,
+        element: <PrivateRoute />, // Protect this route
+        children: [
+          { index: true, element: <Pet /> },
+        ],
       },
     ]
   }
