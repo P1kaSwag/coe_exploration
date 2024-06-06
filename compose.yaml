@@ -16,6 +16,9 @@ services:
   server:
     build:
       context: ./server
+    environment:
+      - SECRET_KEY=${SECRET_KEY}
+      - SQLALCHEMY_DATABASE_URI=${SQLALCHEMY_DATABASE_URI}
     expose:
       - 8000
     volumes:
@@ -29,8 +32,8 @@ services:
     ports:
       - "32000:3306"
     environment:
-      MYSQL_ROOT_PASSWORD: bowleg.historic.TORI # we can change this to a secure, non plaintext password later
-      MYSQL_DATABASE: exploration # this will create a database called exploration
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
     volumes:
       - ./db/init.sql:/docker-entrypoint-initdb.d/init.sql  # this will run the init.sql file but only on the first run, after that you need to remove the volume to run it again
       - mysql-data:/var/lib/mysql # this will persist the data even if the container is removed

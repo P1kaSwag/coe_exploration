@@ -50,7 +50,8 @@ const RewardManager = ({ onClose }) => {
         }
     };
 
-    const handleCosmeticToggle = async (rewardId, isActive) => {
+    const handleCosmeticToggle = async (rewardId) => {
+        const isActive = !activeCosmetics.includes(rewardId);
         const response = await fetch('/api/pet/toggle-cosmetic', {
             method: 'POST',
             headers: {
@@ -61,7 +62,6 @@ const RewardManager = ({ onClose }) => {
         });
         if (response.ok) {
             setActiveCosmetics((prev) => isActive ? [...prev, rewardId] : prev.filter((id) => id !== rewardId));
-            console.log('Active cosmetics:', activeCosmetics);
         } else {
             console.error(`Error status: ${response.status}`);
         }
@@ -149,7 +149,7 @@ const RewardManager = ({ onClose }) => {
                             <h3>{reward.rewardName}</h3>
                             <p>{reward.rewardDescription}</p>
                             <button
-                                onClick={() => handleCosmeticToggle(reward.rewardID, !activeCosmetics.includes(reward.rewardID))}
+                                onClick={() => handleCosmeticToggle(reward.rewardID)}
                                 className={activeCosmetics.includes(reward.rewardID) ? 'active' : ''}
                             >
                                 {activeCosmetics.includes(reward.rewardID) ? 'Active' : 'Activate'}

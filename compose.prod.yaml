@@ -12,6 +12,9 @@ services:
   server:
     build:
       context: ./server
+    environment:
+      - SECRET_KEY=${SECRET_KEY}
+      - SQLALCHEMY_DATABASE_URI=${SQLALCHEMY_DATABASE_URI}
     expose:
       - 8000
     depends_on:
@@ -23,8 +26,8 @@ services:
     env_file:
       - .env
     environment:
-      MYSQL_ROOT_PASSWORD: bowleg.historic.TORI
-      MYSQL_DATABASE: exploration
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
     volumes:
       - ./db/init.sql:/docker-entrypoint-initdb.d/init.sql
       - mysql-data:/var/lib/mysql

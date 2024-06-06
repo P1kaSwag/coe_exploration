@@ -1,82 +1,64 @@
 import React from "react";
 import { NavLink, Outlet } from "react-router-dom";
 import { useAuth } from "./authentication/AuthComponent";
-import './root.css'
-
-// Add imports from Mo's branch
-import {
-  Link,
-  useParams,
-  useSearchParams,
-  useRouteError,
-  useLocation,
-} from "react-router-dom";
+import { useLocation } from "react-router-dom";
+import pet_head_grad from "./assets/pet_head_grad.png";
+import './root.css'; // Ensure this is imported for styles
 
 export function Root(props) {
-  const location = useLocation(); // Get the current page location
+  const location = useLocation();
   const { children } = props;
   const { user, logout } = useAuth();
 
   function handleLogout() {
     logout();
-    window.location.href = '/ ';
+    window.location.href = '/';
   }
 
-  // Determine if the navigation should have the specific style
   const isPetPage = location.pathname === "/pet"; 
 
   return (
     <>
       <nav className={`nav ${isPetPage ? 'nav-pet' : ''}`}>
-        <ul>
-          <li>
-            <NavLink to="/" className="nav-link">
-              Home
-            </NavLink>
+        <ul className="nav-list">
+          <li className="nav-item logo-item">
+            <img src={pet_head_grad} alt="Pet Head" className="pet-head" />
           </li>
-          <li>
-            <NavLink to="/quiz" className="nav-link">
-              Quiz
-            </NavLink>
+          <li className="nav-item">
+            <NavLink to="/" className="nav-link">Home</NavLink>
           </li>
-          <li>
-            <NavLink to="/explore" className="nav-link">
-              Explore
-            </NavLink>
-          </li>
-          <li>
-            <NavLink to="/pet" className="nav-link">
-              Pet
-            </NavLink>
+          {user && (
+            <>
+              <li className="nav-item">
+                <NavLink to="/quiz" className="nav-link">Quiz</NavLink>
+              </li>
+              <li className="nav-item">
+                <NavLink to="/explore" className="nav-link">Explore</NavLink>
+              </li>
+              <li className="nav-item">
+                <NavLink to="/pet" className="nav-link">Pet</NavLink>
+              </li>
+            </>
+          )}
+          <li className="nav-item">
+            <NavLink to="/howto" className="nav-link">How To</NavLink>
           </li>
         </ul>
-        <div className="logout-container">
-          <button className="logout-btn" onClick={handleLogout}>
-            Logout
-          </button>
-        </div>
+        {user && (
+          <div className="logout-container">
+            <button className="logout-btn" onClick={handleLogout}>
+              Logout
+            </button>
+          </div>
+        )}
       </nav>
       <main>{children || <Outlet />}</main>
-      {/*{!isPetPage && <Footer/>} {/*The pet page has no visable overflow so this would never be shown on screen there anyway*/}
     </>
   );
 }
-
-/*
-function Footer() {
-  return (
-    <>
-    <hr></hr>
-    <footer style={{ backgroundColor: 'white', padding: '20px', textAlign: 'center' }}>
-      <div> A simple web application made for a senior capstone class.</div>
-    </footer>
-    </>
-  );
-}
-*/
 
 export function ErrorPage() {
-  const error = useRouteError(); // Assuming you're using React Router for navigation
+  const error = useRouteError();
   console.error(error);
   return (
     <>

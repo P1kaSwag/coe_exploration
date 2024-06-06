@@ -3,11 +3,34 @@
     padding: 50px; /* Add some padding inside the container */
     margin: 0 auto; /* Center the container horizontally */
     max-width: 650px; /* Limit the width of the container */
-    margin-top: 20px;
+    margin-top: 85px;
     margin-bottom: 20px;
     border-radius: 10px;  
     box-shadow: 3px 3px 10px grey;
     background-color: white;
+  }
+
+  .question {
+    font-size: 18px;
+    line-height: 1.5;
+  }
+  
+  .next-button {
+    background-color: #ff5733;
+    color: white;
+    border: none;
+    padding: 10px 30px;
+    cursor: pointer;
+    border-radius: 5px;
+    font-weight: bold;
+    font-size: large;
+    margin-top: 20px;
+    transition: background-color 0.3s;
+  }
+  
+  .next-button:hover {
+    transform: scale(1.01);
+    color: black;
   }
   
   .results-container {
@@ -31,7 +54,11 @@
   }
   
   .result-item {
-    font-size: 18px; /* Set font size for result items */
+    font-size: 24px; /* Set font size for result items */
     margin-bottom: 10px; /* Add some space between result items */
+  }
+
+  .result-item:hover {
+    transform: scale(1.01);
   }
   
