@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import wordsearch from 'wordsearch-generator';
 import { useParams } from 'react-router-dom'; // Import useParams hook
 import './Wordsearch.css'; // Import CSS file for styling
+import RewardNotification from './RewardNotificationComponent';
 
 const sentences = {
     INTERDISCIPLINARY: "Interdisciplinary approaches in engineering science foster innovation by integrating diverse fields of knowledge.",
@@ -23,6 +24,7 @@ const WordSearchGame = () => {
     const [isMouseDown, setIsMouseDown] = useState(false); // Track mouse down state
     const [startCell, setStartCell] = useState(null); // Track start cell of selection
     const [foundSentence, setFoundSentence] = useState('');
+    const [showReward, setShowReward] = useState(false);
 
     useEffect(() => {
         const fetchWords = async () => {
@@ -140,6 +142,19 @@ const WordSearchGame = () => {
         const word = words[index];
         const sentence = sentences[word];
         setFoundSentence(sentence);
+        
+        if (foundWords.length === words.length - 1) {
+            handleGameWin(); // Call handleGameWin when the game is won
+        }
+    };
+
+    const handleGameWin = () => {
+        // Logic to handle game win
+        setShowReward(true);
+    };
+
+    const handleCloseNotification = () => {
+        setShowReward(false);
     };
 
     return (
@@ -169,6 +184,7 @@ const WordSearchGame = () => {
                 </div>
                 <br />
                 <button onClick={() => window.location.reload()}>Play Again!</button>
+                <button onClick={handleGameWin}>Collect Reward</button> {/* Button to collect reward */}
             </div>
             <div
                 className="word-search-grid"
@@ -190,6 +206,13 @@ const WordSearchGame = () => {
                     </div>
                 ))}
             </div>
+            {showReward && (
+                <RewardNotification
+                    rewardId={10}
+                    rewardName="Engineering Science Reward"
+                    onClose={handleCloseNotification}
+                />
+            )}
         </div>
     );
 };
