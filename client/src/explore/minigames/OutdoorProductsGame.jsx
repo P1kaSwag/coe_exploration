@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import wordsearch from 'wordsearch-generator';
 import { useParams } from 'react-router-dom'; // Import useParams hook
 import './Wordsearch.css'; // Import CSS file for styling
+import RewardNotification from './RewardNotificationComponent'; // Import the RewardNotification component
 
 const sentences = {
     GEAR: "Gear is the backbone of adventure, providing essential tools and enhancing every journey.",
@@ -11,7 +12,7 @@ const sentences = {
     MATERIALS: "Materials science transforms raw substances into indispensable components, driving progress across sectors.",
     DESIGN: "Design synthesizes creativity and practicality, crafting solutions that are both beautiful and effective.",
     FUNCTIONALITY: "Functionality is at the core of innovation, ensuring that every product serves its purpose with excellence.",
-    SUSTAINABILTY: "Sustainability guides the future of production, promoting practices that protect our planet and resources."
+    SUSTAINABILITY: "Sustainability guides the future of production, promoting practices that protect our planet and resources."
 };
 
 const WordSearchGame = () => {
@@ -23,6 +24,7 @@ const WordSearchGame = () => {
     const [isMouseDown, setIsMouseDown] = useState(false); // Track mouse down state
     const [startCell, setStartCell] = useState(null); // Track start cell of selection
     const [foundSentence, setFoundSentence] = useState('');
+    const [showReward, setShowReward] = useState(false); // State variable for reward notification
 
     useEffect(() => {
         const fetchWords = async () => {
@@ -140,6 +142,20 @@ const WordSearchGame = () => {
         const word = words[index];
         const sentence = sentences[word];
         setFoundSentence(sentence);
+
+        // Check if all words are found
+        if (foundWords.length === words.length - 1) {
+            handleGameWin(); // Call handleGameWin when the game is won
+        }
+    };
+
+    const handleGameWin = () => {
+        // Logic to handle game win
+        setShowReward(true);
+    };
+
+    const handleCloseNotification = () => {
+        setShowReward(false);
     };
 
     return (
@@ -169,6 +185,7 @@ const WordSearchGame = () => {
                 </div>
                 <br />
                 <button onClick={() => window.location.reload()}>Play Again!</button>
+                <button onClick={handleGameWin}>Collect Reward</button> {/* Button to collect reward */}
             </div>
             <div
                 className="word-search-grid"
@@ -190,6 +207,13 @@ const WordSearchGame = () => {
                     </div>
                 ))}
             </div>
+            {showReward && (
+                <RewardNotification
+                    rewardId={15}
+                    rewardName="Outdoor Products Reward"
+                    onClose={handleCloseNotification}
+                />
+            )}
         </div>
     );
 };
