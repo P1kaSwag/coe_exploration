@@ -33,6 +33,10 @@ const MechanicalEngineeringGame = () => {
   }, [round]);
 
   useEffect(() => {
+    if (feedback.type === 'end' || feedback.type === 'timeout') {
+      return; // Stop the timer if the game has ended or time has run out
+    }
+
     if (remainingTime > 0) {
       const timer = setInterval(() => {
         setRemainingTime(prevTime => prevTime - 1);
@@ -41,7 +45,7 @@ const MechanicalEngineeringGame = () => {
     } else if (remainingTime === 0) {
       setFeedback({ type: 'timeout', message: 'Hey, the time has run out! Please start again and try to beat the time.', visible: true });
     }
-  }, [remainingTime]);
+  }, [remainingTime, feedback.type]);
 
   const shuffleGears = () => {
     const gearKeys = Object.keys(gearImages);
