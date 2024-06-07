@@ -10,7 +10,6 @@ const RegisterComponent = () => {
   const [errorMessage, setErrorMessage] = useState('');
 
   const handleRegister = async () => {
-    // TODO: Change localhost to something else
     const hasUpperCase = /[A-Z]/.test(password);
     const hasLowerCase = /[a-z]/.test(password);
     const hasNumber = /[0-9]/.test(password);

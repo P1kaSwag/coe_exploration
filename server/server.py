@@ -3,7 +3,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
 from flask_jwt_extended import JWTManager, create_access_token, jwt_required, get_jwt_identity
 from flask_apscheduler import APScheduler
-from datetime import datetime
+from datetime import datetime, timedelta
 import bcrypt
 from dotenv import load_dotenv
 import os
@@ -14,7 +14,9 @@ load_dotenv()
 # Initializing flask app
 app = Flask(__name__)
 CORS(app)
+
 jwt = JWTManager(app)
+app.config['JWT_ACCESS_TOKEN_EXPIRES'] = timedelta(hours=24)
 
 # Set up the APScheduler to run in the background
 scheduler = APScheduler()
@@ -24,9 +26,7 @@ scheduler.start()
 # Configure the app for the database connection
 app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('SQLALCHEMY_DATABASE_URI')
 app.config['SECRET_KEY'] = os.getenv('SECRET_KEY')
-#app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:bowleg.historic.TORI@database:3306/exploration'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False # silence the deprecation warning and to save resources
-#app.config['SECRET_KEY'] = 'super_secret_key'  # TODO: Shouldn't be hardcoded in the final version so move to an environment variable
  
  # Create the SQLAlchemy db instance
 db = SQLAlchemy(app)

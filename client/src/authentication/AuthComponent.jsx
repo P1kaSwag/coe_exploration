@@ -7,7 +7,6 @@ export const useAuth = () => useContext(AuthContext);
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [accessToken, setAccessToken] = useState(null);
-  const [loading, setLoading] = useState(true); // Add loading state
 
   useEffect(() => {
     // Check if user is already logged in (i.e. user data is stored in local storage) on first render
@@ -17,7 +16,6 @@ export const AuthProvider = ({ children }) => {
       setUser(JSON.parse(storedUser));
       setAccessToken(storedToken);
     }
-    setLoading(false); // Set loading to false after checking local storage
   }, []);
 
   const login = async (userData, token) => {
@@ -37,7 +35,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ user, accessToken, login, logout, loading }}>
+    <AuthContext.Provider value={{ user, accessToken, login, logout }}>
       {children}
     </AuthContext.Provider>
   );

@@ -27,7 +27,17 @@ const Quiz = () => {
 
   return (
     <>
-      <div className="quizPage" style={{ backgroundImage: `url(${Background})`, backgroundSize: 'cover', height: '100vh', width: '100vw' }}>
+      <div className="quizPage" style={{ 
+    backgroundImage: `url(${Background})`, 
+    backgroundSize: 'cover', 
+    backgroundRepeat: 'no-repeat',  // Prevent background image from repeating
+    backgroundAttachment: 'fixed',  // Fix the background image position
+    backgroundPosition: 'center top',  // Position the background image
+    height: '100vh', 
+    width: '100vw', 
+    minHeight: '100vh',  // Prevent the page from resizing smaller than the background image
+    minWidth: '100vw'
+}}>
           {currentPage === 'question' && (
             <QuestionComponent onNext={handleNext} />
           )}
