@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import './MatchingGame.css';
 import RewardNotification from './RewardNotificationComponent';
+import cardback from '/src/assets/matching/cardback.jpg';
 
 const MatchingGame = ({ terms, rewardID, rewardName }) => {
     const dictionary = terms;
@@ -95,7 +96,7 @@ const MatchingGame = ({ terms, rewardID, rewardName }) => {
                 {card.isFlipped ? (
                     <div className="front">
                         {card.type === 'image' ? (
-                            <img src={`/src/assets/matching/${card.content}`} alt={card.content} />
+                            <img src={new URL(`../../assets/matching/${card.content}`, import.meta.url).href} alt={card.content} className="card-image" />
                         ) : (
                             <div className="card-content">{card.content}</div>
                         )}
@@ -104,7 +105,7 @@ const MatchingGame = ({ terms, rewardID, rewardName }) => {
                     <div
                         className="back"
                         style={{
-                            backgroundImage: `url('/src/assets/matching/cardback.jpg')`,
+                            backgroundImage: `url(${cardback})`,
                             backgroundRepeat: 'no-repeat',
                             backgroundSize: 'cover',
                             backgroundPosition: 'center',

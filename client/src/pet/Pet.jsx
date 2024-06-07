@@ -158,7 +158,7 @@ const Pet = () => {
         const states = ['walking', 'eating', 'idle', 'washing', 'petting'];
         states.forEach(state => {
             const img = new Image();
-            img.src = `src/assets/default/${state}.png`;
+            img.src = new URL(`../assets/default/${state}.png`, import.meta.url).href;
             images.push(img);
         });
 
@@ -167,7 +167,7 @@ const Pet = () => {
             states.forEach(state => {
                 if (outfitMappings[outfit][state]) {
                     const img = new Image();
-                    img.src = `src/assets/${outfit}/${outfitMappings[outfit][state]}.png`;
+                    img.src = new URL(`../assets/${outfit}/${outfitMappings[outfit][state]}.png`, import.meta.url).href;
                     images.push(img);
                 }
             });
@@ -178,7 +178,7 @@ const Pet = () => {
             const dirtStates = ['walking', 'eating', 'idle', 'petting'];
             dirtStates.forEach(state => {
                 const img = new Image();
-                img.src = `src/assets/dirt/${dirtOverlay}_${outfitMappings[dirtOverlay][state]}.png`;
+                img.src = new URL(`../assets/dirt/${dirtOverlay}_${outfitMappings[dirtOverlay][state]}.png`, import.meta.url).href;
                 images.push(img);
             });
         }
@@ -373,7 +373,7 @@ const Pet = () => {
     // Some outfits share overlay images for certain states, so we need to check the mappings to get the correct images
     const getOutfitImage = (state) => {
         if (outfit && outfit !== 'default' && outfitMappings[outfit][state]) {
-          return `src/assets/${outfit}/${outfitMappings[outfit][state]}.png`;
+          return new URL(`../assets/${outfit}/${outfitMappings[outfit][state]}.png`, import.meta.url).href;
         } else {
           return '';
         }
@@ -381,7 +381,7 @@ const Pet = () => {
 
     const getDirtOverlayImage = (state) => {
         if (dirtOverlay !== 'none') {
-            return `src/assets/dirt/${dirtOverlay}_${outfitMappings[dirtOverlay][state]}.png`;
+            return new URL(`../assets/dirt/${dirtOverlay}_${outfitMappings[dirtOverlay][state]}.png`, import.meta.url).href;
         } else {
             return '';
         }
@@ -435,8 +435,8 @@ const Pet = () => {
             const name = reward.rewardName.replace(/\s+/g, '').toLowerCase();
             return (
                 <React.Fragment key={reward.rewardID}>
-                    {reward.rewardType === 'cosmetic' && <img src={`src/assets/Decorations/${name}.png`} alt={reward.rewardName} className={`reward-${name} overlay`} />}
-                    {reward.rewardType === 'mechanic' && name === "bell" && <img src={`src/assets/Decorations/${name}.png`} alt={reward.rewardName} className={`${name} mechanic`} onClick={handleBell} />}
+                    {reward.rewardType === 'cosmetic' && <img src={new URL(`../assets/Decorations/${name}.png`, import.meta.url).href} alt={reward.rewardName} className={`reward-${name} overlay`} />}
+                    {reward.rewardType === 'mechanic' && name === "bell" && <img src={new URL(`../assets/Decorations/${name}.png`, import.meta.url).href} alt={reward.rewardName} className={`${name} mechanic`} onClick={handleBell} />}
                     {reward.rewardType === 'mechanic' && name === "bioengineering" && <PetStatsDisplay petStats={petStats} />}
                     {reward.rewardType === 'mechanic' && name === "frisbee" && <FrisbeeReward onThrow={handleFrisbeeThrow} />}
                 </React.Fragment>
@@ -468,18 +468,6 @@ const Pet = () => {
         }
     }
 
-    const debugAnimation2 = () => {
-        if (animationState === 'walking') {
-            setAnimationState('idle');
-        } else {
-            setAnimationState('walking');
-        }
-    }
-
-    const debugAnimation3 = () => {
-        setAnimationState('running');
-    }
-
     const checkReward = async (rewardId) => {
         const response = await fetch(`/api/pet/check-reward/${rewardId}`, {
             method: 'GET',
@@ -498,7 +486,7 @@ const Pet = () => {
 
     return (
         <div className="backyard">
-            <img src="src/assets/yard_fence.png" alt="fence" className="fence overlay" />
+            <img src={new URL('../assets/yard_fence.png', import.meta.url).href} alt="fence" className="fence overlay" />
             {renderedRewards}
 
             {/* DEBUG */}
@@ -508,26 +496,11 @@ const Pet = () => {
                     left: '11.1%',
                     top: '30%',
                     }}>{outfit}</button>
-                <button className="debug" onClick={debugAnimation2} style={{
-                    position: 'absolute',
-                    left: '11.1%',
-                    top: '32%',
-                    }}>Idle</button>
                 <button className="debug" onClick={() => [petStats.cleanliness -= 20, setDirtOverlay(getDirtLevel(petStats.cleanliness))]} style={{
                     position: 'absolute',
                     left: '11.1%',
                     top: '34%',
                     }}>Add dirt</button>
-                <button className='debug' onClick={debugAnimation3} style={{
-                    position: 'absolute',
-                    left: '11.1%',
-                    top: '36%',
-                }}>run</button>
-                <button className="debug" style={{
-                    position: 'absolute',
-                    left: '11.1%',
-                    top: '38%',
-                }}>Jump</button>
                 <div className="reward-input" style={{
                     position: 'absolute',
                     left: '11.1%',
@@ -552,7 +525,7 @@ const Pet = () => {
                     key={`pet-${animationState}-${outfit}-${dirtOverlay}`}
                     className={`pet ${animationState}`}
                     style={{
-                        backgroundImage: `url('src/assets/default/${animationState}.png')`,
+                        backgroundImage: `url(${new URL(`../assets/default/${animationState}.png`, import.meta.url).href})`,
                         position: 'absolute',
                         left: `${position.left}%`,
                         top: `${position.top}%`,
@@ -607,7 +580,7 @@ const Pet = () => {
                         left: 0,
                         right: 0,
                         bottom: 0,
-                        backgroundImage: `url('src/assets/paws.png')`,
+                        backgroundImage: `url(${new URL('../assets/paws.png', import.meta.url).href})`,
                         backgroundSize: 'cover',
                         backgroundRepeat: 'no-repeat',
                         pointerEvents: 'none',
