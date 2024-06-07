@@ -4,15 +4,20 @@
     background-repeat: no-repeat;
     background-attachment: fixed; /* Keep background fixed during scrolling */
     height: 100vh;
-    overflow: auto; /* Allow scrolling */
+    display: flex;
+    justify-content: center;
+    align-items: flex-start; /* Align items to the top */
+    overflow: auto;
 }
 
-.home-background .home-container {
+.home-container {
+    padding: 2.5% 0 10% 0;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
-    height: 85%;
+    width: 100%;
+    box-sizing: border-box;
 }
 
 .howto-container {
@@ -47,7 +52,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    /* height: 100vh; /* This centers vertically */
+    flex-wrap: wrap;
 }
 
 .link-button {

@@ -28,7 +28,7 @@ const ResultsComponent = ({ userAnswers }) => {
         {topThreeMajors.map((major, index) => (
           <li key={index} className="result-item">
 
-            <NavLink to={`/explore/${major}`} style={{ textDecoration: 'none', color: 'black' }}>{major}: associated {majorCounts[major] / 2} times</NavLink>
+            <NavLink to={`/explore`} style={{ textDecoration: 'none', color: 'black' }}>{major}: associated {majorCounts[major] / 2} times</NavLink>
 
           </li>
         ))}
