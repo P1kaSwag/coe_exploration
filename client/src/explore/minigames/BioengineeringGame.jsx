@@ -241,7 +241,7 @@ const BioengineeringGame = () => {
             close, while blue means far.
           </li>
           <li>
-            Remember RNA base pairing rules: A pairs with U, and C pairs with G.
+            Remember RNA base pairing rules: G pairs with C, C pairs with G, A pairs with U, and T pairs with A.
           </li>
           <li>
             Not all RNA fragments will be part of the correct sequence. Choose
