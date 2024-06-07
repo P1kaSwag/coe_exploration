@@ -10,8 +10,8 @@ const sentences = {
     DOSIMETRY: "Dosimetry, pivotal in radiation health physics, measures and manages radiation exposure.",
     PROTECTION: "Protection, paramount in radiation health physics, shields against radiation's invisible dangers.",
     RADIOBIOLOGY: "Radiobiology explores radiation's impact on life, unraveling its effects at the cellular level.",
-    MEDICAL: "Medical imaging, vital in radiation health physics, reveals health insights through radiation's lens.",
-    NUCLEAR: "Nuclear medicine, merging physics and medicine, heals with radiation under safety's watchful eye.",
+    MEDICALIMAGING: "Medical imaging, vital in radiation health physics, reveals health insights through radiation's lens.",
+    NUCLEARMEDICINE: "Nuclear medicine, merging physics and medicine, heals with radiation under safety's watchful eye.",
     REGULATION: "Regulation anchors radiation health physics, ensuring safe and ethical radiation use across disciplines."
 };
 
@@ -24,6 +24,7 @@ const WordSearchGame = () => {
     const [isMouseDown, setIsMouseDown] = useState(false); // Track mouse down state
     const [startCell, setStartCell] = useState(null); // Track start cell of selection
     const [foundSentence, setFoundSentence] = useState('');
+    const [translatedFoundWords, setTranslatedFoundWords] = useState([]);
     const [showReward, setShowReward] = useState(false); // State variable for reward notification
 
     useEffect(() => {
@@ -31,7 +32,7 @@ const WordSearchGame = () => {
             try {
                 const response = await fetch(`/api/majors/16/words`);
                 const data = await response.json();
-                const wordsData = data.map(item => item.word.toUpperCase());
+                const wordsData = data.map(item => item.word.toUpperCase().replace(/ /g, ''));
                 setWords(wordsData);
             } catch (error) {
                 console.error('Error fetching words: ', error);
@@ -59,11 +60,11 @@ const WordSearchGame = () => {
     const handleMouseUp = () => {
         const validWord = checkSelectedWord();
         if (validWord) {
-            console.log("Selected word is valid!", selectedCells);
+            //console.log("Selected word is valid!", selectedCells);
             highlightFoundWord();
             console.log("Found words list after highlighting: ", foundWords);
         } else {
-            console.log("Selected word is not valid!: ", selectedCells);
+            //console.log("Selected word is not valid!: ", selectedCells);
             setSelectedCells([]); // Clear selection if the word is not valid
         }
         setIsMouseDown(false);
@@ -117,35 +118,54 @@ const WordSearchGame = () => {
 
         const reversedSelectedWord = selectedWord.split('').reverse().join('');
 
-        console.log("Selected word:", selectedWord);
-        console.log("Reversed selected word:", reversedSelectedWord);
+        //console.log("Selected word:", selectedWord);
+        //console.log("Reversed selected word:", reversedSelectedWord);
 
-        return words.includes(selectedWord) || words.includes(reversedSelectedWord);
+        if (words.includes(selectedWord)) {
+            translatedFoundWords.push(selectedWord);
+            //console.log("Translated found words:", translatedFoundWords);
+            return true;
+        } else if (words.includes(reversedSelectedWord)) {
+            //console.log(" REVERSE Translated found words:", translatedFoundWords);
+            translatedFoundWords.push(reversedSelectedWord);
+            return true;
+        } else {
+            return false;
+        }
+
+        //return words.includes(selectedWord) || words.includes(reversedSelectedWord);
     };
 
     const highlightFoundWord = () => {
         console.log("Highlighting found word cells:", selectedCells);
         setFoundWords(prevFoundWords => {
             const newFoundWords = [...prevFoundWords, ...selectedCells];
-            console.log("Highlighting found word cells:", newFoundWords);
+            //console.log("Highlighting found word cells:", newFoundWords);
             return newFoundWords;
         });
     };
 
     const handleWordFound = (index) => {
-        const buttons = document.querySelectorAll('.word-list button');
-        buttons[index].innerText = 'Found';
-        const wordSpan = document.querySelectorAll('.word-list span');
-        wordSpan[index].style.textDecoration = 'line-through';
-
-        // Display sentence
         const word = words[index];
-        const sentence = sentences[word];
-        setFoundSentence(sentence);
+        console.log("Checking if word is found:", word);
+        if (translatedFoundWords.includes(word)) {
+            //console.log("HANLDE translatedFoundWords:", translatedFoundWords);
+            //console.log("Found words contain the word");
+            const buttons = document.querySelectorAll('.word-list button');
+            buttons[index].innerText = 'Found';
+            const wordSpan = document.querySelectorAll('.word-list span');
+            wordSpan[index].style.textDecoration = 'line-through';
 
-        // Check if all words are found
-        if (foundWords.length === words.length - 1) {
-            handleGameWin(); // Call handleGameWin when the game is won
+            // Display sentence
+            //const word = words[index];
+            const sentence = sentences[word];
+            //console.log("Sentence for word:", sentence);
+            setFoundSentence(sentence);
+
+            // Check if all words are found
+            if (foundWords.length === words.length - 1) {
+                handleGameWin(); // Call handleGameWin when the game is won
+            }
         }
     };
 

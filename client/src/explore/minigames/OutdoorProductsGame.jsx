@@ -24,6 +24,7 @@ const WordSearchGame = () => {
     const [isMouseDown, setIsMouseDown] = useState(false); // Track mouse down state
     const [startCell, setStartCell] = useState(null); // Track start cell of selection
     const [foundSentence, setFoundSentence] = useState('');
+    const [translatedFoundWords, setTranslatedFoundWords] = useState([]);
     const [showReward, setShowReward] = useState(false); // State variable for reward notification
 
     useEffect(() => {
@@ -31,7 +32,7 @@ const WordSearchGame = () => {
             try {
                 const response = await fetch(`/api/majors/15/words`);
                 const data = await response.json();
-                const wordsData = data.map(item => item.word.toUpperCase());
+                const wordsData = data.map(item => item.word.toUpperCase().replace(/ /g, ''));
                 setWords(wordsData);
             } catch (error) {
                 console.error('Error fetching words: ', error);
@@ -59,11 +60,11 @@ const WordSearchGame = () => {
     const handleMouseUp = () => {
         const validWord = checkSelectedWord();
         if (validWord) {
-            console.log("Selected word is valid!", selectedCells);
+            //console.log("Selected word is valid!", selectedCells);
             highlightFoundWord();
             console.log("Found words list after highlighting: ", foundWords);
         } else {
-            console.log("Selected word is not valid!: ", selectedCells);
+            //console.log("Selected word is not valid!: ", selectedCells);
             setSelectedCells([]); // Clear selection if the word is not valid
         }
         setIsMouseDown(false);
@@ -117,35 +118,54 @@ const WordSearchGame = () => {
 
         const reversedSelectedWord = selectedWord.split('').reverse().join('');
 
-        console.log("Selected word:", selectedWord);
-        console.log("Reversed selected word:", reversedSelectedWord);
+        //console.log("Selected word:", selectedWord);
+        //console.log("Reversed selected word:", reversedSelectedWord);
 
-        return words.includes(selectedWord) || words.includes(reversedSelectedWord);
+        if (words.includes(selectedWord)) {
+            translatedFoundWords.push(selectedWord);
+            //console.log("Translated found words:", translatedFoundWords);
+            return true;
+        } else if (words.includes(reversedSelectedWord)) {
+            //console.log(" REVERSE Translated found words:", translatedFoundWords);
+            translatedFoundWords.push(reversedSelectedWord);
+            return true;
+        } else {
+            return false;
+        }
+
+        //return words.includes(selectedWord) || words.includes(reversedSelectedWord);
     };
 
     const highlightFoundWord = () => {
         console.log("Highlighting found word cells:", selectedCells);
         setFoundWords(prevFoundWords => {
             const newFoundWords = [...prevFoundWords, ...selectedCells];
-            console.log("Highlighting found word cells:", newFoundWords);
+            //console.log("Highlighting found word cells:", newFoundWords);
             return newFoundWords;
         });
     };
 
     const handleWordFound = (index) => {
-        const buttons = document.querySelectorAll('.word-list button');
-        buttons[index].innerText = 'Found';
-        const wordSpan = document.querySelectorAll('.word-list span');
-        wordSpan[index].style.textDecoration = 'line-through';
-
-        // Display sentence
         const word = words[index];
-        const sentence = sentences[word];
-        setFoundSentence(sentence);
+        console.log("Checking if word is found:", word);
+        if (translatedFoundWords.includes(word)) {
+            //console.log("HANLDE translatedFoundWords:", translatedFoundWords);
+            //console.log("Found words contain the word");
+            const buttons = document.querySelectorAll('.word-list button');
+            buttons[index].innerText = 'Found';
+            const wordSpan = document.querySelectorAll('.word-list span');
+            wordSpan[index].style.textDecoration = 'line-through';
 
-        // Check if all words are found
-        if (foundWords.length === words.length - 1) {
-            handleGameWin(); // Call handleGameWin when the game is won
+            // Display sentence
+            //const word = words[index];
+            const sentence = sentences[word];
+            //console.log("Sentence for word:", sentence);
+            setFoundSentence(sentence);
+
+            // Check if all words are found
+            if (foundWords.length === words.length - 1) {
+                handleGameWin(); // Call handleGameWin when the game is won
+            }
         }
     };
 
@@ -161,7 +181,7 @@ const WordSearchGame = () => {
     return (
         <div className="word-search-container">
             <div className="word-list">
-                <h1>Outdoor Products Wordsearch</h1>
+                <h1>Radiation Health Physics Wordsearch</h1>
                 <ul>
                     <li>Click and drag to highlight words from the list below</li>
                     <li>When found click the 'X' button next to the word to mark it off</li>
