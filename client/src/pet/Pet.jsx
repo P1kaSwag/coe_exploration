@@ -508,7 +508,8 @@ const Pet = () => {
             {renderedRewards}
 
             {/* DEBUG */}
-            {/* <div>
+            {/* only show if pet name is admin */}
+            {petStats.pet_name === "admin" && <div>
                 <button className="debug" onClick={debugAnimation} style={{
                     position: 'absolute',
                     left: '11.1%',
@@ -536,7 +537,8 @@ const Pet = () => {
                         onClick={() => checkReward(rewardId)}
                     >Unlock Reward</button>
                 </div>
-            </div> */}
+            </div>}
+
             {/* DEBUG */}
             
                 <div    // Pet base image

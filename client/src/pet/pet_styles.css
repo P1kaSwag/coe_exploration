@@ -282,13 +282,18 @@
   justify-content: center;
   transform-origin: center;
   font-size: 1vw;
-  font-weight: bold;
-  background-color: #37d0ff;
+  font-weight: bolder;
+  /* background-color: #37d0ff; */
+  background-color: #ff5733;
+  color: white;
   border-radius: 100%;
   cursor: pointer;
+  border: none;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
 }
 
 
 .menu-option:hover {
-  filter: brightness(75%);
+  scale: 1.01;
+  color: black;
 }
