@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import frisbee from '/src/assets/Decorations/frisbee.png';
 
 function FrisbeeReward({ onThrow }) {

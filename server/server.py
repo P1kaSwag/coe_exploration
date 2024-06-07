@@ -32,26 +32,7 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False # silence the deprecation w
 db = SQLAlchemy(app)
 
 # Define the maximum number of interactions per day for each type
-MAX_INTERACTIONS_PER_DAY = {'pet': 100, 'play': 50, 'feed': 30, 'wash': 10} # TODO: Change these values to lower numbers later
-
-# TODO: Remove/Change the course stuff later
-# All this course stuff was just to test out the database connection to the server
-# so anybody can change/repurpose it if they want
-class Course(db.Model):
-    __tablename__ = 'Courses'
-    CRN = db.Column(db.Integer, primary_key=True)
-    course_name = db.Column(db.String(255), nullable=False)
-    course_description = db.Column(db.Text, nullable=False)
-    credits = db.Column(db.Integer, nullable=False)
-
-    def to_dict(self):
-        return {
-            'CRN': self.CRN,
-            'course_name': self.course_name,
-            'course_description': self.course_description,
-            'credits': self.credits
-        }
-
+MAX_INTERACTIONS_PER_DAY = {'pet': 10, 'play': 5, 'feed': 3, 'wash': 1}
 
 class Users(db.Model):
     __tablename__ = 'Users'
@@ -233,13 +214,8 @@ class Words(db.Model):
         }
 
 
-# Create a route to query Courses and return the data (navigate to localhost:8000/courses)
-@app.route('/courses', methods=['GET'])
-def get_courses():
-    courses = Course.query.all()
-    return jsonify([course.to_dict() for course in courses])
- 
- 
+# Routes
+
 @app.route('/api/pet/interact', methods=['POST'])
 @jwt_required() # This will require a valid access token to be present in the request to access this route
 def interact_with_pet():
@@ -294,12 +270,15 @@ def update_pet_mood(pet: Pets):
 
     # Excited mood: triggered when a user unlocks a reward from a major
     recent_reward = PetRewards.query.filter_by(petID=pet.petID).order_by(PetRewards.timeReceived.desc()).first()
-    print(f"Recent reward: {recent_reward}")
+    has_all_rewards = Rewards.query.count() == PetRewards.query.filter_by(petID=pet.petID).count()
+    print(f"No. of rewards: {Rewards.query.count()}\tNo. of pet rewards: {PetRewards.query.filter_by(petID=pet.petID).count()}\tHas all rewards: {has_all_rewards}")
+
     if recent_reward:
         time_since_reward = datetime.now() - recent_reward.timeReceived
         if time_since_reward.total_seconds() < 24 * 3600:  # 24 hours
             return 'excited'
-        # TODO: Add a condition for if a user hasn't unlocked a reward in a while and doesn't have all the rewards
+        if time_since_reward.total_seconds() > 48 * 3600 and not has_all_rewards:
+            return 'curious'
         
     if pet.love > 80 and pet.recreation > 80 and pet.hunger < 20 and pet.cleanliness > 80:
         return 'happy'
@@ -433,8 +412,6 @@ def toggle_cosmetic():
     
     pet_reward.isActive = is_active
 
-    print(f"Reward ID: {reward_id}, is active: {is_active}")
-
     db.session.commit()
     
     return jsonify({'message': 'Cosmetic item toggled successfully'}), 200
@@ -505,7 +482,6 @@ def check_reward(reward_id):
         new_pet_reward = PetRewards(petID=pet.petID, rewardID=reward_id, isActive=is_mechanic)
         db.session.add(new_pet_reward)
         db.session.commit()
-        #has_reward = True
 
     return jsonify({'hasReward': has_reward, 'rewardDescription': reward.rewardDescription}), 200
 
@@ -515,10 +491,10 @@ def degrade_pet_stats():
     with app.app_context(): # Need to create a new app context to access the database outside of a request from the frontend
         pets = Pets.query.all()
         for pet in pets:
-            pet.love = max(pet.love - 1, 0)
-            pet.recreation = max(pet.recreation - 1, 0)
-            pet.hunger = min(pet.hunger + 5, 100)
-            pet.cleanliness = max(pet.cleanliness - 3, 0)
+            pet.love = max(pet.love - 3, 0)
+            pet.recreation = max(pet.recreation - 3, 0)
+            pet.hunger = min(pet.hunger + 15, 100)
+            pet.cleanliness = max(pet.cleanliness - 9, 0)
             print(pet.to_dict())
 
         db.session.commit()
@@ -617,10 +593,6 @@ def get_majorInfo(majorID):
 
     return jsonify({'message': 'Major information received successfully', 'majorInfo': major_info}), 200
 
-
-
-
-
 @app.route('/api/majors/<int:major_id>/words', methods=['GET'])
 def get_major_words(major_id):
     # Query the words associated with the specified major_id
@@ -629,11 +601,8 @@ def get_major_words(major_id):
 
     return jsonify(word_dicts)
 
-
-
-
 # Degrade the pet's stats every hour
-scheduler.add_job(id='degrade_pet_stats', func=degrade_pet_stats, trigger='interval', hours=1)
+scheduler.add_job(id='degrade_pet_stats', func=degrade_pet_stats, trigger='interval', hours=3)
 
 
 
