@@ -115,7 +115,7 @@ export function MajorInfo() {
         <MajorRequirements major={majorName} />
       </div>
       <div className="playButton">
-        <NavLink to={`/explore/${majorName}/minigame`} className="playButtonLink" style={{ textDecoration: 'none', fontSize: '1.5em', fontWeight: 'bolder' }}>
+        <NavLink to={`/explore/${majorName}/minigame`} className="playButtonLink" style={{ textDecoration: 'none', fontSize: '1.5em', fontWeight: 'bolder', alignContent: 'space-evenly' }}>
           Play the {capitalizedMajorName} Minigame
         </NavLink>
       </div>

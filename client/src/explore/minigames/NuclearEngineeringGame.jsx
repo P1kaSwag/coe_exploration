@@ -1,18 +1,20 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './NuclearEngineeringGame.css';
 import reactorImage from './reactorImage/reactor-image.png';
+import RewardNotification from './RewardNotificationComponent';
 
 const parts = [
-  { name: 'Fuel Rods', letter: 'A' },
-  { name: 'Coolant', letter: 'B' },
-  { name: 'Turbine', letter: 'C' },
-  { name: 'Reactor Vessel', letter: 'D' },
   { name: 'Generator', letter: 'E' },
+  { name: 'Coolant', letter: 'B' },
+  { name: 'Fuel Rods', letter: 'A' },
+  { name: 'Reactor Vessel', letter: 'D' },
+  { name: 'Turbine', letter: 'C' }
 ];
 
 const NuclearEngineeringGame = () => {
   const [selectedParts, setSelectedParts] = useState({});
   const [results, setResults] = useState(null);
+  const [hasWon, setHasWon] = useState(false);
 
   const handlePartChange = (event, part) => {
     const selectedLetter = event.target.value;
@@ -34,17 +36,22 @@ const NuclearEngineeringGame = () => {
     }));
 
     setResults(result);
+
+    const allCorrect = result.every((part) => part.correct);
+    setHasWon(allCorrect);
   };
 
   const restartGame = () => {
     setSelectedParts({});
     setResults(null);
+    setHasWon(false);
   };
 
   return (
     <div className="Ercan-game-container">
       <h1>Welcome to the Nuclear Reactor Engineering Game</h1>
       <p>Instructions: Select the correct letter for each part of the reactor from the dropdown menus and then click "Check Results!" to see if you are correct.</p>
+      {hasWon && <RewardNotification rewardId={14} rewardName={"Superhero Mask"} onClose={restartGame} />}
       <div className="Ercan-reactor-section">
         <div className="Ercan-reactor-image">
           <img src={reactorImage} alt="Reactor" />

@@ -6,10 +6,11 @@ import RewardManager from './RewardManagerComponent';
 import PetStatsDisplay from './PetStatsDisplay';
 import FrisbeeReward from './frisbee';
 import TooltipComponent from './TooltipComponent';
+import { jwtDecode } from 'jwt-decode';
 import './pet_styles.css';
 
 const Pet = () => {
-    const { accessToken } = useAuth();  // Get the access token from the AuthProvider to make authenticated requests
+    const { accessToken, logout } = useAuth();  // Get the access token from the AuthProvider to make authenticated requests
     const [showMenu, setShowMenu] = useState(false);
     const [showRewards, setShowRewards] = useState(false);
     const [menuPosition, setMenuPosition] = useState({ x: 0, y: 0 });
@@ -25,6 +26,11 @@ const Pet = () => {
     const [showTooltips, setShowTooltips] = useState(false);
     const [tooltipStep, setTooltipStep] = useState(0);
     const [rewardId, setRewardId] = useState(''); // DEBUG ######################################
+
+    const isTokenExpired = (token) => {
+        const decodedToken = jwtDecode(token);
+        return decodedToken.exp * 1000 < Date.now();
+      };
 
     const tooltips = [
         { message: "This is your pet. You can open the pet interaction menu by clicking on them.", nextStep: () => {setTooltipStep(1); setShowRewards(true);} },
@@ -80,6 +86,12 @@ const Pet = () => {
                 console.error('User token not found');
                 return;
             }
+
+            if (isTokenExpired(accessToken)) {
+                logout();
+                console.error('Token has expired');
+                return;
+              }
 
             try {
                 // Fetch pet stats
@@ -349,6 +361,12 @@ const Pet = () => {
             return;
         }
 
+        if (isTokenExpired(accessToken)) {
+            logout();
+            console.error('Token has expired');
+            return;
+          }
+
         // Send a request to the server to interact with the pet
         const response = await fetch('/api/pet/interact', {
             method: 'POST',
@@ -490,7 +508,7 @@ const Pet = () => {
             {renderedRewards}
 
             {/* DEBUG */}
-            <div>
+            {/* <div>
                 <button className="debug" onClick={debugAnimation} style={{
                     position: 'absolute',
                     left: '11.1%',
@@ -518,7 +536,7 @@ const Pet = () => {
                         onClick={() => checkReward(rewardId)}
                     >Unlock Reward</button>
                 </div>
-            </div>
+            </div> */}
             {/* DEBUG */}
             
                 <div    // Pet base image
