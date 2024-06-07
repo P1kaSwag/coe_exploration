@@ -2,9 +2,9 @@
     background-image: url('../assets/homebg.png');
     background-size: cover;
     background-repeat: no-repeat;
-    background-attachment: fixed;
+    background-attachment: fixed; /* Keep background fixed during scrolling */
     height: 100vh;
-    overflow: hidden;
+    overflow: auto; /* Allow scrolling */
 }
 
 .home-background .home-container {
@@ -75,12 +75,12 @@
     height: auto;
     margin-right: 10px; /* Adjust spacing between icon and text */
     vertical-align: middle; /* Align icon vertically with text */
-  }
+}
 
-  .icon-container {
+.icon-container {
     margin: 20px;
-  }
+}
 
-  .text-container {
+.text-container {
     text-align: center;
-  }
+}

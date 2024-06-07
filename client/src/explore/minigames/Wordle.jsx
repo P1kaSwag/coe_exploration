@@ -228,7 +228,7 @@ const Wordle = ({ word_list, rewardID, rewardName }) => {
       </div>
       <div className="wordle_keyboard">
         <Keyboard onKeyPress={handleKeyPress} keyStatuses={keyStatuses} />
-        <p>Answer = {solution}</p>
+        {/* <p>Answer = {solution}</p> */}
       </div>
       <div className='new-game'>
         {gameStatus !== 'playing' && <button className="wordle-play-again-button" style={{

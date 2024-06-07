@@ -29,10 +29,10 @@ const Pet = () => {
     const tooltips = [
         { message: "This is your pet. You can open the pet interaction menu by clicking on them.", nextStep: () => {setTooltipStep(1); setShowRewards(true);} },
         { message: "This is the reward manager. Here you can change your pet's outfit and display other rewards. You can come back here by clicking on the Style button in the interaction menu", nextStep: () => setTooltipStep(2) },
-        { message: "You can name or rename your pet at the bottom of this window.", nextStep: () => setTooltipStep(3) },
-        { message: "Each major in the Explore Page has an outfit, cosmetic, or new game mechanic that you can earn by winning that major's minigame.", nextStep: () => setTooltipStep(4) },
-        { message: "Your pet has needs and a mood which you can influence by interacting with them and playing games. These will be hidden from you until you unlock the reward to see them.", nextStep: () => setTooltipStep(5) },
-        { message: "Hint: Beat the Outdoor Products minigame to get a new way to interact with your pet.", nextStep: () => setTooltipStep(6), isLast: true }
+        { message: "Each major in the Explore Page has an outfit, cosmetic, or new game mechanic that you can earn by winning that major's minigame.", nextStep: () => setTooltipStep(3) },
+        { message: "Your pet has needs and a mood which you can influence by interacting with them and playing games. These will be hidden from you until you unlock the reward to see them but you can find more information about moods in the How To tab.", nextStep: () => setTooltipStep(4) },
+        { message: "Don't know where to start? Try beating the Bioengineering minigame to unlock the ability to see your pet's mood or the Engineering Science minigame to get a new way to interact with your pet.", nextStep: () => setTooltipStep(5)},
+        { message: "But first, enter a name for your new pet and click Change Name to finalize it.", nextStep: () => setTooltipStep(6), isLast: true },
     ];
 
     const points = [
@@ -480,22 +480,6 @@ const Pet = () => {
         setAnimationState('running');
     }
 
-    const debugRewards = async () => {
-        const response = await fetch('/api/debug/unlock-rewards', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${accessToken}`,
-            }});
-        
-        if (response.ok) {
-            const data = await response.json();
-            console.log(data.rewards);
-        } else {
-            console.error(`Error status: ${response.status}`);
-        }
-    };
-
     const checkReward = async (rewardId) => {
         const response = await fetch(`/api/pet/check-reward/${rewardId}`, {
             method: 'GET',
@@ -515,10 +499,7 @@ const Pet = () => {
     return (
         <div className="backyard">
             <img src="src/assets/yard_fence.png" alt="fence" className="fence overlay" />
-            <img src={`src/assets/Decorations/bell.png`} alt={'bell'} className={`bell mechanic`} onClick={handleBell} />
-            <FrisbeeReward onThrow={handleFrisbeeThrow} />
             {renderedRewards}
-        
 
             {/* DEBUG */}
             <div>
@@ -547,11 +528,6 @@ const Pet = () => {
                     left: '11.1%',
                     top: '38%',
                 }}>Jump</button>
-                <button className="debug" onClick={debugRewards} style={{
-                    position: 'absolute',
-                    left: '11.1%',
-                    top: '40%',
-                }}>Unlock Rewards</button>
                 <div className="reward-input" style={{
                     position: 'absolute',
                     left: '11.1%',
@@ -621,7 +597,8 @@ const Pet = () => {
                         width: '50%',
                         height: '50%',
                         cursor: 'pointer',
-                        pointerEvents: 'visible',
+                        //pointerEvents: 'visible',
+                        pointerEvents: playModeType === null ? 'visible' : 'none',  // Disable clicking on the pet when playing
                     }}
                     />
                     {showPaws && <div className='paws' style={{

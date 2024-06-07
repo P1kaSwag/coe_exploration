@@ -276,12 +276,12 @@ VALUES
     (7, 'Flower Bush', 'Beautiful flowers that emphasize the focus on environmental harmony in ecological engineering.', 'cosmetic'),
     (8, 'Lights', 'Illuminate the surroundings with lights and control the night setting, representing the innovative electrical solutions in Electrical and Computer Engineering.', 'cosmetic'),
     (9, 'Wind Turbines', 'Small wind turbines in the background, illustrating the sustainable energy solutions developed in energy systems engineering.', 'cosmetic'),
-    (10, 'Bell', 'A bell for your pet. Ring it to bring them front and center', 'mechanic'),
+    (10, 'Bell', 'A bell for your pet. Ring it to bring them front and center! I know this has nothing to do with Engineering Science but it''s hard thinking of 16 different rewards for 16 engineering majors.', 'mechanic'),
     (11, 'Environmental Engineering', 'A paper bag mask for your pet, highlighting the efforts to address environmental issues and pollution in Environmental Engineering.', 'outfit'),
     (12, 'Industrial Engineering', 'Stylish nerdy glasses that symbolize the analytical and optimization skills crucial in industrial engineering.', 'outfit'),
     (13, 'Mechanical Engineering', 'Protective earmuffs to safeguard your pet from loud noises.', 'outfit'),
     (14, 'Nuclear Engineering', 'A superhero mask! Please do not expose yourself to large amounts of nuclear radiation', 'outfit'),
-    (15, 'Frisbee', 'A fun and durable frisbee designed for outdoor play, showcasing the innovation in outdoor product engineering.', 'mechanic'),
+    (15, 'Frisbee', 'A fun and durable frisbee designed for outdoor play, showcasing the innovation in outdoor product engineering. Click it to watch your pet chase after it!', 'mechanic'),
     (16, 'Radiation Health Physics', 'Dress your pet in a lab coat, representing the research and safety practices in Radiation Health Physics.', 'outfit');
 
 

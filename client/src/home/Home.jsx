@@ -4,12 +4,16 @@ import { useEffect } from 'react'
 import Quiz from '../assets/hiring.png'
 import Explore from '../assets/mortarboard.png'
 import Reward from '../assets/safety.png'
+import { useAuth } from '../authentication/AuthComponent';
 
 
 const Home = () => {
+    const { user } = useAuth();
+    const test = false;
+
     useEffect(() => {
         document.body.style.overflow = 'hidden' // Prevent scrolling on the page
-        
+
         return () => {
             document.body.style.overflow = ''
         }
@@ -21,11 +25,13 @@ const Home = () => {
                 <div className="home-container">
                     <div className="howto-container">
                         <h1> Explore the College of Engineering Majors</h1>
-                        <p> We've taken information from students in the College of Engineering at Oregon State University and turn it into a quiz
-                            to help you find your top three engineering majors and explore the majors from a student perspective.
+                        <p> We've gathered insights from engineering students at Oregon State University to create an interactive 
+                            experience that helps you explore and discover your ideal engineering major. Take our quiz to find your top three majors, explore 
+                            detailed information about each one, and get a firsthand look at what students have to say. Along the way, you'll interact with a virtual pet, 
+                            play mini-games, and unlock rewards that make learning about each major fun and engaging.
                         </p>
                         <div>
-                            <NavLink to="/login"> <button className="link-button"> Login </button> </NavLink>
+                            {!user && <NavLink to="/login"> <button className="link-button"> Login </button> </NavLink>}
                             <NavLink to="/howto"> <button className="link-button"> How To </button>  </NavLink>
                         </div>
                     </div>
@@ -52,7 +58,7 @@ const Home = () => {
                                 <img src={Reward} className="icon-small"></img>
                             </div>
                             <div className="text-container">
-                                Apply your items to your pet. Play all of the 17 mini games to get every item you can equipt to your pet.
+                                Apply your items to your pet. Play all of the 16 mini games to get every item you can equipt to your pet.
                             </div>
                         </div>
                     </div>

@@ -3,7 +3,7 @@ import './ComputerScienceGame.css';
 import { Question1, Question2, Question3, Reward} from "./CodeBlocks";
 import RewardNotification from './RewardNotificationComponent';
 
-const ComputerScienceGame = ( rewardID, rewardName ) => {
+const ComputerScienceGame = () => {
   const [popupVisible, setPopupVisible] = useState(false);
   const [code, setClickedWord] = useState('');
   const [currentQuestion, setCurrentQuestion] = useState(1);
@@ -53,7 +53,7 @@ const ComputerScienceGame = ( rewardID, rewardName ) => {
         />
       )}
 
-      { showReward && <RewardNotification rewardId={rewardID} rewardName={rewardName} onClose={turnOffReward} />}
+      { showReward && <RewardNotification rewardId={5} rewardName={"Virtual Reality Headset"} onClose={turnOffReward} />}
   
       {popupVisible && (
         <div>

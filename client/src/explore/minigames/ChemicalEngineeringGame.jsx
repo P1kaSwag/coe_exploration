@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import './ChemicalEngineeringGame.css';
 import { row1, row2, row3, row4, row5, row6, row7, row8, row9, empty } from './PeriodicTable';
 import RewardNotification from './RewardNotificationComponent';
@@ -6,7 +6,7 @@ import RewardNotification from './RewardNotificationComponent';
 // Periodic Table adapted from:
 // https://codepen.io/kevinmarks/pen/qjqXxG
 
-const ChemicalEngineeringGame = ( rewardID, rewardName ) => {
+const ChemicalEngineeringGame = () => {
   const [inputValue, setInputValue] = useState('');
   const [removedElement, setRemovedElement] = useState(null);
   const [rowIndex, setRowIndex] = useState(null);
@@ -99,7 +99,7 @@ const ChemicalEngineeringGame = ( rewardID, rewardName ) => {
 
   const Reward = () => (
     <div>
-        { showReward && <RewardNotification rewardId={rewardID} rewardName={rewardName} onClose={turnOffReward} />}
+        { showReward && <RewardNotification rewardId={3} rewardName={"Personal Protective Equipment"} onClose={turnOffReward} />}
         You win!
         <button className='ChemEButton' onClick={() => window.location.reload()}>Play again?</button>
   

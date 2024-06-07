@@ -210,7 +210,7 @@ const WordSearchGame = () => {
             {showReward && (
                 <RewardNotification
                     rewardId={16}
-                    rewardName="Radiation Health Physics Reward"
+                    rewardName="Lab Coat"
                     onClose={handleCloseNotification}
                 />
             )}
