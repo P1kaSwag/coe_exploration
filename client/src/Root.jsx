@@ -1,14 +1,16 @@
 import React from "react";
-import { NavLink, Outlet } from "react-router-dom";
+import { NavLink, Outlet, useRouteError, useLocation, useParams, useSearchParams, Link } from "react-router-dom";
 import { useAuth } from "./authentication/AuthComponent";
-import { useLocation } from "react-router-dom";
 import pet_head_grad from "./assets/pet_head_grad.png";
-import './root.css'; // Ensure this is imported for styles
+import useTokenValidation from "./authentication/useTokenValidation";
+import './root.css';
 
 export function Root(props) {
   const location = useLocation();
   const { children } = props;
   const { user, logout } = useAuth();
+
+  useTokenValidation();
 
   function handleLogout() {
     logout();

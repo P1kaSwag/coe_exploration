@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import './MechanicalEngineeringGame.css';
 import checkmark from './gearImages/checkmark.png';
 import crossmark from './gearImages/crossmark.png';
+import RewardNotification from './RewardNotificationComponent';
 
 import gear1 from './gearImages/gear1.png';
 import gear2 from './gearImages/gear2.png';
@@ -22,6 +23,7 @@ const MechanicalEngineeringGame = () => {
   const [score, setScore] = useState(0);
   const [feedback, setFeedback] = useState({ type: '', message: '', visible: false });
   const [remainingTime, setRemainingTime] = useState(45); // Initialize with 45 seconds
+  const [hasWon, setHasWon] = useState(false); // New state for win condition
 
   useEffect(() => {
     if (round <= 7) {
@@ -63,6 +65,7 @@ const MechanicalEngineeringGame = () => {
     setFeedback({ type: '', message: '', visible: false });
     shuffleGears();
     setRemainingTime(45);
+    setHasWon(false);
   };
 
   const handleGearClick = (id, index) => {
@@ -87,6 +90,7 @@ const MechanicalEngineeringGame = () => {
               setRound(round + 1);
             } else {
               setFeedback({ type: 'end', message: 'Game Over! Here are your results:', visible: true });
+              setHasWon(true); // Set win condition to true
             }
           }
         }, 1000);
@@ -125,6 +129,7 @@ const MechanicalEngineeringGame = () => {
           )}
         </div>
       )}
+      {hasWon && <RewardNotification rewardId={13} rewardName={"Protective Earmuffs"} onClose={handleRestart} />}
       <div className="me-gear-grid">
         {round <= 7 && shuffledGears.map((gear, index) => (
           <div key={index} className={`me-gear-container ${matchedPairs.includes(index) ? 'me-matched' : ''}`}>
