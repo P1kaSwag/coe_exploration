@@ -54,7 +54,7 @@ phpMyAdmin: http://localhost:8080
 ## Stopping the Application
 To stop the application, press Ctrl+C in the terminal where you ran docker compose up --build. To remove the containers, run:
 ```
-docker-compose down
+docker compose down
 ```
 
 ## Resetting the Database
@@ -71,6 +71,15 @@ This will delete all data in the database. When you run docker-compose up again,
 * The MySQL database runs on port 32000 (mapped to the internal port 3306).
 * The phpMyAdmin service runs on port 8080.
 
-## MySQL Configuration
+## MySQL Configuration (example)
 Root Password: bowleg.historic.TORI
+
 Database Name: exploration
+
+
+# Deploying
+This uses most the previous steps but we use a docker.prod.yaml file instead so this is the docker command
+```
+docker compose -f compose.prod.yaml --build
+```
+This will start up nginx which we use as a reverse proxy for the website. Now instead of going to localhost:5173, you'll just be going to localhost, but you'd change this to your website name once you get one (check nginx.conf file to see where to change server name).
