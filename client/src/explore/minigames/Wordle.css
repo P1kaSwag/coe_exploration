@@ -40,6 +40,7 @@
   width: 100%;
   color: black;
   padding: 0;
+  margin-top: 3%;
 }
 
 .wordle-board .wordle-title {
@@ -61,4 +62,23 @@
   text-align: center;
   cursor: pointer;
   animation: pop 0.5s ease;
+}
+
+.wordle-play-again-button {
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  margin: 1rem;
+  border: 3px solid rgb(0, 0, 0);
+  border-radius: 5px;
+  background-color: white;
+  color: black;
+  font-size: 1rem;
+  font-weight: bolder;
+  cursor: pointer;
+}
+
+
+.wordle-play-again-button:hover {
+  cursor: pointer;
+  scale: 1.1;
 }

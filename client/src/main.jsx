@@ -32,10 +32,7 @@ const router = createBrowserRouter([
       },
       {
         path: "quiz",
-        element: <PrivateRoute />, // Protect this route
-        children: [
-          { index: true, element: <Quiz /> },
-        ],
+        element: <Quiz />,
       },
       {
         path: "register",
@@ -43,25 +40,19 @@ const router = createBrowserRouter([
       },
       {
         path: "explore",
-        element: <PrivateRoute />, // Protect this route
-        children: [
-          { index: true, element: <Explore /> },
-          {
-            path: ":majorName",
-            element: <MajorInfo />,
-          },
-          {
-            path: ":majorName/minigame",
-            element: <MinigameLoader />,
-          },
-        ],
+        element: <Explore />,
+      },
+      {
+        path: "explore/:majorName",
+        element: <MajorInfo />,
+      },
+      {
+        path: "explore/:majorName/minigame",
+        element: <MinigameLoader />,
       },
       {
         path: "pet",
-        element: <PrivateRoute />, // Protect this route
-        children: [
-          { index: true, element: <Pet /> },
-        ],
+        element: <Pet />,
       },
     ]
   }

@@ -233,7 +233,8 @@ def interact_with_pet():
     interaction_count = PetInteractions.query.filter(PetInteractions.petID == pet.petID, PetInteractions.interactionType == interaction_type, db.func.date(PetInteractions.interactionTime) == today).count()
     print(f"There's been {interaction_count + 1} {interaction_type} interactions on {today} so far")
 
-    if interaction_count >= MAX_INTERACTIONS_PER_DAY[interaction_type]:
+    # Other interactions are limited to a certain number per day but washing can be done multiple times
+    if interaction_count > MAX_INTERACTIONS_PER_DAY[interaction_type] and interaction_type != 'wash': 
         return jsonify({'message': 'Maximum daily interactions exceeded'}), 429
 
     # Execute the interaction

@@ -417,6 +417,7 @@ const Pet = () => {
 
     const handleFrisbeeThrow = (frisbeePosition) => {
         setPlayModeType('frisbee');
+        setShowPaws(false);
         const newTarget = frisbeePosition;
         const petPosition = position;
         // We just want the pet to move left towards the frisbee
@@ -436,7 +437,7 @@ const Pet = () => {
     useEffect(() => {                                                   // TESTING ############################################################################################################
         if (playModeType !== null) {
             console.log("Playing mode: ", playModeType);
-            sendInteraction('playing');
+            sendInteraction('play');
         }
     }, [playModeType]);
 

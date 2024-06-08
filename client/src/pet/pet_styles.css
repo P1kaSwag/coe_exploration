@@ -133,7 +133,7 @@
   .resize-message {
     display: flex;
   }
-  .pet, .pet-menu, button {
+  .pet, .pet-menu button {
     display: none;
   }
 }

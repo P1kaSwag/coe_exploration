@@ -1,149 +1,148 @@
 .Ercan-game-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 20px;
-    max-width: 1200px;
-    margin: auto;
-  }
-  
-  h1 {
-    text-align: center;
-    margin-bottom: 10px;
-    font-size: 32px;
-  }
-  
-  p {
-    text-align: center;
-    margin-bottom: 20px;
-    font-size: 18px;
-  }
-  
-  .Ercan-reactor-section {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    position: relative;
-    width: 100%;
-  }
-  
-  .Ercan-reactor-image {
-    position: relative;
-    width: 60%;
-    box-sizing: border-box;
-  }
-  
-  .Ercan-reactor-image img {
-    width: 100%;
-    height: auto;
-    border: 1px solid #ccc;
-    border-radius: 10px;
-  }
-  
-  .Ercan-part-label {
-    position: absolute;
-    font-size: 20px;
-    font-weight: bold;
-    color: red;
-  }
-  
-  .Ercan-part-A {
-    top:20%;
-    left: 18%;
-  }
-  
-  .Ercan-part-B {
-    top: 46%;
-    left: 45%;
-  }
-  
-  .Ercan-part-C {
-    top: 29%;
-    left: 76%;
-  }
-  
-  .Ercan-part-D {
-    top: 65%;
-    left: 5%;
-  }
-  
-  .Ercan-part-E {
-    top: 5%;
-    right: 5%;
-  }
-  
-  .Ercan-parts-section {
-    width: 40%;
-    margin-top: 20px;
-  }
-  
-  .Ercan-parts-list {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-    padding: 20px;
-    box-sizing: border-box;
-    background-color: #f9f9f9;
-    border: 1px solid #ccc;
-    border-radius: 10px;
-  }
-  
-  .Ercan-part-item {
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
-  }
-  
-  .Ercan-part-item select {
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-  }
-  
-  .Ercan-check-button {
-    margin-top: 20px;
-    padding: 15px;
-    background-color: #007bff;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-    font-size: 18px;
-  }
-  
-  .Ercan-check-button:hover {
-    background-color: #0056b3;
-  }
-  
-  .Ercan-results {
-    margin-top: 20px;
-    font-size: 18px;
-  }
-  
-  .Ercan-correct {
-    color: green;
-    font-size: 20px;
-  }
-  
-  .Ercan-wrong {
-    color: red;
-    font-size: 20px;
-  }
-  
-  .Ercan-restart-button {
-    margin-top: 20px;
-    padding: 15px;
-    background-color: #28a745;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-    font-size: 18px;
-  }
-  
-  .Ercan-restart-button:hover {
-    background-color: #218838;
-  }
-  
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  max-width: 1200px;
+  margin: auto;
+}
+
+.Ercan-game-container h1 {
+  text-align: center;
+  margin-bottom: 10px;
+  font-size: 32px;
+}
+
+.Ercan-game-container p {
+  text-align: center;
+  margin-bottom: 20px;
+  font-size: 18px;
+}
+
+.Ercan-reactor-section {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  width: 100%;
+}
+
+.Ercan-reactor-image {
+  position: relative;
+  width: 60%;
+  box-sizing: border-box;
+}
+
+.Ercan-reactor-image img {
+  width: 100%;
+  height: auto;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+}
+
+.Ercan-part-label {
+  position: absolute;
+  font-size: 20px;
+  font-weight: bold;
+  color: red;
+}
+
+.Ercan-part-A {
+  top: 20%;
+  left: 18%;
+}
+
+.Ercan-part-B {
+  top: 46%;
+  left: 45%;
+}
+
+.Ercan-part-C {
+  top: 29%;
+  left: 76%;
+}
+
+.Ercan-part-D {
+  top: 65%;
+  left: 5%;
+}
+
+.Ercan-part-E {
+  top: 5%;
+  right: 5%;
+}
+
+.Ercan-parts-section {
+  width: 40%;
+  margin-top: 20px;
+}
+
+.Ercan-parts-list {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  padding: 20px;
+  box-sizing: border-box;
+  background-color: #f9f9f9;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+}
+
+.Ercan-part-item {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.Ercan-part-item select {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.Ercan-check-button {
+  margin-top: 20px;
+  padding: 15px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  font-size: 18px;
+}
+
+.Ercan-check-button:hover {
+  background-color: #0056b3;
+}
+
+.Ercan-results {
+  margin-top: 20px;
+  font-size: 18px;
+}
+
+.Ercan-correct {
+  color: green;
+  font-size: 20px;
+}
+
+.Ercan-wrong {
+  color: red;
+  font-size: 20px;
+}
+
+.Ercan-restart-button {
+  margin-top: 20px;
+  padding: 15px;
+  background-color: #28a745;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  font-size: 18px;
+}
+
+.Ercan-restart-button:hover {
+  background-color: #218838;
+}

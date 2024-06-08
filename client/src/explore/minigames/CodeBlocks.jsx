@@ -3,50 +3,51 @@ import React from 'react';
 const Question1 = ({ handleWordClick }) => (
     <div>
         <pre>
-            {           
-`def sum(a, b):
-    a + b = c
-    return` }<span onClick={() =>handleWordClick("return c")}> a</span>
-            </pre>
-            <pre>{
-            `   result = sum(3, 4)`}
+            {`
+def sum(a, b):
+      `}<span onClick={() => handleWordClick("c = a + b")}>a + b</span> = c
+            {`
+      return c
+  
+  result = sum(3, 4)
+  print(result)
+        `}
         </pre>
     </div>
-  );
-  
+);
+
 const Question2 = ({ handleWordClick }) => (
     <div>
         <pre>
-            {           
-`def sum(a, b):
-    a + b = c
-    return c
-
-    result = sum(3, 4)
-    print(`}<span onClick={() =>handleWordClick("print(result)")}> "result"</span>)
+            {`
+  def sum(a, b):
+      c = a + b
+      `}<span onClick={() => handleWordClick("return c")}>retun c</span>{`
+  
+  result = sum(3, 4)
+  print(result)
+        `}
         </pre>
     </div>
 );
-  
+
+
+
 const Question3 = ({ handleWordClick }) => (
     <div>
         <pre>
-            {           
-`def sum(a, b):
-    a + b = c
-    return c
-
-    result = sum(3, 4)
-    result2 = sum(5, 8)
-    result3 = sum(result`}<span onClick={() =>handleWordClick("result3 = sum(result, result 2)")}> </span>result2)
+            {`
+  def sum(a, b):
+      c = a + b
+      return c
+  
+  result = sum(3, 4)
+  print(`}<span onClick={() => handleWordClick("result")}>results</span>{`)
+        `}
         </pre>
-
-        <pre>
-{`  print(result3)`}
-        </pre>
-    
     </div>
 );
+
 
 const Reward = () => (
     <div>
@@ -54,4 +55,4 @@ const Reward = () => (
     </div>
 );
 
-  export { Question1, Question2, Question3, Reward };
+export { Question1, Question2, Question3, Reward };

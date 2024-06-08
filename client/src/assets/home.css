@@ -65,7 +65,7 @@
     border-radius: 5px;
     cursor: pointer;
     width: calc(25% - 4px); 
-    margin: 20px 4px;
+    margin: 10px 10px 0px 10px;
 }
 
 .link-button:hover {

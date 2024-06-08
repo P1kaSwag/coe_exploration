@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import './Wordle.css';
 import Keyboard from './Keyboard.jsx';
 import RewardNotification from './RewardNotificationComponent.jsx';
+// The words.jsx file contains a list of 50k words of length 4-6 that can be used for the Wordle game but it hasn't been implemented yet
 
 const Wordle = ({ word_list, rewardID, rewardName }) => {
   const [solution, setSolution] = useState('');
@@ -226,17 +227,14 @@ const Wordle = ({ word_list, rewardID, rewardName }) => {
           </div>
         ))}
       </div>
+      <div className='new-game'>
+        {gameStatus !== 'playing' && <button className="wordle-play-again-button" style={{
+
+          }} onClick={initializeGame}>Play Again</button>}
+      </div>
       <div className="wordle_keyboard">
         <Keyboard onKeyPress={handleKeyPress} keyStatuses={keyStatuses} />
         {/* <p>Answer = {solution}</p> */}
-      </div>
-      <div className='new-game'>
-        {gameStatus !== 'playing' && <button className="wordle-play-again-button" style={{
-            padding: 10,
-            background: 'white',
-            borderRadius: 5,
-            color: 'black',
-          }} onClick={initializeGame}>Play Again</button>}
       </div>
       {gameStatus === "won" && <RewardNotification rewardId={rewardID} rewardName={rewardName} onClose={initializeGame} />}
     </div>
