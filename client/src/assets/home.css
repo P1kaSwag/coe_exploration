@@ -30,7 +30,10 @@
     border-radius: 10px;  
     box-shadow: 3px 3px 10px grey;
     background-color: white;
+    background-attachment: fixed;
     text-align: center;
+    overflow: auto;
+    display: flex;
 }
 
 .small-card {

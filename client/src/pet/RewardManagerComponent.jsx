@@ -4,6 +4,7 @@ import './reward_manager_styles.css';
 
 const RewardManager = ({ onClose }) => {
     const { accessToken } = useAuth();
+    // Set test data with reward type, id, name, and description
     const [rewards, setRewards] = useState([]);
     const [activeOutfit, setActiveOutfit] = useState(null);
     const [activeCosmetics, setActiveCosmetics] = useState([]);

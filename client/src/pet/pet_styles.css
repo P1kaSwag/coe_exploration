@@ -10,11 +10,34 @@
   justify-content: center;
   align-items: center;
   text-align: center;
-  z-index: 1000;
+  z-index: 100000000;
   padding: 20px;
   box-sizing: border-box;
   font-size: 20px;
 }
+
+.warning-message {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.8);
+  color: white;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  z-index: 100000000;
+  padding: 20px;
+  box-sizing: border-box;
+  font-size: 20px;
+}
+
+/* .pet, .pet-menu button {
+  display: none;
+} */
+
 
 .backyard {
   aspect-ratio: 16 / 9;
@@ -80,13 +103,15 @@
 }
 
 .frisbee {
-  top: 80%;
-  left: 78%;
+  position: fixed;
+  top: 89%;
+  right: 18%;
 }
 
 .bell {
-  top: 80%;
-  left: 71%;
+  position: fixed;
+  top: 89%;
+  right: 23%;
 }
 
 .mechanic:hover {
@@ -283,7 +308,6 @@
   transform-origin: center;
   font-size: 1vw;
   font-weight: bolder;
-  /* background-color: #37d0ff; */
   background-color: #ff5733;
   color: white;
   border-radius: 100%;

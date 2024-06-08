@@ -70,7 +70,7 @@ const Pet = () => {
 
     // Set the style for the body page of the pet component then reset it when the component unmounts
     useEffect(() => {
-        document.body.style.backgroundColor = 'rgb(53, 164, 0)'
+        document.body.style.backgroundColor = 'rgb(0, 0, 0)'
         document.body.style.overflow = 'hidden' // Prevent scrolling on the page
         
         return () => {
@@ -506,6 +506,9 @@ const Pet = () => {
     return (
         <div className="backyard">
             <img src={new URL('../assets/yard_fence.png', import.meta.url).href} alt="fence" className="fence overlay" />
+            {/* <PetStatsDisplay petStats={petStats} />
+            <img src={new URL(`../assets/Decorations/bell.png`, import.meta.url).href} className={`bell mechanic`} onClick={handleBell} />
+            <FrisbeeReward onThrow={handleFrisbeeThrow} /> */}
             {renderedRewards}
 
             {/* DEBUG */}
@@ -620,7 +623,8 @@ const Pet = () => {
                 />
             )}
             <div className="resize-message">
-                <p>Please enlarge your screen or rotate your device for the best experience.</p>
+                <p>Please rotate your device or enlarge your window to remove this message: <br /> <br />
+                    If you're seeing this then you're likely playing on a device this game wasn't optimized for. Play on a computer for a better experience, and play in a window with a 16:9 aspect ratio for the best experience.</p>
             </div>
         </div>
     );

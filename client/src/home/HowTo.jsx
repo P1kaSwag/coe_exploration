@@ -47,7 +47,7 @@ const HowTo = () => {
                     If you are or were an engineering student at Oregon State University and would like to contribute to the major data, please take this survey:
                     <a href="https://forms.gle/6FdrhoGw4jWQtkaJA" target="_blank" rel="noreferrer"> Engineering Major Survey </a>
                     <br />
-                    If you encounter any bugs or issues, please report them to our GitHub repository:
+                    This website wasn't optimized for all devices. You may encounter visual bugs on some devices. If you encounter any bugs, please report them here: 
                     <a href="https://github.com/nguyen-bryan/coe_exploration/issues" target="_blank" rel="noreferrer"> CoE Exploration Issues </a>
                 </p>
             </div>

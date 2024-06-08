@@ -1,6 +1,7 @@
 .BioengineeringReward {
-    position: absolute;
-    bottom: 10%;
+    z-index: 100;
+    position: fixed;
+    bottom: 1%;
     right: 1%;
 }
 
@@ -47,5 +48,27 @@
 @media (max-width: 600px) {
     .statBoard {
         display: none;
+    }
+}
+
+@media (max-width: 1000px) {
+    .statsButton {
+        font-size: 14px;
+        padding: 8px 16px;
+    }
+    .statBoard {
+        font-size: small;
+        padding: 5px;
+    }
+}
+
+@media (max-width: 668px) {
+    .statsButton {
+        font-size: 12px;
+        padding: 6px 12px;
+    }
+    .statBoard {
+        font-size: x-small;
+        padding: 2px;
     }
 }

@@ -18,7 +18,7 @@ const PetMenu = ({ x, y, onOptionSelected }) => {
             {options.map((option, index) => {
                 const angle = angleStep * index;
                 const optionStyle = {
-                    transform: `rotate(${angle}rad) translate(100px) rotate(-${angle}rad)`
+                    transform: `rotate(${angle}rad) translate(100%) rotate(-${angle}rad)`
                 };
                 return (
                     <button
