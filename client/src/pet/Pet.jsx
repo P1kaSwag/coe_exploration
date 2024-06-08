@@ -105,7 +105,7 @@ const Pet = () => {
 
                 if (petStatsResponse.ok) {
                     const petStatsData = await petStatsResponse.json();
-                    console.log(petStatsData.petStats);
+                    console.log("Pet stats: ", petStatsData.petStats);
                     setPetStats(petStatsData.petStats);
                     setOutfit(petStatsData.petStats.outfit.replace(/\s/g, ''));
                     setDirtOverlay(getDirtLevel(petStatsData.petStats.cleanliness));
@@ -125,7 +125,7 @@ const Pet = () => {
 
                 if (rewardsResponse.ok) {
                     const rewardsData = await rewardsResponse.json();
-                    console.log("Active rewards: ", rewardsData.activeRewards, "Cosmetics: ", rewardsData.activeCosmetics);
+                    //console.log("Active rewards: ", rewardsData.activeRewards, "Cosmetics: ", rewardsData.activeCosmetics);
                     setRewards(rewardsData.rewards);
                     setActiveRewards(rewardsData.activeRewards);
                 } else {
@@ -331,7 +331,7 @@ const Pet = () => {
     };
 
     const handleOptionSelected = (interactionType) => {
-        console.log(`Selected option: ${interactionType}`);
+        //console.log(`Selected option: ${interactionType}`);
         setShowMenu(false);
 
         if (interactionType === 'feed') {
@@ -380,7 +380,7 @@ const Pet = () => {
         // Check if the request was successful (response code 200-299), then update the pet's stats
         if (response.ok) {
             const data = await response.json();
-            console.log(data.message, data.pet);
+            //console.log(data.message, data.pet);
             setPetStats(data.pet);
             setDirtOverlay(getDirtLevel(data.pet.cleanliness));
         } else {
