@@ -243,10 +243,10 @@ def interact_with_pet():
         case 'play':
             pet.recreation = min(pet.recreation + 10, 100)
             pet.love = min(pet.love + 3, 100)
-            pet.cleanliness = max(pet.cleanliness - 30, 100)
+            pet.cleanliness = max(pet.cleanliness - 30, 0)
         case 'feed':
             pet.hunger = max(pet.hunger - 40, 0)
-            pet.cleanliness = max(pet.cleanliness - 10, 100)
+            pet.cleanliness = max(pet.cleanliness - 12, 0)
         case 'wash':
             pet.cleanliness = 100
         case _: # Check if the interaction type is valid
