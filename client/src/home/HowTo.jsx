@@ -5,7 +5,7 @@ import HowToBackground from '../assets/howtobg.png'
 const HowTo = () => {
     return (
         <body style={{ backgroundImage: `url(${HowToBackground})`, backgroundSize: 'cover', backgroundRepeat: 'no-repeat', backgroundAttachment: 'fixed', margin: 0, padding: 0}}>
-            <div className="howto-container"> 
+            <div className="howto-container-page"> 
                 <h3> CoE Major Exploration Game How To: </h3>
 
                 <p> Start out by taking the Major Exploration Quiz. Through this, you will answer the different questions which will help
