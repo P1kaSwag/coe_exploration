@@ -32,8 +32,12 @@ const ComputerScienceGame = () => {
   
   return (
     <div className="box">
-      <h1>Find the error in the code.</h1>
-      <p> Click on the error in the code.</p>
+      {/* Show find error in code header only if showReward is set to false, otherwise show a "You won" header */}
+      { !showReward && <div> 
+        <h1>Find the error in the code.</h1>
+        <p>Click on the error in the code</p>
+      </div> }
+      { showReward && <h1>You won!</h1> }
 
       {currentQuestion === 1 && (
         <Question1

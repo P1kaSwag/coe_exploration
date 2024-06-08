@@ -42,6 +42,14 @@ const HowTo = () => {
                     <li><b>Angry:</b> Your pet is angry due to neglect. It needs your attention and care. Make sure to interact with your pet regularly.</li>
                     <li><b>Neutral:</b> Your pet is feeling neutral. It doesn't have any strong feelings at the moment. Interact with your pet to improve its mood.</li>
                 </ul>
+                {/* fine print */}
+                <p style={{fontSize: 'small'}}> 
+                    If you are or were an engineering student at Oregon State University and would like to contribute to the major data, please take this survey:
+                    <a href="https://forms.gle/6FdrhoGw4jWQtkaJA" target="_blank" rel="noreferrer"> Engineering Major Survey </a>
+                    <br />
+                    If you encounter any bugs or issues, please report them to our GitHub repository:
+                    <a href="https://github.com/nguyen-bryan/coe_exploration/issues" target="_blank" rel="noreferrer"> CoE Exploration Issues </a>
+                </p>
             </div>
         </body>
     )
